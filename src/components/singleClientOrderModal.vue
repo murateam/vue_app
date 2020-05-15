@@ -42,7 +42,7 @@
                           id="inline-form-input-name"
                           class="md-2 mr-sm-2 mb-sm-0"
                           placeholder="Фамилия Имя Отчество"
-                          v-model="clientCheck.name"></b-input>
+                          v-model="checkClientName.name"></b-input>
                       </b-col>
                       <b-col cols="3">
                         <b-button
@@ -97,9 +97,6 @@
                     </b-collapse>
                   </form>
                 </template>
-                <!-- <div>{{ singleClient }}</div>
-                <div>CLIENT ORDER: </div> -->
-                <div>{{ singleClientOrder }}</div>
                 <b-form-group
                     label="Дизайнер"
                     class="mt-5"
@@ -170,7 +167,7 @@ export default {
   },
   data() {
     return {
-      clientCheck: { name: '' },
+      checkClientName: { name: '' },
       clientOrder: {
         public_num: '',
         state: '',

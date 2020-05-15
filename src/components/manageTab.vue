@@ -1,9 +1,9 @@
 <template>
   <div class="container">
         <!-- <client-modal />
-        <new-client-order-modal></new-client-order-modal>
+        <new-client-order-modal></new-client-order-modal> -->
         <single-client-order-modal
-        ref="single-client-order-modal"></single-client-order-modal> -->
+        ref="single-client-order-modal"></single-client-order-modal>
       <div class="mt-3">
         <!-- <b-button-group class="">
           <div v-if="selected.length">
@@ -55,10 +55,10 @@
             class="btn btn-success btn-sm align=left d-block">Добавить заказчика</button>
         </b-button-group>
 
-        <!-- <div>{{ clientOrders }}</div> -->
+        <div>{{ singleClient }}</div>
         <!-- <div>{{ selected }}</div> -->
 
-        <!-- <b-table
+        <b-table
           class="mt-3"
         ref="manageTable"
         striped hover small
@@ -70,28 +70,25 @@
           <template v-slot:cell(author)="data">
             {{ data.item.author.username }}
           </template>
-        </b-table> -->
+        </b-table>
       </div>
   </div>
 </template>
 
 <script>
 import moment from 'moment';
-// import newClientOrderModal from './newClientOrderModal.vue';
 // import clientModal from './clientModal.vue';
-// import singleClientOrderModal from './singleClientOrderModal.vue';
+import singleClientOrderModal from './singleClientOrderModal.vue';
 
 export default {
   name: 'manageTab',
   components: {
     // clientModal,
-    // newClientOrderModal,
-    // singleClientOrderModal,
+    singleClientOrderModal,
   },
   data() {
     return {
       selected: [],
-      tmp: [],
       fields: [
         {
           key: 'public_num',
@@ -147,27 +144,20 @@ export default {
     },
     editClientOrder() {
       if (this.selected.length > 0) {
-        this.tmp = this.selected;
+        this.$store.dispatch('GET_SINGLE_CLIENT_ORDER', this.selected[0].id);
+        this.$store.dispatch('GET_ORDER_ITEMS', this.selected[0].id);
+        this.$refs['single-client-order-modal'].show();
       }
-      this.$store.dispatch('GET_SINGLE_CLIENT_ORDER', this.tmp[0].id);
-      this.$store.dispatch('GET_ORDER_ITEMS', this.tmp[0].id);
-      this.$refs['single-client-order-modal'].show();
       this.$refs.manageTable.clearSelected();
     },
-    // getClientOrders() {
-    //   axios.get(clientOrderURL).then((response) => {
-    //     this.clientOrders = response.data;
-    //   });
-    // },
-  },
-  created() {
-    // this.getClientOrders();
-    // console.log('clientOrders', this.clientOrders);
   },
   mounted() {
     this.$store.dispatch('GET_LIST_CLIENT_ORDERS');
   },
   computed: {
+    singleClient() {
+      return this.$store.getters.GET_SINGLE_CLIENT;
+    },
     clientOrders() {
       return this.$store.getters.GET_LIST_CLIENT_ORDERS;
     },

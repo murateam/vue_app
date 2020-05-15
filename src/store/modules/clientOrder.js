@@ -7,12 +7,12 @@ const singleClientOrderURL = 'http://127.0.0.1:5000/api/client_orders/';
 
 const state = {
   listClientOrders: [],
-  // singleClientOrder: [],
+  singleClientOrder: [],
   // isNewClientOrder: true,
 };
 const getters = {
   GET_LIST_CLIENT_ORDERS: (state) => state.listClientOrders,
-  // GET_SINGLE_CLIENT_ORDER: (state) => state.singleClientOrder,
+  GET_SINGLE_CLIENT_ORDER: (state) => state.singleClientOrder,
   // GET_IS_NEW_CLIENT_ORDER: (state) => state.isNewClientOrder,
   /* eslint no-shadow: ["error", { "allow": ["state"] }] */
 };
@@ -23,9 +23,9 @@ const mutations = {
   ADD_CLIENT_ORDER: (state, payload) => {
     state.listClientOrders.push(payload);
   },
-  // SET_SINGLE_CLIENT_ORDER: (state, payload) => {
-  //   state.singleClientOrder = payload;
-  // },
+  SET_SINGLE_CLIENT_ORDER: (state, payload) => {
+    state.singleClientOrder = payload;
+  },
   // SET_IS_NEW_CLIENT_ORDER: (state, payload) => {
   //   state.isNewClientOrder = payload;
   // },
