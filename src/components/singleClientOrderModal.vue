@@ -5,56 +5,67 @@
         hide-footer
         title=''
         size="lg"
+        @hidden="resetAllState"
     >
             <b-container>
               <b-row align-h="center">
-                <b-col cols="6">
-                  <h3>Заказ № {{singleClientOrder.public_num}}</h3>
+                <b-col cols="5">
+                  <h3 v-if="singleClientOrder.public_num">
+                    Заказ № {{singleClientOrder.public_num}}</h3>
+                  <h3 v-else>Новый заказ</h3>
                 </b-col>
               </b-row>
-              <b-row align-h="end">
+              <!-- <div>{{ singleClientOrder }}</div> -->
+              <b-row align-h="end" v-if="singleClientOrder.created">
                 <b-col cols="4">
                   <p>Создан: {{dateFilter(singleClientOrder.created)}}</p>
                 </b-col>
               </b-row>
                 <template>
                   <form>
-                    <b-row v-if="canChangeClient" align-h="end" class="mt-2">
-                      <b-col cols="3">
-                        <b-button>Другой заказчика</b-button>
-                      </b-col>
-                      <b-col cols="3">
-                        <b-button>Редактировать</b-button>
-                      </b-col>
-                    </b-row>
-                    <label for="input-with-list"></label>
-                    <b-row :if="singleClientOrder.length == 0" align-h="between">
+                    <b-row v-if="singleClientOrder.state == 'draft'" align-h="end" class="mt-2">
                       <b-col cols="3">
                         <b-button
-                        @click="checkClient"
-                        variant="success">Взять из базы</b-button>
-                      </b-col>
-                      <b-col cols="4">
-                          <label class="sr-only"
-                          for="inline-form-input-name"
-                          >ФИО</label>
-                          <b-input
-                          id="inline-form-input-name"
-                          class="md-2 mr-sm-2 mb-sm-0"
-                          placeholder="Фамилия Имя Отчество"
-                          v-model="checkClientName.name"></b-input>
-                      </b-col>
-                      <b-col cols="3">
-                        <b-button
-                        variant="primary">Внести нового</b-button>
+                          aria-controls="collapseChoiceOtherClient"
+                          @click="changeVisibleChoiceOtherClient"
+                        >Выбрать заказчик</b-button>
                       </b-col>
                     </b-row>
                     <b-collapse
+                      id="collapseChoiceOtherClient"
+                      :visible="visibleChoiceOtherClient"
+                    >
+                      <label for="input-with-list"></label>
+                      <b-row align-h="between">
+                        <b-col cols="3">
+                          <b-button
+                          @click="checkClient"
+                          variant="success">Взять из базы</b-button>
+                        </b-col>
+                        <b-col cols="4">
+                            <label class="sr-only"
+                            for="inline-form-input-name"
+                            >ФИО</label>
+                            <b-input
+                            id="inline-form-input-name"
+                            class="md-2 mr-sm-2 mb-sm-0"
+                            placeholder="Фамилия Имя Отчество"
+                            v-model="checkClientName.name"></b-input>
+                        </b-col>
+                        <b-col cols="3">
+                          <b-button
+                          variant="primary">Внести нового</b-button>
+                        </b-col>
+                      </b-row>
+                    </b-collapse>
+                    <div>{{ singleClientOrder }}</div>
+                    <b-collapse
                     ref="client-details"
                     id="client-details"
-                    v-model="visibilityClient">
-                      <b-card class="mt-3">
-                        <b-row class="mb-2">
+                    :visible="boolClient"
+                    class="mt-3">
+                      <b-card class="mt-2">
+                        <b-row class="mb-1">
                           <b-col sm="3" class ="text-sm-right"><b>Клиент:</b></b-col>
                           <b-col>
                             {{ singleClient.last_name }}
@@ -62,44 +73,49 @@
                             {{ singleClient.middle_name }}
                           </b-col>
                         </b-row>
-                        <b-row class="mb-2">
+                        <b-row class="mb-1">
                           <b-col sm=3 class="text-sm-right"><b>Дата рождения:</b></b-col>
                           <b-col>{{ singleClient.birth_date }}
                           </b-col>
                         </b-row>
-                        <b-row class=mb-2>
+                        <b-row class=mb-1>
                           <b-col sm="3" class = "text-sm-right">
                             <b>Паспорт: </b>
                           </b-col>
                           <b-col>{{ singleClient.passport}}</b-col>
                         </b-row>
-                        <b-row class=mb-2>
+                        <b-row class=mb-1>
                           <b-col sm="3" class = "text-sm-right">
                           </b-col>
                           <b-col></b-col>
                           <b-col><b>Телефон: </b></b-col>
                           <b-col>{{ singleClient.phone}}</b-col>
                         </b-row>
-                        <b-row class=mb-2>
+                        <b-row class=mb-1>
                           <b-col sm="3" class = "text-sm-right">
                           </b-col>
                           <b-col></b-col>
                           <b-col><b>Email: </b></b-col>
                           <b-col>{{ singleClient.email }}</b-col>
                         </b-row>
-                        <b-row class=mb-2>
+                        <b-row class=mb-1>
                           <b-col sm="3" class = "text-sm-right">
                             <b>Адресс: </b>
                           </b-col>
                           <b-col>{{ singleClient.adress}}</b-col>
                         </b-row>
                       </b-card>
+                      <b-row class="mt-2" align-h="end">
+                        <b-col cols="3">
+                          <b-button>Редактировать</b-button>
+                        </b-col>
+                      </b-row>
                     </b-collapse>
                   </form>
                 </template>
                 <b-form-group
                     label="Дизайнер"
-                    class="mt-5"
+                    class="mt-3"
                 >
                   <b-row align-h="between">
                     <b-col>
@@ -131,16 +147,15 @@
                         v-model=singleClientOrder.comment
                         ></b-form-input>
                 </b-form-group>
-                <b-row align-h="end">
+                <b-row align-h="end" class="mt-3">
                   <b-col cols="2">
                     <b-button
-                    variant="danger"
-                    class="mt-5">Сбросить</b-button>
+                    variant="danger">Отмена</b-button>
                   </b-col>
                   <b-col cols="2">
                     <b-button
-                    variant="primary"
-                    class="mt-5">Сохранить</b-button>
+                    @click="saveClientOrder"
+                    variant="primary">Сохранить</b-button>
                   </b-col>
                 </b-row>
                     <b-form-group
@@ -168,27 +183,6 @@ export default {
   data() {
     return {
       checkClientName: { name: '' },
-      clientOrder: {
-        public_num: '',
-        state: '',
-        status: '',
-        payment_status: '',
-        author: 1,
-        client: '',
-        when_published: '',
-        created: '',
-        updated: '',
-        eur_rate: 0,
-        price: '',
-        total_payment: 0,
-        designer: '',
-        d_percent: 0,
-        comment: '',
-      },
-      factoryItems: [],
-      visibilityClient: true,
-      canChangeClient: false,
-      newClientOrder: false,
     };
   },
   methods: {
@@ -216,13 +210,12 @@ export default {
       this.clientOrder.comment = '';
       // this.Client = {};
       this.$store.dispatch('RESET_CLIENT');
-      this.clientCheck.name = '';
       this.clientCollapseVisible = false;
       this.$refs['client-order-modal'].hide();
     },
     checkClient() {
       this.$store.dispatch('RESET_CURRENT_CLIENT');
-      const requestData = this.clientCheck;
+      const requestData = this.checkClientName;
       this.$store.dispatch('CHECK_CLIENT', requestData);
       // this.clientCollapseVisible = true;
       // axios.post(clientCheckURL, requestData).then((response) => {
@@ -230,33 +223,68 @@ export default {
       //   this.clientOrder.client = response.data.id;
       // }).then(() => { this.clientCollapseVisible = true; });
     },
-    saveOrder() {
-      const requestData = {
-        author: this.clientOrder.author,
-        client: this.Client.id,
-        designer: this.clientOrder.designer,
-        d_percent: this.clientOrder.d_percent,
-        comment: this.clientOrder.comment,
-      };
-      this.$store.dispatch('ADD_ORDER', requestData);
-      this.$refs['client-order-modal'].hide();
-      this.resetOrderForm();
-      // axios.post(clientOrderAddURL, requestData).then(() => {
-      //   this.$refs['client-order-modal'].hide();
-      //   this.resetOrederForm();
-      //   this.$emit('getAllClient');
-      // });
+    saveClientOrder() {
+      if (this.singleClientOrder.id === null) {
+        const requestData = {
+          author: this.author,
+          client: this.singleClient.id,
+          designer: this.singleClientOrder.designer,
+          d_percent: this.singleClientOrder.d_percent,
+          comment: this.singleClientOrder.comment,
+        };
+        this.$store.dispatch('SAVE_CLIENT_ORDER', requestData);
+      } else {
+        const requestData = {
+          id: this.singleClientOrder.id,
+          public_num: this.singleClientOrder.public_num,
+          author: this.author,
+          client: this.singleClient.id,
+          designer: this.singleClientOrder.designer,
+          d_percent: this.singleClientOrder.d_percent,
+          comment: this.singleClientOrder.comment,
+        };
+        this.$store.dispatch('SAVE_CLIENT_ORDER', requestData);
+      }
+      // const requestData = {
+      //   author: this.clientOrder.author,
+      //   client: this.Client.id,
+      //   designer: this.clientOrder.designer,
+      //   d_percent: this.clientOrder.d_percent,
+      //   comment: this.clientOrder.comment,
+      // };
+      // this.$store.dispatch('ADD_ORDER', requestData);
+      // this.$refs['client-order-modal'].hide();
+      // this.resetOrderForm();
+    },
+    resetAllState() {
+      this.$store.dispatch('RESET_CURRENT_CLIENT');
+      this.$store.dispatch('RESET_CLIENT_ORDER');
+      this.$store.dispatch('RESET_LIST_ITEMS');
+      this.checkClientName.name = '';
+    },
+    changeVisibleChoiceOtherClient() {
+      if (this.visibleChoiceOtherClient === false) {
+        this.$store.dispatch('SET_CAN_CHANGE_CLIENT', true);
+      } else {
+        this.$store.dispatch('SET_CAN_CHANGE_CLIENT', false);
+      }
     },
   },
   computed: {
-    // Client() {
-    //   return this.$store.getters.GET_CURRENT_CLIENT;
-    // },
-    singleClientOrder() {
-      return this.$store.getters.GET_SINGLE_CLIENT_ORDER;
+    author() {
+      return this.$store.getters.GET_AUTHOR;
     },
     singleClient() {
       return this.$store.getters.GET_SINGLE_CLIENT;
+    },
+    singleClientOrder() {
+      return this.$store.getters.GET_SINGLE_CLIENT_ORDER;
+    },
+    boolClient() {
+      return this.$store.getters.GET_IF_CLIENT;
+    },
+    visibleChoiceOtherClient() {
+      return this.$store.getters.GET_CAN_CHANGE_CLIENT;
     },
   },
 };

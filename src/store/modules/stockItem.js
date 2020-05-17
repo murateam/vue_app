@@ -5,14 +5,14 @@ const ListAllItemsURL = 'http://127.0.0.1:5000/api/stock_items/';
 const ListItemsByClientOrderURL = 'http://127.0.0.1:5000/api/stock_items/client_order/';
 
 const state = {
-  itemsList: [],
+  listItems: [],
 };
 const getters = {
-  GET_LIST_ITEMS: (state) => state.itemsList,
+  GET_LIST_ITEMS: (state) => state.listItems,
 };
 const mutations = {
   SET_LIST_ITEMS: (state, payload) => {
-    state.itemsList = payload;
+    state.listItems = payload;
   },
 };
 const actions = {
@@ -20,7 +20,10 @@ const actions = {
     const { data } = await axios.get(ListAllItemsURL);
     context.commit('SET_LIST_ITEMS', data);
   },
-  GET_ORDER_ITEMS: async (context, id) => {
+  RESET_LIST_ITEMS: (context) => {
+    context.commit('SET_LIST_ITEMS', []);
+  },
+  GET_LIST_ITEMS_CLIENT_ORDER: async (context, id) => {
     const requestData = { client_order: id };
     const { data } = await axios.post(ListItemsByClientOrderURL, requestData);
     context.commit('SET_LIST_ITEMS', data);

@@ -93,7 +93,7 @@
                 <b-card bg-variant="light" class="mt-5">
                     <b-form-group
                         label-cols-lg="3"
-                        label="Адрес доставки"
+                        label="Адрес"
                         label-size="lg"
                         label-class="font-weight-bold pt-0"
                         class="md-0"

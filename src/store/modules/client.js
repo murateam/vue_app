@@ -19,6 +19,15 @@ const state = {
 
 const getters = {
   GET_SINGLE_CLIENT: (state) => state.singleClient,
+  GET_IF_CLIENT: (state) => {
+    const boolClient = state.singleClient;
+    return boolClient.id != null;
+    // let boolClient;
+    // if (state.singleClient.id == null) {
+    //   boolClient = false;
+    // } else { boolClient = true; }
+    // return boolClient;
+  },
   /* eslint no-shadow: ["error", { "allow": ["state"] }] */
 };
 
