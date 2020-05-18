@@ -84,7 +84,11 @@
                           <b-col sm="3" class = "text-sm-right">
                             <b>Паспорт: </b>
                           </b-col>
-                          <b-col>{{ singleClient.passport}}</b-col>
+                          <b-col>
+                            {{ separateClientDetails.passportSeries }}
+                            {{ separateClientDetails.passportNumber }}
+                            {{ separateClientDetails.passportGiven }}
+                          </b-col>
                         </b-row>
                         <b-row class=mb-1>
                           <b-col sm="3" class = "text-sm-right">
@@ -105,10 +109,10 @@
                             <b>Адресс: </b>
                           </b-col>
                           <b-col>
-                            {{splitString(singleClient.adress)[0]}}
-                            {{splitString(singleClient.adress)[1]}}
-                            {{splitString(singleClient.adress)[2]}}
-                            {{splitString(singleClient.adress)[3]}}
+                            {{ separateClientDetails.addressCountry }}
+                            {{ separateClientDetails.addressArea }}
+                            {{ separateClientDetails.addressCity }}
+                            {{ separateClientDetails.addressStreet }}
                           </b-col>
                         </b-row>
                       </b-card>
@@ -159,6 +163,7 @@
                 <b-row align-h="end" class="mt-3">
                   <b-col cols="2">
                     <b-button
+                    @click="cancelSaveClientOrder"
                     variant="danger">Отмена</b-button>
                   </b-col>
                   <b-col cols="2">
@@ -200,32 +205,15 @@ export default {
     dateFilter(value) {
       return moment(String(value)).format('DD/MM/YYYY');
     },
-    splitString(value) {
-      return value.split('&');
-    },
     show() {
       this.$refs['single-client-order-modal'].show();
     },
-    resetOrderForm() {
-      this.clientOrder.public_num = '';
-      this.clientOrder.state = '';
-      this.clientOrder.status = '';
-      this.clientOrder.payment_status = '';
-      this.clientOrder.author = 1;
-      this.clientOrder.client = '';
-      this.clientOrder.when_published = '';
-      this.clientOrder.created = '';
-      this.clientOrder.updated = '';
-      this.clientOrder.eur_rate = 0;
-      this.clientOrder.price = '';
-      this.clientOrder.total_payment = 0;
-      this.clientOrder.designer = '';
-      this.clientOrder.d_percent = 0;
-      this.clientOrder.comment = '';
-      // this.Client = {};
-      this.$store.dispatch('RESET_CLIENT');
-      this.clientCollapseVisible = false;
-      this.$refs['client-order-modal'].hide();
+    hide() {
+      this.$refs['single-client-order-modal'].hide();
+    },
+    cancelSaveClientOrder() {
+      this.resetAllState();
+      this.hide();
     },
     checkClient() {
       this.$store.dispatch('RESET_CURRENT_CLIENT');
@@ -259,16 +247,7 @@ export default {
         };
         this.$store.dispatch('SAVE_CLIENT_ORDER', requestData);
       }
-      // const requestData = {
-      //   author: this.clientOrder.author,
-      //   client: this.Client.id,
-      //   designer: this.clientOrder.designer,
-      //   d_percent: this.clientOrder.d_percent,
-      //   comment: this.clientOrder.comment,
-      // };
-      // this.$store.dispatch('ADD_ORDER', requestData);
-      this.$refs['client-order-modal'].hide();
-      // this.resetOrderForm();
+      this.hide();
     },
     resetAllState() {
       this.$store.dispatch('RESET_CURRENT_CLIENT');
@@ -293,6 +272,9 @@ export default {
     },
     singleClient() {
       return this.$store.getters.GET_SINGLE_CLIENT;
+    },
+    separateClientDetails() {
+      return this.$store.getters.GET_SEPARATE_CLIENT_DETAILS;
     },
     singleClientOrder() {
       return this.$store.getters.GET_SINGLE_CLIENT_ORDER;

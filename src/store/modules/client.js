@@ -13,7 +13,16 @@ const state = {
     phone: '',
     email: '',
     passport: '',
-    adress: '',
+    address: '',
+  },
+  separateClientDetails: {
+    passportSeries: '',
+    passportNumber: '',
+    passportGiven: '',
+    addressCountry: '',
+    addressArea: '',
+    addressCity: '',
+    addressStreet: '',
   },
 };
 
@@ -28,6 +37,7 @@ const getters = {
     // } else { boolClient = true; }
     // return boolClient;
   },
+  GET_SEPARATE_CLIENT_DETAILS: (state) => state.separateClientDetails,
   /* eslint no-shadow: ["error", { "allow": ["state"] }] */
 };
 
@@ -35,17 +45,38 @@ const mutations = {
   SET_SINGLE_CLIENT: (state, payload) => {
     state.singleClient = payload;
   },
+  SET_SEPARATE_CLIENT_DETAILS: (state, payload) => {
+    state.separateClientDetails = payload;
+  },
 };
 
 const actions = {
   GET_SINGLE_CLIENT: async (context, id) => {
     const { data } = await axios.get(singleClientURL + id);
     context.commit('SET_SINGLE_CLIENT', data);
+    context.commit('SET_SEPARATE_CLIENT_DETAILS', {
+      passportSeries: data.passport.split('&')[0],
+      passportNumber: data.passport.split('&')[1],
+      passportGiven: data.passport.split('&')[2],
+      addressCountry: data.address.split('&')[0],
+      addressArea: data.address.split('&')[1],
+      addressCity: data.address.split('&')[2],
+      addressStreet: data.address.split('&')[3],
+    });
   },
   CHECK_CLIENT(context, requestData) {
     axios.post(clientCheckURL, requestData)
       .then((response) => {
         context.commit('SET_SINGLE_CLIENT', response.data);
+        context.commit('SET_SEPARATE_CLIENT_DETAILS', {
+          passportSeries: response.data.passport.split('&')[0],
+          passportNumber: response.data.passport.split('&')[1],
+          passportGiven: response.data.passport.split('&')[2],
+          addressCountry: response.data.address.split('&')[0],
+          addressArea: response.data.address.split('&')[1],
+          addressCity: response.data.address.split('&')[2],
+          addressStreet: response.data.address.split('&')[3],
+        });
       })
       .catch(() => {});
   },
@@ -60,22 +91,32 @@ const actions = {
         phone: '',
         email: '',
         passport: '',
-        adress: '',
+        address: '',
+      });
+    context.commit('SET_SEPARATE_CLIENT_DETAILS',
+      {
+        passportSeries: '',
+        passportNumber: '',
+        passportGiven: '',
+        addressCountry: '',
+        addressArea: '',
+        addressCity: '',
+        addressStreet: '',
       });
   },
-  // SAVE_CLIENT: async (context, requestData) => {
-  //   if (requestData.id) {
-  //     const { data } = await axios.put(singleClientOrderURL + requestData.id, requestData);
-  //     axios.get(`http://localhost:5000/api/client_orders/for_list/${data.id}`).then((response) => {
-  //       context.commit('CHANGE_CLIENT_ORDER', response.data);
-  //     });
-  //   } else {
-  //     const { data } = await axios.post(clientOrderAddURL, requestData);
-  //     axios.get(`http://localhost:5000/api/client_orders/for_list/${data.id}`).then((response) => {
-  //       context.commit('ADD_CLIENT_ORDER', response.data);
-  //     });
-  //   }
-  // },
+  SAVE_CLIENT: async (context, requestData) => {
+    if (requestData.id) {
+      await axios.put(singleClientURL + requestData.id, requestData);
+      // axios.get(`http://localhost:5000/api/clients/${data.id}`).then((response) => {
+      //   context.commit('CHANGE_CLIENT', response.data);
+      // });
+    } else {
+      await axios.post(singleClientURL, requestData);
+      // axios.get(singleClientURL + data.id).then((response) => {
+      //   context.commit('ADD_CLIENT', response.data);
+      // });
+    }
+  },
 };
 
 export default {
