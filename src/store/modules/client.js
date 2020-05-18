@@ -19,7 +19,7 @@ const state = {
 
 const getters = {
   GET_SINGLE_CLIENT: (state) => state.singleClient,
-  GET_IF_CLIENT: (state) => {
+  GET_IF_CLIENT_EXIST: (state) => {
     const boolClient = state.singleClient;
     return boolClient.id != null;
     // let boolClient;
@@ -63,6 +63,19 @@ const actions = {
         adress: '',
       });
   },
+  // SAVE_CLIENT: async (context, requestData) => {
+  //   if (requestData.id) {
+  //     const { data } = await axios.put(singleClientOrderURL + requestData.id, requestData);
+  //     axios.get(`http://localhost:5000/api/client_orders/for_list/${data.id}`).then((response) => {
+  //       context.commit('CHANGE_CLIENT_ORDER', response.data);
+  //     });
+  //   } else {
+  //     const { data } = await axios.post(clientOrderAddURL, requestData);
+  //     axios.get(`http://localhost:5000/api/client_orders/for_list/${data.id}`).then((response) => {
+  //       context.commit('ADD_CLIENT_ORDER', response.data);
+  //     });
+  //   }
+  // },
 };
 
 export default {

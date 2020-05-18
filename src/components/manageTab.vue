@@ -115,9 +115,9 @@ export default {
       this.editClientOrder();
     },
     newClientOrder() {
+      this.$store.dispatch('SET_CAN_CHANGE_CLIENT', true);
       this.$refs['single-client-order-modal'].show();
       // $bvModal.show('single-client-order-modal');
-      this.$store.dispatch('SET_CAN_CHANGE_CLIENT', true);
     },
     editClientOrder() {
       this.$store.dispatch('SET_CAN_CHANGE_CLIENT', false);

@@ -7,6 +7,8 @@
         size="lg"
         @hidden="resetAllState"
     >
+      <client-modal
+      ref="client-modal"></client-modal>
             <b-container>
               <b-row align-h="center">
                 <b-col cols="5">
@@ -58,11 +60,11 @@
                         </b-col>
                       </b-row>
                     </b-collapse>
-                    <div>{{ singleClientOrder }}</div>
+                    <!-- <div>{{ singleClientOrder }}</div> -->
                     <b-collapse
                     ref="client-details"
                     id="client-details"
-                    :visible="boolClient"
+                    :visible="isClientExist"
                     class="mt-3">
                       <b-card class="mt-2">
                         <b-row class="mb-1">
@@ -102,12 +104,19 @@
                           <b-col sm="3" class = "text-sm-right">
                             <b>Адресс: </b>
                           </b-col>
-                          <b-col>{{ singleClient.adress}}</b-col>
+                          <b-col>
+                            {{splitString(singleClient.adress)[0]}}
+                            {{splitString(singleClient.adress)[1]}}
+                            {{splitString(singleClient.adress)[2]}}
+                            {{splitString(singleClient.adress)[3]}}
+                          </b-col>
                         </b-row>
                       </b-card>
                       <b-row class="mt-2" align-h="end">
                         <b-col cols="3">
-                          <b-button>Редактировать</b-button>
+                          <b-button
+                          @click="editClient"
+                          >Редактировать</b-button>
                         </b-col>
                       </b-row>
                     </b-collapse>
@@ -174,10 +183,12 @@
 
 <script>
 import moment from 'moment';
+import clientModal from './clientModal.vue';
 import stockList from './stockList.vue';
 
 export default {
   components: {
+    clientModal,
     stockList,
   },
   data() {
@@ -188,6 +199,9 @@ export default {
   methods: {
     dateFilter(value) {
       return moment(String(value)).format('DD/MM/YYYY');
+    },
+    splitString(value) {
+      return value.split('&');
     },
     show() {
       this.$refs['single-client-order-modal'].show();
@@ -253,7 +267,7 @@ export default {
       //   comment: this.clientOrder.comment,
       // };
       // this.$store.dispatch('ADD_ORDER', requestData);
-      // this.$refs['client-order-modal'].hide();
+      this.$refs['client-order-modal'].hide();
       // this.resetOrderForm();
     },
     resetAllState() {
@@ -269,6 +283,9 @@ export default {
         this.$store.dispatch('SET_CAN_CHANGE_CLIENT', false);
       }
     },
+    editClient() {
+      this.$refs['client-modal'].show();
+    },
   },
   computed: {
     author() {
@@ -280,8 +297,8 @@ export default {
     singleClientOrder() {
       return this.$store.getters.GET_SINGLE_CLIENT_ORDER;
     },
-    boolClient() {
-      return this.$store.getters.GET_IF_CLIENT;
+    isClientExist() {
+      return this.$store.getters.GET_IF_CLIENT_EXIST;
     },
     visibleChoiceOtherClient() {
       return this.$store.getters.GET_CAN_CHANGE_CLIENT;

@@ -1,12 +1,13 @@
 <template>
     <b-modal
     id="client-modal"
-    ref="addClientModal"
+    ref="client-modal"
     hide-footer
     title="Заказчик"
     size='lg'>
         <b-form>
         <b-container fluid>
+            <div>{{singleClient}}</div>
                 <b-row align-h="center">
                     <b-form-group
                     label="ФИО"
@@ -157,11 +158,12 @@
 </template>
 
 <script>
-import axios from 'axios';
+// import axios from 'axios';
 
-const clientsURL = 'http://127.0.0.1:5000/api/clients/';
+// const clientsURL = 'http://127.0.0.1:5000/api/clients/';
 
 export default {
+  name: 'clientModal',
   data() {
     return {
       Client: {
@@ -182,6 +184,9 @@ export default {
     };
   },
   methods: {
+    show() {
+      this.$refs['client-modal'].show();
+    },
     resetForm() {
       this.Client.first_name = '';
       this.Client.middle_name = '';
@@ -209,11 +214,17 @@ export default {
         birth_date: this.Client.birth_date,
         phone: this.Client.phone,
         email: this.Client.email,
-        passport: `${this.Client.pass_series} ${this.Client.pass_number} ${this.Client.pass_given}`,
-        adress: `${this.Client.addr_country} ${this.Client.addr_area} ${this.Client.addr_city} ${this.Client.addr_street}`,
+        passport: `${this.Client.pass_series}&${this.Client.pass_number}&${this.Client.pass_given}`,
+        adress: `${this.Client.addr_country}&${this.Client.addr_area}&${this.Client.addr_city}&${this.Client.addr_street}`,
       };
-      axios.post(clientsURL, requestData).then(() => {
-      });
+      console.info(requestData);
+    //   axios.post(clientsURL, requestData).then(() => {
+    //   });
+    },
+  },
+  computed: {
+    singleClient() {
+      return this.$store.getters.GET_SINGLE_CLIENT;
     },
   },
 };
