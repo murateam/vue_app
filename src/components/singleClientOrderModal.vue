@@ -179,7 +179,7 @@
                 <b-card class="mt-2"
                 bg-variant="light">
                 <b-row>
-                  <stock-list />
+                  <stock-list> </stock-list>
                 </b-row>
                 </b-card>
             </b-container>

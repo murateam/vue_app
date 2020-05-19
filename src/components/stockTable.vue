@@ -1,10 +1,22 @@
 <template>
-    <b-container>
-      {{testList}}
         <b-table
+        responsive
         :fields="fields"
         :items="stockItems"
-        small="small">
+        selectable
+        select-mode="single"
+        @row-selected="onRowSelected">
+        <!-- <template v-slot:cell(check)="{ rowSelected }">
+          <template v-if="rowSelected">
+            <span>&check;</span>
+          </template>
+          <template v-else>
+            <span>&nbsp;</span>
+          </template>
+        </template> -->
+        <template v-slot:cell(check)="row">
+          <b-button variant="light" @click="moreInfo(row.item, row.index)">...</b-button>
+        </template>
         <template v-slot:cell(index)="data">
           {{ data.index + 1}}
         </template>
@@ -29,15 +41,22 @@
         <template v-slot:cell(state)="data">
           {{ data.item.stock_choices }}
         </template>
+        <template v-slot:cell(delete)="row">
+          <b-button variant="danger" @click="deleteItem(row.item, row.index)">X</b-button>
+        </template>
         </b-table>
-    </b-container>
 </template>
 
 <script>
 export default {
   data() {
     return {
+      selected: [],
       fields: [
+        {
+          key: 'check',
+          label: '  ',
+        },
         {
           key: 'index',
           label: 'Номер',
@@ -71,8 +90,19 @@ export default {
           key: 'state',
           label: 'Состояние',
         },
+        {
+          key: 'delete',
+          label: ' ',
+        },
       ],
     };
+  },
+  methods: {
+    onRowSelected(items) {
+      this.selected = items;
+    },
+    moreInfo() {},
+    deleteItem() {},
   },
   mounted() {
     // this.$store.dispatch('GET_ALL_ITEMS');
@@ -80,9 +110,6 @@ export default {
   computed: {
     stockItems() {
       return this.$store.getters.GET_LIST_STOCK_ITEMS;
-    },
-    testList() {
-      return this.$store.getters.GET_TEST_LIST;
     },
   },
 };
