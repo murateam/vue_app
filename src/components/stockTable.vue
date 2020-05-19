@@ -1,5 +1,6 @@
 <template>
     <b-container>
+      {{testList}}
         <b-table
         :fields="fields"
         :items="stockItems"
@@ -78,7 +79,10 @@ export default {
   },
   computed: {
     stockItems() {
-      return this.$store.getters.GET_LIST_ITEMS || [];
+      return this.$store.getters.GET_LIST_STOCK_ITEMS;
+    },
+    testList() {
+      return this.$store.getters.GET_TEST_LIST;
     },
   },
 };

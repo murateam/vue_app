@@ -78,7 +78,8 @@ export default {
   },
   methods: {
     addItem() {
-      this.$store.dispatch('ADD_ITEM', this.Item);
+      const testItem = { name: 'test' };
+      this.$store.dispatch('SAVE_TO_LIST_ITEMS', testItem);
     },
     // resetForm: {
     // },

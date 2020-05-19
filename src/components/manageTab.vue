@@ -3,16 +3,13 @@
         <client-modal />
         <single-client-order-modal
         ref="single-client-order-modal"></single-client-order-modal>
-        <!-- {{ clientOrders }} -->
       <div class="mt-3">
         <b-button-group class="">
-          <div>
-            <button
-              @click="newClientOrder"
-              type="button"
-              id="order-add"
-              class="btn btn-secondary btn-sm align=left d-block">Создать заказ</button>
-          </div>
+          <button
+            @click="newClientOrder"
+            type="button"
+            id="order-add"
+            class="btn btn-secondary btn-sm align=left d-block">Создать заказ</button>
           <button
             @click="$bvModal.show('client-modal')"
             type="button"
@@ -123,7 +120,7 @@ export default {
       this.$store.dispatch('SET_CAN_CHANGE_CLIENT', false);
       if (this.selected.length > 0) {
         this.$store.dispatch('GET_SINGLE_CLIENT_ORDER', this.selected[0].id);
-        this.$store.dispatch('GET_LIST_ITEMS_CLIENT_ORDER', this.selected[0].id);
+        this.$store.dispatch('GET_LIST_STOCK_ITEMS_CLIENT_ORDER', this.selected[0].id);
         this.$refs['single-client-order-modal'].show();
       }
       this.$refs.manageTable.clearSelected();

@@ -26,11 +26,11 @@
                 <template>
                   <form>
                     <b-row v-if="singleClientOrder.state == 'draft'" align-h="end" class="mt-2">
-                      <b-col cols="3">
+                      <b-col cols="4">
                         <b-button
                           aria-controls="collapseChoiceOtherClient"
                           @click="changeVisibleChoiceOtherClient"
-                        >Выбрать заказчик</b-button>
+                        >Сменить заказчика</b-button>
                       </b-col>
                     </b-row>
                     <b-collapse
@@ -38,13 +38,13 @@
                       :visible="visibleChoiceOtherClient"
                     >
                       <label for="input-with-list"></label>
-                      <b-row align-h="between">
+                      <b-row align-h="start">
                         <b-col cols="3">
                           <b-button
                           @click="checkClient"
-                          variant="success">Взять из базы</b-button>
+                          variant="success">Найти</b-button>
                         </b-col>
-                        <b-col cols="4">
+                        <b-col cols="5">
                             <label class="sr-only"
                             for="inline-form-input-name"
                             >ФИО</label>
@@ -54,10 +54,10 @@
                             placeholder="Фамилия Имя Отчество"
                             v-model="checkClientName.name"></b-input>
                         </b-col>
-                        <b-col cols="3">
+                        <!-- <b-col cols="3">
                           <b-button
                           variant="primary">Внести нового</b-button>
-                        </b-col>
+                        </b-col> -->
                       </b-row>
                     </b-collapse>
                     <!-- <div>{{ singleClientOrder }}</div> -->
@@ -117,7 +117,7 @@
                         </b-row>
                       </b-card>
                       <b-row class="mt-2" align-h="end">
-                        <b-col cols="3">
+                        <b-col cols="4">
                           <b-button
                           @click="editClient"
                           >Редактировать</b-button>
@@ -211,10 +211,6 @@ export default {
     hide() {
       this.$refs['single-client-order-modal'].hide();
     },
-    cancelSaveClientOrder() {
-      this.resetAllState();
-      this.hide();
-    },
     checkClient() {
       this.$store.dispatch('RESET_CURRENT_CLIENT');
       const requestData = this.checkClientName;
@@ -247,6 +243,10 @@ export default {
         };
         this.$store.dispatch('SAVE_CLIENT_ORDER', requestData);
       }
+      this.hide();
+    },
+    cancelSaveClientOrder() {
+      this.resetAllState();
       this.hide();
     },
     resetAllState() {

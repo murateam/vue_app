@@ -111,7 +111,10 @@ const actions = {
       //   context.commit('CHANGE_CLIENT', response.data);
       // });
     } else {
-      await axios.post(singleClientURL, requestData);
+      axios.post(singleClientURL, requestData).then((response) => {
+        context.commit('SET_SINGLE_CLIENT', response.data);
+      });
+      // await axios.post(singleClientURL, requestData);
       // axios.get(singleClientURL + data.id).then((response) => {
       //   context.commit('ADD_CLIENT', response.data);
       // });
