@@ -176,12 +176,12 @@
                         label="Позиции:"
                         label-class="font-weight-bold pt-0">
                     </b-form-group>
-                <b-card class="mt-2"
+                  <stock-list> </stock-list>
+                <!-- <b-card class="mt-2"
                 bg-variant="light">
                 <b-row>
-                  <stock-list> </stock-list>
                 </b-row>
-                </b-card>
+                </b-card> -->
             </b-container>
     </b-modal>
 </template>

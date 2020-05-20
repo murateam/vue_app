@@ -1,6 +1,7 @@
 <template>
   <b-container>
-    <div>{{currentItem}}</div>
+    <b-row>
+      <b-col>
         <b-table
         responsive
         :fields="fields"
@@ -46,6 +47,8 @@
           <b-button variant="danger" @click="deleteItem(row.item, row.index)">X</b-button>
         </template>
         </b-table>
+      </b-col>
+    </b-row>
   </b-container>
 </template>
 
