@@ -2,6 +2,7 @@ import Vue from 'vue';
 import VueRouter from 'vue-router';
 import Home from '../components/Home.vue';
 import manageTab from '../components/manageTab.vue';
+import singleClientOrder from '../components/singleClientOrder.vue';
 import stockList from '../components/stockList.vue';
 
 
@@ -17,6 +18,11 @@ const routes = [
     path: '/manageTab',
     name: 'manageTab',
     component: manageTab,
+  },
+  {
+    path: '/singleClientOrder',
+    name: 'singleClientOrder',
+    component: singleClientOrder,
   },
   {
     path: '/stockList',

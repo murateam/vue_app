@@ -3,6 +3,7 @@
     <b-row>
       <b-col>
         <b-table
+        small striped
         responsive
         :fields="fields"
         :items="stockItems"
@@ -16,9 +17,6 @@
             <span>&nbsp;</span>
           </template>
         </template> -->
-        <template v-slot:cell(check)="row">
-          <b-button variant="light" @click="moreInfo(row.item, row.index)">...</b-button>
-        </template>
         <template v-slot:cell(index)="data">
           {{ data.index + 1}}
         </template>
@@ -43,6 +41,9 @@
         <template v-slot:cell(state)="data">
           {{ data.item.stock_choices }}
         </template>
+        <template v-slot:cell(check)="row">
+          <b-button variant="success" @click="moreInfo(row.item, row.index)">...</b-button>
+        </template>
         <template v-slot:cell(delete)="row">
           <b-button variant="danger" @click="deleteItem(row.item, row.index)">X</b-button>
         </template>
@@ -58,10 +59,6 @@ export default {
     return {
       selected: [],
       fields: [
-        {
-          key: 'check',
-          label: '  ',
-        },
         {
           key: 'index',
           label: 'Номер',
@@ -94,6 +91,10 @@ export default {
         {
           key: 'state',
           label: 'Состояние',
+        },
+        {
+          key: 'check',
+          label: '  ',
         },
         {
           key: 'delete',

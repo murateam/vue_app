@@ -4,6 +4,7 @@ import _ from 'lodash';
 
 const ListAllItemsURL = 'http://127.0.0.1:5000/api/stock_items/';
 const ListItemsByClientOrderURL = 'http://127.0.0.1:5000/api/stock_items/client_order/';
+const SaveStockItemsFromClientOrderURL = 'http://127.0.0.1:5000/api/stock_items/save_from_client_order/';
 
 const state = {
   emptyStockItem: {
@@ -103,6 +104,13 @@ const actions = {
   },
   SET_IS_NEW_STOCK_ITEM: (context, bool) => {
     context.commit('SET_IS_NEW_STOCK_ITEM', bool);
+  },
+  SAVE_STOCK_ITEM_FROM_CLIENT_ORDER: (context) => {
+    const itemList = context.getters.GET_LIST_STOCK_ITEMS;
+    // itemList.forEach((element) => {
+    //   console.log(element);
+    // });
+    axios.post(SaveStockItemsFromClientOrderURL, itemList);
   },
 };
 

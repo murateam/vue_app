@@ -1,8 +1,16 @@
 <template>
-  <div class="container">
-        <client-modal />
-        <single-client-order-modal
-        ref="single-client-order-modal"></single-client-order-modal>
+  <b-container>
+    <client-modal />
+    <single-client-order-modal
+      ref="single-client-order-modal"
+    ></single-client-order-modal>
+    <b-row align-h="start" class="mt-3">
+      <b-col cols="2">
+        <router-link
+        class="btn btn-dark"
+        to="/">На главную</router-link>
+      </b-col>
+    </b-row>
       <div class="mt-3">
         <b-button-group class="">
           <button
@@ -24,6 +32,7 @@
           class="mt-3"
         ref="manageTable"
         striped hover small
+        responsive
         :items="clientOrders"
         :fields="fields"
         selectable
@@ -37,7 +46,7 @@
           </template>
         </b-table>
       </div>
-  </div>
+  </b-container>
 </template>
 
 <script>
@@ -121,7 +130,8 @@ export default {
       if (this.selected.length > 0) {
         this.$store.dispatch('GET_SINGLE_CLIENT_ORDER', this.selected[0].id);
         this.$store.dispatch('GET_LIST_STOCK_ITEMS_CLIENT_ORDER', this.selected[0].id);
-        this.$refs['single-client-order-modal'].show();
+        // this.$refs['single-client-order-modal'].show();
+        this.$router.push('./singleClientOrder');
       }
       this.$refs.manageTable.clearSelected();
     },

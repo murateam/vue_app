@@ -1,5 +1,12 @@
 <template>
-    <div>
+    <b-container>
+      <b-row align-h="start">
+        <b-col cols="2">
+          <router-link
+          class="btn btn-dark"
+          to="/">На главную</router-link>
+        </b-col>
+      </b-row>
         <stock-item-modal ref="stock-item-modal"></stock-item-modal>
         <b-button
           class="mt-3"
@@ -9,7 +16,7 @@
           <div>{{listItems}}</div>
           <div>{{listDelete}}</div>
         <stock-table class="mt-3"></stock-table>
-    </div>
+    </b-container>
 </template>
 
 <script>
