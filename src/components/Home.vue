@@ -24,5 +24,8 @@ export default {
       this.$router.push('/stockList');
     },
   },
+  mounted() {
+    // this.$store.dispatch('SET_EMPTY_STOCK_ITEM');
+  },
 };
 </script>

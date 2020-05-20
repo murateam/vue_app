@@ -1,6 +1,7 @@
 <template>
     <b-modal
     id="stockItemModal"
+    ref="stock-item-modal"
     hide-footer
     size='lg'>
       <b-form>
@@ -9,23 +10,24 @@
             <b-form-group
             label="Товар"></b-form-group>
           </b-row>
+            {{ currentStockItem }}
           <b-row>
             <b-col>
               <label for="input-factory"></label>
               <b-input id="input-factory"
-              v-model="Item.fabric"
+              v-model="currentStockItem.factory_item.factory_collection.factory.name"
               placeholder="Фабрика"></b-input>
             </b-col>
             <b-col>
               <label for="input-collection"></label>
               <b-input id="input-collection"
-              v-model="Item.collection"
+              v-model="currentStockItem.factory_item.factory_collection.name"
               placeholder="Коллекция"></b-input>
             </b-col>
             <b-col>
               <label for="input-catalog-num"></label>
               <b-input id="input-catalog-num"
-              v-model="Item.catalogue_num"
+              v-model="currentStockItem.factory_item.catalogue_number"
               placeholder="Номер каталога"></b-input>
             </b-col>
           </b-row>
@@ -35,7 +37,7 @@
               <label for="price"></label>
               <b-input id="price"
               type="number"
-              v-model="Item.price"
+              v-model="currentStockItem.current_price_ru"
               placeholder="Цена"></b-input>
             </b-col>
           </b-row>
@@ -45,16 +47,15 @@
               <label for="input-amount"></label>
               <b-input id="input-amount"
               type="number"
-              v-model="Item.amount"
+              v-model="currentStockItem.items_amount"
               placeholder="Колличество"></b-input>
             </b-col>
           </b-row>
           <b-row>
             <b-col>
-              <b-button @click=addItem>Добавить</b-button>
+              <b-button @click="addItem">Добавить</b-button>
             </b-col>
           </b-row>
-          <dir>{{ Item }}</dir>
         </b-container>
       </b-form>
     </b-modal>
@@ -63,28 +64,26 @@
 <script>
 export default {
   data() {
-    return {
-      Item: {
-        client_order: '',
-        fabric: '',
-        collection: '',
-        catalogue_num: '',
-        price: null,
-        amount: null,
-      },
-    };
+    return {};
   },
   created() {
+    this.$store.dispatch('SET_EMPTY_STOCK_ITEM');
   },
   methods: {
-    addItem() {
-      const testItem = { name: 'test' };
-      this.$store.dispatch('SAVE_TO_LIST_ITEMS', testItem);
+    show() {
+      this.$refs['stock-item-modal'].show();
     },
-    // resetForm: {
-    // },
-    // resetModal: {
-    // },
+    addItem() {
+      this.$store.dispatch('ADD_ITEM_TO_LIST_STOCK_ITEMS');
+    },
+  },
+  // mounted() {
+  //   this.$store.dispatch('SET_EMPTY_STOCK_ITEM');
+  // },
+  computed: {
+    currentStockItem() {
+      return this.$store.getters.GET_CURRENT_STOCK_ITEM;
+    },
   },
 };
 </script>

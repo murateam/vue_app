@@ -1,9 +1,10 @@
 <template>
+  <b-container>
+    <div>{{currentItem}}</div>
         <b-table
         responsive
         :fields="fields"
         :items="stockItems"
-        selectable
         select-mode="single"
         @row-selected="onRowSelected">
         <!-- <template v-slot:cell(check)="{ rowSelected }">
@@ -45,6 +46,7 @@
           <b-button variant="danger" @click="deleteItem(row.item, row.index)">X</b-button>
         </template>
         </b-table>
+  </b-container>
 </template>
 
 <script>
@@ -101,8 +103,12 @@ export default {
     onRowSelected(items) {
       this.selected = items;
     },
-    moreInfo() {},
-    deleteItem() {},
+    moreInfo(item, index) {
+      this.$store.dispatch('SET_CURRENT_STOCK_ITEM_BY_INDEX', index);
+    },
+    deleteItem(item, index) {
+      this.$store.dispatch('MOVE_ITEM_TO_DELETE_LIST', item, index);
+    },
   },
   mounted() {
     // this.$store.dispatch('GET_ALL_ITEMS');
@@ -110,6 +116,9 @@ export default {
   computed: {
     stockItems() {
       return this.$store.getters.GET_LIST_STOCK_ITEMS;
+    },
+    currentItem() {
+      return this.$store.getters.GET_CURRENT_STOCK_ITEM;
     },
   },
 };
