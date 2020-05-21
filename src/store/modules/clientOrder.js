@@ -72,11 +72,13 @@ const actions = {
       const { data } = await axios.put(singleClientOrderURL + requestData.id, requestData);
       axios.get(`http://localhost:5000/api/client_orders/for_list/${data.id}`).then((response) => {
         context.commit('CHANGE_CLIENT_ORDER', response.data);
+        context.dispatch('SAVE_STOCK_ITEM_FROM_CLIENT_ORDER', response.data);
       });
     } else {
       const { data } = await axios.post(clientOrderAddURL, requestData);
       axios.get(`http://localhost:5000/api/client_orders/for_list/${data.id}`).then((response) => {
         context.commit('ADD_CLIENT_ORDER', response.data);
+        context.dispatch('SAVE_STOCK_ITEM_FROM_CLIENT_ORDER', response.data);
       });
     }
   },

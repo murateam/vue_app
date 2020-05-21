@@ -50,7 +50,7 @@ const state = {
 };
 const getters = {
   GET_LIST_STOCK_ITEMS: (state) => state.listStockItems,
-  GET_DELETE_LIST_ITEMS: (state) => state.deleteListItems,
+  GET_LIST_DELETE_STOCK_ITEMS: (state) => state.deleteListItems,
   GET_CURRENT_STOCK_ITEM: (state) => state.currentStockItem,
   GET_EMPTY_STOCK_ITEM: (state) => state.emptyStockItem,
 };
@@ -105,12 +105,17 @@ const actions = {
   SET_IS_NEW_STOCK_ITEM: (context, bool) => {
     context.commit('SET_IS_NEW_STOCK_ITEM', bool);
   },
-  SAVE_STOCK_ITEM_FROM_CLIENT_ORDER: (context) => {
-    const itemList = context.getters.GET_LIST_STOCK_ITEMS;
+  SAVE_STOCK_ITEM_FROM_CLIENT_ORDER: (context, clientOrder) => {
+    const listItems = context.getters.GET_LIST_STOCK_ITEMS;
+    const listDelete = context.getters.GET_LIST_DELETE_STOCK_ITEMS;
+    const requestData = [];
+    requestData.push({ value: clientOrder.id });
+    requestData.push({ value: listItems });
+    requestData.push({ value: listDelete });
     // itemList.forEach((element) => {
     //   console.log(element);
     // });
-    axios.post(SaveStockItemsFromClientOrderURL, itemList);
+    axios.post(SaveStockItemsFromClientOrderURL, requestData);
   },
 };
 

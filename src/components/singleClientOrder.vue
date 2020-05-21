@@ -267,7 +267,7 @@ export default {
         };
         this.$store.dispatch('SAVE_CLIENT_ORDER', requestData);
       }
-      this.hide();
+      // this.hide();
     },
     cancelSaveClientOrder() {
       this.resetAllState();
