@@ -10,13 +10,16 @@
             <b-form-group
             label="Товар"></b-form-group>
           </b-row>
-            {{ currentStockItem }}
+            <!-- {{ currentStockItem }} -->
           <b-row>
             <b-col>
               <label for="input-factory"></label>
               <b-input id="input-factory"
               v-model="currentStockItem.factory_item.factory_collection.factory.name"
               placeholder="Фабрика"></b-input>
+              <!-- <b-input id="input-factory" v-else
+              v-model="currentStockItem.incorrect_factory"
+              placeholder="Фабрика"></b-input> -->
             </b-col>
             <b-col>
               <label for="input-collection"></label>
@@ -31,17 +34,44 @@
               placeholder="Номер каталога"></b-input>
             </b-col>
           </b-row>
-          <b-row>
-            <b-col></b-col>
-            <b-col>
+          <b-row align-h="end" class="mt-3">
+            <b-col cols="3">
+                <b-form-group
+                    id="form-passport-group"
+                    label="Колличество"
+                    label-for="form-passport-input"
+                >
+                    <b-row align-h="around">
+                        <b-col>
+                            <b-input placeholder="Колличество"
+                            v-model="currentStockItem.items_amount"></b-input>
+                        </b-col>
+                    </b-row>
+                </b-form-group>
+            </b-col>
+            <b-col cols="3">
+                <b-form-group
+                    id="form-passport-group"
+                    label="Цена"
+                    label-for="form-passport-input"
+                >
+                    <b-row align-h="around">
+                        <b-col>
+                            <b-input placeholder="Цена"
+                            v-model="currentStockItem.current_price_ru"></b-input>
+                        </b-col>
+                    </b-row>
+                </b-form-group>
+            </b-col>
+            <!-- <b-col cols="2">
               <label for="price"></label>
               <b-input id="price"
               type="number"
               v-model="currentStockItem.current_price_ru"
               placeholder="Цена"></b-input>
-            </b-col>
+            </b-col> -->
           </b-row>
-          <b-row>
+          <!-- <b-row>
             <b-col></b-col>
             <b-col>
               <label for="input-amount"></label>
@@ -50,10 +80,13 @@
               v-model="currentStockItem.items_amount"
               placeholder="Колличество"></b-input>
             </b-col>
-          </b-row>
-          <b-row>
-            <b-col>
-              <b-button @click="addItem">Добавить</b-button>
+          </b-row> -->
+          <b-row class="mt-3" align-h="end">
+            <b-col cols="2">
+              <b-button variant="danger">Отменить</b-button>
+            </b-col>
+            <b-col cols="2">
+              <b-button variant="primary" @click="addItem">Сохранить</b-button>
             </b-col>
           </b-row>
         </b-container>

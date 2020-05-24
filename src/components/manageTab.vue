@@ -122,7 +122,11 @@ export default {
     },
     newClientOrder() {
       this.$store.dispatch('SET_CAN_CHANGE_CLIENT', true);
-      this.$refs['single-client-order-modal'].show();
+      this.$store.dispatch('RESET_CLIENT_ORDER');
+      this.$store.dispatch('RESET_CURRENT_CLIENT');
+      this.$store.dispatch('RESET_LIST_ITEMS');
+      this.$router.push('./singleClientOrder');
+      // this.$refs['single-client-order-modal'].show();
       // $bvModal.show('single-client-order-modal');
     },
     editClientOrder() {

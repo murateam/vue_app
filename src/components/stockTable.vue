@@ -1,7 +1,9 @@
 <template>
   <b-container>
+    <stock-item ref="stock-item"></stock-item>
     <b-row>
       <b-col>
+        <!-- {{ stockItems }} -->
         <b-table
         small striped
         responsive
@@ -24,13 +26,37 @@
           {{ data.item.client_order.public_num }}
         </template>
         <template v-slot:cell(factory)="data">
-          {{ data.item.factory_item.factory_collection.factory.name }}
+          <template v-if="data.item.client_order.id === null">
+            {{ data.item.factory_item.factory_collection.factory.name }}
+          </template>
+          <template v-if="data.item.is_correct">
+            {{ data.item.factory_item.factory_collection.factory.name }}
+          </template>
+          <template v-else>
+            {{ data.item.incorrect_factory.split('&')[0] }}
+          </template>
         </template>
         <template v-slot:cell(collection)="data">
-          {{ data.item.factory_item.factory_collection.name }}
+          <template v-if="data.item.client_order.id === null">
+            {{ data.item.factory_item.factory_collection.name }}
+          </template>
+          <template v-if="data.item.is_correct">
+            {{ data.item.factory_item.factory_collection.name }}
+          </template>
+          <template v-else>
+            {{ data.item.incorrect_factory.split('&')[1] }}
+          </template>
         </template>
         <template v-slot:cell(catalogue_num)="data">
-          {{ data.item.factory_item.catalogue_number }}
+          <template v-if="data.item.client_order.id === null">
+            {{ data.item.factory_item.catalogue_number }}
+          </template>
+          <template v-if="data.item.is_correct">
+            {{ data.item.factory_item.catalogue_number }}
+          </template>
+          <template v-else>
+            {{ data.item.incorrect_factory.split('&')[2] }}
+          </template>
         </template>
         <template v-slot:cell(amount)="data">
           {{ data.item.items_amount }}
@@ -42,10 +68,10 @@
           {{ data.item.stock_choices }}
         </template>
         <template v-slot:cell(check)="row">
-          <b-button variant="success" @click="moreInfo(row.item, row.index)">...</b-button>
+          <b-button variant="outline-dark" @click="editItem(row.index)">...</b-button>
         </template>
         <template v-slot:cell(delete)="row">
-          <b-button variant="danger" @click="deleteItem(row.item, row.index)">X</b-button>
+          <b-button variant="outline-danger" @click="deleteItem(row.index)">X</b-button>
         </template>
         </b-table>
       </b-col>
@@ -54,7 +80,12 @@
 </template>
 
 <script>
+import stockItem from './stockItemModal.vue';
+
 export default {
+  components: {
+    stockItem,
+  },
   data() {
     return {
       selected: [],
@@ -66,7 +97,6 @@ export default {
         {
           key: 'client_order',
           label: 'Договор клиента',
-          formatter: 'client_order',
         },
         {
           key: 'factory',
@@ -104,14 +134,25 @@ export default {
     };
   },
   methods: {
+    // factory(value) {
+    //   console.log(value);
+    //   let factory = '';
+    //   if (value.is_corrected === true) {
+    //     factory = value.factory_item.factory_collection.factory.name;
+    //   } else {
+    //     factory = value.incorrect_factory.splist('&')[0];
+    //   }
+    // return `${}`;
+    // },
     onRowSelected(items) {
       this.selected = items;
     },
-    moreInfo(item, index) {
+    editItem(index) {
+      this.$refs['stock-item'].show();
       this.$store.dispatch('SET_CURRENT_STOCK_ITEM_BY_INDEX', index);
     },
-    deleteItem(item, index) {
-      this.$store.dispatch('MOVE_ITEM_TO_DELETE_LIST', item, index);
+    deleteItem(index) {
+      this.$store.dispatch('MOVE_ITEM_TO_DELETE_LIST', index);
     },
   },
   mounted() {

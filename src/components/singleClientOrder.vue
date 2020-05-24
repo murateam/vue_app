@@ -186,6 +186,8 @@
                     variant="primary">Сохранить</b-button>
                   </b-col>
                 </b-row>
+                <!-- {{ listItems }} -->
+                <!-- {{listDelete}} -->
                 <b-row align-h="center" class="mt-3">
                   <b-col cols="4"><h4>Позиции:</h4></b-col>
                 </b-row>
@@ -194,10 +196,6 @@
                     <b-button
                     @click="addStockItem"
                     >Добавить позицию</b-button>
-                  </b-col>
-                  <b-col cols="2">
-                    <b-button
-                    @click="testSaveFunc">test save function</b-button>
                   </b-col>
                 </b-row>
                 <b-row class="mt-4">
@@ -291,9 +289,7 @@ export default {
     },
     addStockItem() {
       this.$refs['stock-item-modal'].show();
-    },
-    testSaveFunc() {
-      this.$store.dispatch('SAVE_STOCK_ITEM_FROM_CLIENT_ORDER');
+      this.$store.dispatch('SET_EMPTY_STOCK_ITEM');
     },
   },
   computed: {
@@ -314,6 +310,12 @@ export default {
     },
     visibleChoiceOtherClient() {
       return this.$store.getters.GET_CAN_CHANGE_CLIENT;
+    },
+    listItems() {
+      return this.$store.getters.GET_LIST_STOCK_ITEMS;
+    },
+    listDelete() {
+      return this.$store.getters.GET_LIST_DELETE_STOCK_ITEMS;
     },
   },
 };

@@ -11,41 +11,46 @@ const state = {
     id: null,
     client_order: {
       id: null,
-      public_num: '',
-      author: '',
-      client: '',
-      state: '',
-      status: '',
+      public_num: null,
+      author: null,
+      client: null,
+      state: 'draft',
+      status: 'calculate',
     },
     factory_item: {
-      id: '',
+      id: null,
       catalogue_number: '',
       factory_collection: {
-        id: '',
+        id: null,
         name: '',
         factory: {
-          id: '',
+          id: null,
           name: '',
         },
         is_made: true,
       },
     },
-    import_order: '',
+    import_order: null,
     incorrect_factory: '',
     is_correct: false,
     is_ordered: false,
     is_shipped: false,
-    stock_choices: '',
-    items_amount: '',
-    last_price_ru: '',
-    current_price_ru: '',
-    last_price_eur: '',
-    current_price_eur: '',
+    stock_choices: 'waiting for processing',
+    items_amount: 0,
+    last_price_ru: 0,
+    current_price_ru: 0,
+    last_price_eur: 0,
+    current_price_eur: 0,
     comment: '',
   },
   currentStockItem: {},
   listStockItems: [],
   deleteListItems: [],
+  incorrect_factory: {
+    factory: '',
+    factory_collections: '',
+    catalogue_number: '',
+  },
   isNewStockItem: true,
 };
 const getters = {
@@ -61,14 +66,24 @@ const mutations = {
   SET_CURRENT_STOCK_ITEM: (state, payload) => {
     state.currentStockItem = payload;
   },
-  SET_CURRENT_STOCK_ITEM_BY_INDEX: (state, index) => {
-    state.currentStockItem = state.listStockItems[index];
+  SET_CURRENT_STOCK_ITEM_BY_INDEX: (state, payload) => {
+    state.currentStockItem = payload;
+    // state.currentStockItem = state.listStockItems[index];
+    // const tmpItem = state.listStockItems[index];
+    // if (tmpItem.is_correct === true) {
+    //   state.currentStockItem = state.listStockItems[index];
+    // } else {
+    //   console.log('incorrect');
+    //   tmpItem.factory_item = tmpItem.incorrect_factory.split('&')[0];
+    //   console.log(tmpItem);
+    // state.currentStockItem = tmpItem;
+    // }
   },
   ADD_ITEM_TO_LIST_STOCK_ITEMS: (state, payload) => {
     state.listStockItems.push(payload);
   },
-  MOVE_ITEM_TO_DELETE_LIST: (state, item, index) => {
-    state.deleteListItems.push(item);
+  MOVE_ITEM_TO_DELETE_LIST: (state, index) => {
+    state.deleteListItems.push(state.listStockItems[index]);
     state.listStockItems.splice(index, 1);
   },
   SET_IS_NEW_STOCK_ITEM: (state, payload) => {
@@ -77,18 +92,36 @@ const mutations = {
 };
 const actions = {
   SET_EMPTY_STOCK_ITEM: (context) => {
-    const emptyStockItem = context.getters.GET_EMPTY_STOCK_ITEM;
+    const emptyStockItem = _.cloneDeep(context.getters.GET_EMPTY_STOCK_ITEM);
     context.commit('SET_CURRENT_STOCK_ITEM', emptyStockItem);
   },
   SET_CURRENT_STOCK_ITEM_BY_INDEX: (context, index) => {
-    context.commit('SET_CURRENT_STOCK_ITEM_BY_INDEX', index);
+    if (context.state.listStockItems[index].id === null) {
+      context.commit('SET_CURRENT_STOCK_ITEM', context.state.listStockItems[index]);
+    } else if (context.state.listStockItems[index].is_correct) {
+      context.commit('SET_CURRENT_STOCK_ITEM', context.state.listStockItems[index]);
+    } else {
+      const tmpItem = context.state.listStockItems[index];
+      const tmpIncorrectFactory = context.state.listStockItems[index].incorrect_factory;
+      const [factory, collection, catalogueNumber] = tmpIncorrectFactory.split('&');
+      tmpItem.factory_item = {
+        catalogue_number: catalogueNumber,
+        factory_collection: {
+          name: collection,
+          factory: {
+            name: factory,
+          },
+        },
+      };
+      context.commit('SET_CURRENT_STOCK_ITEM', tmpItem);
+    }
   },
   ADD_ITEM_TO_LIST_STOCK_ITEMS: (context) => {
     const data = _.cloneDeep(context.getters.GET_CURRENT_STOCK_ITEM);
     context.commit('ADD_ITEM_TO_LIST_STOCK_ITEMS', data);
   },
-  MOVE_ITEM_TO_DELETE_LIST: (context, item, index) => {
-    context.commit('MOVE_ITEM_TO_DELETE_LIST', item, index);
+  MOVE_ITEM_TO_DELETE_LIST: (context, index) => {
+    context.commit('MOVE_ITEM_TO_DELETE_LIST', index);
   },
   RESET_LIST_ITEMS: (context) => {
     context.commit('SET_LIST_STOCK_ITEMS', []);
@@ -115,7 +148,9 @@ const actions = {
     // itemList.forEach((element) => {
     //   console.log(element);
     // });
-    axios.post(SaveStockItemsFromClientOrderURL, requestData);
+    axios.post(SaveStockItemsFromClientOrderURL, requestData).then((response) => {
+      context.commit('SET_LIST_STOCK_ITEMS', response.data);
+    });
   },
 };
 
