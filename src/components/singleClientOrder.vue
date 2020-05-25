@@ -333,5 +333,18 @@ export default {
       return this.$store.getters.GET_LIST_DELETE_STOCK_ITEMS;
     },
   },
+  watch: {
+    listItems(newCount) {
+      console.log(newCount);
+      const array1 = newCount;
+      const initialValue = 0;
+      const sum = array1.reduce(
+        (accumulator, currentValue) => accumulator + currentValue.current_price_ru, initialValue,
+      );
+      console.log(sum);
+      this.$store.dispatch('CALCULATE_PRICE_OF_CLIENT_ORDER', sum);
+      // console.log(newCount, oldCount);
+    },
+  },
 };
 </script>

@@ -10,7 +10,7 @@
             <b-form-group
             label="Товар"></b-form-group>
           </b-row>
-            <!-- {{ currentStockItem }} -->
+            {{ currentStockItem }}
           <b-row>
             <b-col>
               <label for="input-factory"></label>
@@ -58,7 +58,8 @@
                     <b-row align-h="around">
                         <b-col>
                             <b-input placeholder="Цена"
-                            v-model="currentStockItem.current_price_ru"></b-input>
+                            type="number"
+                            v-model.number="currentStockItem.current_price_ru"></b-input>
                         </b-col>
                     </b-row>
                 </b-form-group>

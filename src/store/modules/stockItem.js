@@ -124,6 +124,7 @@ const actions = {
     const requestData = { client_order: id };
     const { data } = await axios.post(ListItemsByClientOrderURL, requestData);
     context.commit('SET_LIST_STOCK_ITEMS', data);
+    // context.dispatch('CALCULATE_PRICE_OF_CLIENT_ORDER');
   },
   SET_IS_NEW_STOCK_ITEM: (context, bool) => {
     context.commit('SET_IS_NEW_STOCK_ITEM', bool);

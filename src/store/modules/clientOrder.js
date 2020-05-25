@@ -59,6 +59,9 @@ const mutations = {
   SET_CAN_CHANGE_CLIENT: (state, payload) => {
     state.canChangeClient = payload;
   },
+  SET_PRICE_FOR_CLIENT_ORDER: (state, payload) => {
+    state.singleClientOrder.price = payload;
+  },
 };
 const actions = {
   GET_LIST_CLIENT_ORDERS: async (context) => {
@@ -93,28 +96,20 @@ const actions = {
   // },
   RESET_CLIENT_ORDER: (context) => {
     const emptyClientOrder = _.cloneDeep(context.getters.GET_EMPTY_CLIENT_ORDER);
-    console.log(emptyClientOrder);
+    // console.log(emptyClientOrder);
     context.commit('RESET_CLIENT_ORDER', emptyClientOrder);
-    //   id: null,
-    //   public_num: '',
-    //   state: '',
-    //   status: '',
-    //   payment_status: '',
-    //   author: '',
-    //   client: '',
-    //   when_published: '',
-    //   created: '',
-    //   updated: '',
-    //   eur_rate: 0,
-    //   price: 0,
-    //   total_payment: 0,
-    //   designer: '',
-    //   d_percent: 0,
-    //   comment: '',
-    // });
   },
   SET_CAN_CHANGE_CLIENT: (context, bool) => {
     context.commit('SET_CAN_CHANGE_CLIENT', bool);
+  },
+  CALCULATE_PRICE_OF_CLIENT_ORDER: (context, newItems) => {
+    // console.log(newItems);
+    // const array1 = newItems;
+    // const initialValue = 0;
+    // const sum = array1.reduce(
+    //   (accumulator, currentValue) => accumulator + currentValue.current_price_ru, initialValue,
+    // );
+    context.commit('SET_PRICE_FOR_CLIENT_ORDER', newItems);
   },
 };
 export default {
