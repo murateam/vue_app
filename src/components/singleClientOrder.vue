@@ -5,7 +5,6 @@
             <b-container>
               <b-row class="mt-3" align-h="start">
                 <b-col cols="2">
-                  <!-- <b-button>Назад</b-button> -->
                   <router-link
                   class="btn btn-dark"
                   to="manageTab">Назад</router-link>
@@ -13,16 +12,16 @@
               </b-row>
               <b-row align-h="center" class="mt-4">
                 <b-col cols="5">
-                  <h3 v-if="singleClientOrder.public_num">
+                  <!-- <h3 v-if="singleClientOrder.public_num">
                     Заказ № {{singleClientOrder.public_num}}</h3>
-                  <h3 v-else>Новый заказ</h3>
+                  <h3 v-else>Новый заказ</h3> -->
                 </b-col>
               </b-row>
-              <b-row align-h="end" v-if="singleClientOrder.created">
+              <!-- <b-row align-h="end" v-if="singleClientOrder.created">
                 <b-col cols="4">
                   <p>Создан: {{dateFilter(singleClientOrder.created)}}</p>
                 </b-col>
-              </b-row>
+              </b-row> -->
               <b-row>
                 <b-col cols="8">
                   <b-card>
@@ -68,7 +67,6 @@
                           </b-col> -->
                         </b-row>
                       </b-collapse>
-                      <!-- <div>{{ singleClientOrder }}</div> -->
                       <b-collapse
                       ref="client-details"
                       id="client-details"
@@ -139,7 +137,7 @@
                 <b-col align-self="center">
                   <b-card>
                     <b-row><b-col><h6>Дизайнер</h6></b-col></b-row>
-                    <b-row class="mt-4">
+                    <b-row class="mt-3">
                       <b-col>
                         <b-form-input
                             type="text"
@@ -149,7 +147,7 @@
                         </b-form-input>
                       </b-col>
                     </b-row>
-                    <b-row class="mt-4">
+                    <b-row class="mt-2">
                       <b-col>
                         <b-form-input
                             placeholder="Вознаграждение"
@@ -157,6 +155,19 @@
                             v-model=singleClientOrder.d_percent
                         ></b-form-input>
                       </b-col>
+                    </b-row>
+                    <b-row align-h="between" class="mt-4">
+                          <b-col cols="6">Общая стоимость:</b-col>
+                          <b-col cols="6">
+                            <div class="bg-secondary text-light">{{singleClientOrder.price}}</div>
+                          </b-col>
+                    </b-row>
+                    <b-row align-h="between" class="mt-4">
+                          <b-col cols="6">Оплачено:</b-col>
+                          <b-col cols="6">
+                            <div class="bg-secondary text-light">
+                              {{singleClientOrder.total_payment}}</div>
+                          </b-col>
                     </b-row>
                   </b-card>
                 </b-col>
@@ -186,6 +197,7 @@
                     variant="primary">Сохранить</b-button>
                   </b-col>
                 </b-row>
+                {{ singleClientOrder }}
                 <!-- {{ listItems }} -->
                 <!-- {{listDelete}} -->
                 <b-row align-h="center" class="mt-3">
@@ -222,6 +234,9 @@ export default {
     return {
       checkClientName: { name: '' },
     };
+  },
+  created() {
+    this.$store.dispatch('RESET_CLIENT_ORDER');
   },
   methods: {
     dateFilter(value) {

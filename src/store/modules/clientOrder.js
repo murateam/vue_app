@@ -1,4 +1,5 @@
 import axios from 'axios';
+import _ from 'lodash';
 
 const clientOrdersListURL = 'http://127.0.0.1:5000/api/client_orders/';
 const clientOrderAddURL = 'http://127.0.0.1:5000/api/client_order/add/';
@@ -6,8 +7,7 @@ const singleClientOrderURL = 'http://127.0.0.1:5000/api/client_orders/';
 
 
 const state = {
-  listClientOrders: [],
-  singleClientOrder: {
+  emptyClientOrder: {
     id: null,
     public_num: '',
     state: '',
@@ -25,9 +25,12 @@ const state = {
     d_percent: 0,
     comment: '',
   },
+  listClientOrders: [],
+  singleClientOrder: {},
   canChangeClient: true,
 };
 const getters = {
+  GET_EMPTY_CLIENT_ORDER: (state) => state.emptyClientOrder,
   GET_LIST_CLIENT_ORDERS: (state) => state.listClientOrders,
   GET_SINGLE_CLIENT_ORDER: (state) => state.singleClientOrder,
   GET_CAN_CHANGE_CLIENT: (state) => state.canChangeClient,
@@ -89,24 +92,26 @@ const actions = {
   //   });
   // },
   RESET_CLIENT_ORDER: (context) => {
-    context.commit('RESET_CLIENT_ORDER', {
-      id: null,
-      public_num: '',
-      state: '',
-      status: '',
-      payment_status: '',
-      author: '',
-      client: '',
-      when_published: '',
-      created: '',
-      updated: '',
-      eur_rate: 0,
-      price: 0,
-      total_payment: 0,
-      designer: '',
-      d_percent: 0,
-      comment: '',
-    });
+    const emptyClientOrder = _.cloneDeep(context.getters.GET_EMPTY_CLIENT_ORDER);
+    console.log(emptyClientOrder);
+    context.commit('RESET_CLIENT_ORDER', emptyClientOrder);
+    //   id: null,
+    //   public_num: '',
+    //   state: '',
+    //   status: '',
+    //   payment_status: '',
+    //   author: '',
+    //   client: '',
+    //   when_published: '',
+    //   created: '',
+    //   updated: '',
+    //   eur_rate: 0,
+    //   price: 0,
+    //   total_payment: 0,
+    //   designer: '',
+    //   d_percent: 0,
+    //   comment: '',
+    // });
   },
   SET_CAN_CHANGE_CLIENT: (context, bool) => {
     context.commit('SET_CAN_CHANGE_CLIENT', bool);

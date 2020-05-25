@@ -1,6 +1,6 @@
 <template>
   <b-container>
-    <client-modal />
+    <client-modal ref="client-modal"></client-modal>
     <single-client-order-modal
       ref="single-client-order-modal"
     ></single-client-order-modal>
@@ -19,13 +19,13 @@
             id="order-add"
             class="btn btn-secondary btn-sm align=left d-block">Создать заказ</button>
           <button
-            @click="$bvModal.show('client-modal')"
+            @click="newClient"
             type="button"
             id="clien-add"
             class="btn btn-success btn-sm align=left d-block">Добавить заказчика</button>
         </b-button-group>
 
-        <!-- <div>{{ singleClient }}</div> -->
+        <div>{{ singleClientOrder }}</div>
         <!-- <div>{{ selected }}</div> -->
 
         <b-table
@@ -120,9 +120,14 @@ export default {
       this.selected = items;
       this.editClientOrder();
     },
+    newClient() {
+      this.$store.dispatch('RESET_CURRENT_CLIENT');
+      this.$refs['client-modal'].show();
+      // "$bvModal.show('client-modal')";
+    },
     newClientOrder() {
       this.$store.dispatch('SET_CAN_CHANGE_CLIENT', true);
-      this.$store.dispatch('RESET_CLIENT_ORDER');
+      // this.$store.dispatch('RESET_CLIENT_ORDER');
       this.$store.dispatch('RESET_CURRENT_CLIENT');
       this.$store.dispatch('RESET_LIST_ITEMS');
       this.$router.push('./singleClientOrder');
@@ -149,6 +154,9 @@ export default {
     },
     clientOrders() {
       return this.$store.getters.GET_LIST_CLIENT_ORDERS;
+    },
+    singleClientOrder() {
+      return this.$store.getters.GET_SINGLE_CLIENT_ORDER;
     },
   },
 };

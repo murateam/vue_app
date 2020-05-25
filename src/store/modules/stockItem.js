@@ -68,16 +68,6 @@ const mutations = {
   },
   SET_CURRENT_STOCK_ITEM_BY_INDEX: (state, payload) => {
     state.currentStockItem = payload;
-    // state.currentStockItem = state.listStockItems[index];
-    // const tmpItem = state.listStockItems[index];
-    // if (tmpItem.is_correct === true) {
-    //   state.currentStockItem = state.listStockItems[index];
-    // } else {
-    //   console.log('incorrect');
-    //   tmpItem.factory_item = tmpItem.incorrect_factory.split('&')[0];
-    //   console.log(tmpItem);
-    // state.currentStockItem = tmpItem;
-    // }
   },
   ADD_ITEM_TO_LIST_STOCK_ITEMS: (state, payload) => {
     state.listStockItems.push(payload);
