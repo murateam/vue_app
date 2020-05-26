@@ -52,12 +52,14 @@ const state = {
     catalogue_number: '',
   },
   isNewStockItem: true,
+  indexForCurrentStockItem: 0,
 };
 const getters = {
   GET_LIST_STOCK_ITEMS: (state) => state.listStockItems,
   GET_LIST_DELETE_STOCK_ITEMS: (state) => state.deleteListItems,
   GET_CURRENT_STOCK_ITEM: (state) => state.currentStockItem,
   GET_EMPTY_STOCK_ITEM: (state) => state.emptyStockItem,
+  GET_IS_NEW_STOCK_ITEM: (state) => state.isNewStockItem,
 };
 const mutations = {
   SET_LIST_STOCK_ITEMS: (state, payload) => {
@@ -66,8 +68,8 @@ const mutations = {
   SET_CURRENT_STOCK_ITEM: (state, payload) => {
     state.currentStockItem = payload;
   },
-  SET_CURRENT_STOCK_ITEM_BY_INDEX: (state, payload) => {
-    state.currentStockItem = payload;
+  SET_INDEX_FOR_CURRENT_STOCK_ITEM: (state, payload) => {
+    state.indexForCurrentStockItem = payload;
   },
   ADD_ITEM_TO_LIST_STOCK_ITEMS: (state, payload) => {
     state.listStockItems.push(payload);
@@ -79,6 +81,21 @@ const mutations = {
   SET_IS_NEW_STOCK_ITEM: (state, payload) => {
     state.isNewStockItem = payload;
   },
+  CHANGE_STOCK_ITEM_IN_LIST: async (state, payload) => {
+    const changedStockItem = await _.cloneDeep(state.currentStockItem);
+    console.log(state.listStockItems[payload]);
+    console.log(changedStockItem);
+    const factory = changedStockItem.factory_item.factory_collection.factory.name;
+    const collection = changedStockItem.factory_item.factory_collection.name;
+    const catalogueNumber = changedStockItem.factory_item.catalogue_number;
+    const amount = changedStockItem.factory_item.items_amount;
+    const price = changedStockItem.current_price_ru;
+    state.listStockItems[payload].factory_item.factory_collection.factory.name = factory;
+    state.listStockItems[payload].factory_item.factory_collection.name = collection;
+    state.listStockItems[payload].factory_item.catalogue_number = catalogueNumber;
+    state.listStockItems[payload].factory_item.items_amount = amount;
+    state.listStockItems[payload].current_price_ru = price;
+  },
 };
 const actions = {
   SET_EMPTY_STOCK_ITEM: (context) => {
@@ -86,12 +103,15 @@ const actions = {
     context.commit('SET_CURRENT_STOCK_ITEM', emptyStockItem);
   },
   SET_CURRENT_STOCK_ITEM_BY_INDEX: (context, index) => {
+    context.commit('SET_INDEX_FOR_CURRENT_STOCK_ITEM', index);
     if (context.state.listStockItems[index].id === null) {
-      context.commit('SET_CURRENT_STOCK_ITEM', context.state.listStockItems[index]);
+      const copyCurrentStockItem = _.cloneDeep(context.state.listStockItems[index]);
+      context.commit('SET_CURRENT_STOCK_ITEM', copyCurrentStockItem);
     } else if (context.state.listStockItems[index].is_correct) {
-      context.commit('SET_CURRENT_STOCK_ITEM', context.state.listStockItems[index]);
+      const copyCurrentStockItem = _.cloneDeep(context.state.listStockItems[index]);
+      context.commit('SET_CURRENT_STOCK_ITEM', copyCurrentStockItem);
     } else {
-      const tmpItem = context.state.listStockItems[index];
+      const tmpItem = _.cloneDeep(context.state.listStockItems[index]);
       const tmpIncorrectFactory = context.state.listStockItems[index].incorrect_factory;
       const [factory, collection, catalogueNumber] = tmpIncorrectFactory.split('&');
       tmpItem.factory_item = {
@@ -127,7 +147,13 @@ const actions = {
     // context.dispatch('CALCULATE_PRICE_OF_CLIENT_ORDER');
   },
   SET_IS_NEW_STOCK_ITEM: (context, bool) => {
+    // console.log(bool);
     context.commit('SET_IS_NEW_STOCK_ITEM', bool);
+  },
+  CHANGE_STOCK_ITEM: (context) => {
+    const index = context.state.indexForCurrentStockItem;
+    // console.log(index);
+    context.commit('CHANGE_STOCK_ITEM_IN_LIST', index);
   },
   SAVE_STOCK_ITEM_FROM_CLIENT_ORDER: (context, clientOrder) => {
     const listItems = context.getters.GET_LIST_STOCK_ITEMS;
@@ -139,8 +165,8 @@ const actions = {
     // itemList.forEach((element) => {
     //   console.log(element);
     // });
-    axios.post(SaveStockItemsFromClientOrderURL, requestData).then((response) => {
-      context.commit('SET_LIST_STOCK_ITEMS', response.data);
+    axios.post(SaveStockItemsFromClientOrderURL, requestData).then(() => {
+      // context.commit('SET_LIST_STOCK_ITEMS', response.data);
     });
   },
 };

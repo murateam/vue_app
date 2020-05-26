@@ -148,8 +148,9 @@ export default {
       this.selected = items;
     },
     editItem(index) {
-      this.$refs['stock-item'].show();
       this.$store.dispatch('SET_CURRENT_STOCK_ITEM_BY_INDEX', index);
+      this.$store.dispatch('SET_IS_NEW_STOCK_ITEM', false);
+      this.$refs['stock-item'].show();
     },
     deleteItem(index) {
       this.$store.dispatch('MOVE_ITEM_TO_DELETE_LIST', index);

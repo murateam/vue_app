@@ -305,6 +305,7 @@ export default {
     addStockItem() {
       this.$refs['stock-item-modal'].show();
       this.$store.dispatch('SET_EMPTY_STOCK_ITEM');
+      this.$store.dispatch('SET_IS_NEW_STOCK_ITEM', true);
     },
   },
   computed: {
@@ -335,13 +336,14 @@ export default {
   },
   watch: {
     listItems(newCount) {
-      console.log(newCount);
+      // console.log(newCount);
       const array1 = newCount;
-      const initialValue = 0;
-      const sum = array1.reduce(
-        (accumulator, currentValue) => accumulator + currentValue.current_price_ru, initialValue,
+      const array2 = array1.map((item) => item.current_price_ru * item.items_amount);
+      const inValue = 0;
+      const sum = array2.reduce(
+        (accum, item) => accum + item, inValue,
       );
-      console.log(sum);
+      // console.log(sum);
       this.$store.dispatch('CALCULATE_PRICE_OF_CLIENT_ORDER', sum);
       // console.log(newCount, oldCount);
     },

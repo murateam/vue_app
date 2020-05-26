@@ -11,6 +11,7 @@
             label="Товар"></b-form-group>
           </b-row>
             {{ currentStockItem }}
+            {{ isNewStockItem }}
           <b-row>
             <b-col>
               <label for="input-factory"></label>
@@ -44,7 +45,8 @@
                     <b-row align-h="around">
                         <b-col>
                             <b-input placeholder="Колличество"
-                            v-model="currentStockItem.items_amount"></b-input>
+                            type="number"
+                            v-model.number="currentStockItem.items_amount"></b-input>
                         </b-col>
                     </b-row>
                 </b-form-group>
@@ -84,10 +86,13 @@
           </b-row> -->
           <b-row class="mt-3" align-h="end">
             <b-col cols="2">
-              <b-button variant="danger">Отменить</b-button>
+              <b-button variant="danger" @click="cencel">Отменить</b-button>
             </b-col>
-            <b-col cols="2">
-              <b-button variant="primary" @click="addItem">Сохранить</b-button>
+            <b-col cols="2" v-if="isNewStockItem">
+              <b-button variant="primary" @click="addItem">Добавить</b-button>
+            </b-col>
+            <b-col cols="2" v-else>
+              <b-button variant="primary" @click="saveItem">Сохранить</b-button>
             </b-col>
           </b-row>
         </b-container>
@@ -107,8 +112,19 @@ export default {
     show() {
       this.$refs['stock-item-modal'].show();
     },
+    hide() {
+      this.$refs['stock-item-modal'].hide();
+    },
     addItem() {
       this.$store.dispatch('ADD_ITEM_TO_LIST_STOCK_ITEMS');
+    },
+    saveItem() {
+      this.hide();
+      this.$store.dispatch('CHANGE_STOCK_ITEM');
+    },
+    cencel() {
+      this.hide();
+      this.$store.dispatch('SET_EMPTY_STOCK_ITEM');
     },
   },
   // mounted() {
@@ -117,6 +133,9 @@ export default {
   computed: {
     currentStockItem() {
       return this.$store.getters.GET_CURRENT_STOCK_ITEM;
+    },
+    isNewStockItem() {
+      return this.$store.getters.GET_IS_NEW_STOCK_ITEM;
     },
   },
 };
