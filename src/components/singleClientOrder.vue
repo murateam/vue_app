@@ -335,16 +335,18 @@ export default {
     },
   },
   watch: {
-    listItems(newCount) {
+    listItems() {
       // console.log(newCount);
-      const array1 = newCount;
-      const array2 = array1.map((item) => item.current_price_ru * item.items_amount);
-      const inValue = 0;
-      const sum = array2.reduce(
-        (accum, item) => accum + item, inValue,
-      );
+
+      // const array1 = newCount;
+      // const array2 = array1.map((item) => item.current_price_ru * item.items_amount);
+      // const inValue = 0;
+      // const sum = array2.reduce(
+      //   (accum, item) => accum + item, inValue,
+      // );
+
       // console.log(sum);
-      this.$store.dispatch('CALCULATE_PRICE_OF_CLIENT_ORDER', sum);
+      this.$store.dispatch('CALCULATE_PRICE_FOR_CLIENT_ORDER');
       // console.log(newCount, oldCount);
     },
   },

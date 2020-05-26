@@ -83,18 +83,24 @@ const mutations = {
   },
   CHANGE_STOCK_ITEM_IN_LIST: async (state, payload) => {
     const changedStockItem = await _.cloneDeep(state.currentStockItem);
-    console.log(state.listStockItems[payload]);
-    console.log(changedStockItem);
-    const factory = changedStockItem.factory_item.factory_collection.factory.name;
-    const collection = changedStockItem.factory_item.factory_collection.name;
-    const catalogueNumber = changedStockItem.factory_item.catalogue_number;
-    const amount = changedStockItem.factory_item.items_amount;
-    const price = changedStockItem.current_price_ru;
-    state.listStockItems[payload].factory_item.factory_collection.factory.name = factory;
-    state.listStockItems[payload].factory_item.factory_collection.name = collection;
-    state.listStockItems[payload].factory_item.catalogue_number = catalogueNumber;
-    state.listStockItems[payload].factory_item.items_amount = amount;
-    state.listStockItems[payload].current_price_ru = price;
+    const arrBefore = state.listStockItems;
+    const arrTmp = [];
+    arrTmp.push(changedStockItem);
+    const arrFinal = arrBefore.map((obj) => arrTmp.find((o) => o.id === obj.id) || obj);
+    console.log(payload);
+    state.listStockItems = arrFinal;
+    // console.log(state.listStockItems[payload]);
+    // console.log(changedStockItem);
+    // const factory = changedStockItem.factory_item.factory_collection.factory.name;
+    // const collection = changedStockItem.factory_item.factory_collection.name;
+    // const catalogueNumber = changedStockItem.factory_item.catalogue_number;
+    // const amount = changedStockItem.factory_item.items_amount;
+    // const price = changedStockItem.current_price_ru;
+    // state.listStockItems[payload].factory_item.factory_collection.factory.name = factory;
+    // state.listStockItems[payload].factory_item.factory_collection.name = collection;
+    // state.listStockItems[payload].factory_item.catalogue_number = catalogueNumber;
+    // state.listStockItems[payload].factory_item.items_amount = amount;
+    // state.listStockItems[payload].current_price_ru = price;
   },
 };
 const actions = {
@@ -151,9 +157,7 @@ const actions = {
     context.commit('SET_IS_NEW_STOCK_ITEM', bool);
   },
   CHANGE_STOCK_ITEM: (context) => {
-    const index = context.state.indexForCurrentStockItem;
-    // console.log(index);
-    context.commit('CHANGE_STOCK_ITEM_IN_LIST', index);
+    context.commit('CHANGE_STOCK_ITEM_IN_LIST');
   },
   SAVE_STOCK_ITEM_FROM_CLIENT_ORDER: (context, clientOrder) => {
     const listItems = context.getters.GET_LIST_STOCK_ITEMS;
