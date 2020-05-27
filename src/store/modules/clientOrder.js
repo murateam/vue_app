@@ -64,7 +64,7 @@ const mutations = {
   },
 };
 const actions = {
-  CALCULATE_PRICE_FOR_CLIENT_ORDER: (context) => {
+  CALCULATE_PRICE_FOR_CLIENT_ORDER: async (context) => {
     const array1 = context.getters.GET_LIST_STOCK_ITEMS;
     const array2 = array1.map((item) => item.current_price_ru * item.items_amount);
     const inValue = 0;
@@ -105,7 +105,6 @@ const actions = {
   },
   RESET_CLIENT_ORDER: (context) => {
     const emptyClientOrder = _.cloneDeep(context.getters.GET_EMPTY_CLIENT_ORDER);
-    // console.log(emptyClientOrder);
     context.commit('RESET_CLIENT_ORDER', emptyClientOrder);
   },
 };

@@ -52,7 +52,6 @@ const state = {
     catalogue_number: '',
   },
   isNewStockItem: true,
-  indexForCurrentStockItem: 0,
 };
 const getters = {
   GET_LIST_STOCK_ITEMS: (state) => state.listStockItems,
@@ -67,9 +66,6 @@ const mutations = {
   },
   SET_CURRENT_STOCK_ITEM: (state, payload) => {
     state.currentStockItem = payload;
-  },
-  SET_INDEX_FOR_CURRENT_STOCK_ITEM: (state, payload) => {
-    state.indexForCurrentStockItem = payload;
   },
   ADD_ITEM_TO_LIST_STOCK_ITEMS: (state, payload) => {
     state.listStockItems.push(payload);

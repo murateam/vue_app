@@ -197,6 +197,7 @@
                     variant="primary">Сохранить</b-button>
                   </b-col>
                 </b-row>
+                {{ eurRate }}
                 {{ singleClientOrder }}
                 <!-- {{ listItems }} -->
                 <!-- {{listDelete}} -->
@@ -237,6 +238,7 @@ export default {
   },
   created() {
     this.$store.dispatch('RESET_CLIENT_ORDER');
+    // this.$store.dispatch('GET_CURRENT_RATE');
   },
   methods: {
     dateFilter(value) {
@@ -333,19 +335,23 @@ export default {
     listDelete() {
       return this.$store.getters.GET_LIST_DELETE_STOCK_ITEMS;
     },
+    eurRate() {
+      return this.$store.getters.GET_EUR_RATE;
+    },
   },
   watch: {
     listItems() {
-      // console.log(newCount);
-
-      // const array1 = newCount;
-      // const array2 = array1.map((item) => item.current_price_ru * item.items_amount);
-      // const inValue = 0;
-      // const sum = array2.reduce(
-      //   (accum, item) => accum + item, inValue,
-      // );
-
-      // console.log(sum);
+      const clientOrder = this.singleClientOrder;
+      // const currentRate = 0;
+      // function refrashCurrentRate(clientOrder) {
+      // const clientOrder = this.singleClientOrder;
+      if (clientOrder.state === 'published') {
+        this.$store.dispatch('GET_SAVED_RATE', clientOrder.eur_rate);
+      } else {
+        this.$store.dispatch('GET_CURRENT_RATE');
+      }
+      // }
+      // console.log(refrashCurrentRate(this.singleClientOrder));
       this.$store.dispatch('CALCULATE_PRICE_FOR_CLIENT_ORDER');
       // console.log(newCount, oldCount);
     },

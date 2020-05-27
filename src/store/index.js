@@ -1,5 +1,6 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
+import mainValues from './modules/mainValues';
 import author from './modules/author';
 import client from './modules/client';
 import clientOrder from './modules/clientOrder';
@@ -13,6 +14,7 @@ export default new Vuex.Store({
   mutations: {},
   actions: {},
   modules: {
+    mainValues,
     author,
     client,
     clientOrder,
