@@ -77,26 +77,13 @@ const mutations = {
   SET_IS_NEW_STOCK_ITEM: (state, payload) => {
     state.isNewStockItem = payload;
   },
-  CHANGE_STOCK_ITEM_IN_LIST: async (state, payload) => {
+  CHANGE_STOCK_ITEM_IN_LIST: async (state) => {
     const changedStockItem = await _.cloneDeep(state.currentStockItem);
     const arrBefore = state.listStockItems;
     const arrTmp = [];
     arrTmp.push(changedStockItem);
     const arrFinal = arrBefore.map((obj) => arrTmp.find((o) => o.id === obj.id) || obj);
-    console.log(payload);
     state.listStockItems = arrFinal;
-    // console.log(state.listStockItems[payload]);
-    // console.log(changedStockItem);
-    // const factory = changedStockItem.factory_item.factory_collection.factory.name;
-    // const collection = changedStockItem.factory_item.factory_collection.name;
-    // const catalogueNumber = changedStockItem.factory_item.catalogue_number;
-    // const amount = changedStockItem.factory_item.items_amount;
-    // const price = changedStockItem.current_price_ru;
-    // state.listStockItems[payload].factory_item.factory_collection.factory.name = factory;
-    // state.listStockItems[payload].factory_item.factory_collection.name = collection;
-    // state.listStockItems[payload].factory_item.catalogue_number = catalogueNumber;
-    // state.listStockItems[payload].factory_item.items_amount = amount;
-    // state.listStockItems[payload].current_price_ru = price;
   },
 };
 const actions = {
@@ -105,7 +92,7 @@ const actions = {
     context.commit('SET_CURRENT_STOCK_ITEM', emptyStockItem);
   },
   SET_CURRENT_STOCK_ITEM_BY_INDEX: (context, index) => {
-    context.commit('SET_INDEX_FOR_CURRENT_STOCK_ITEM', index);
+    // context.commit('SET_INDEX_FOR_CURRENT_STOCK_ITEM', index);
     if (context.state.listStockItems[index].id === null) {
       const copyCurrentStockItem = _.cloneDeep(context.state.listStockItems[index]);
       context.commit('SET_CURRENT_STOCK_ITEM', copyCurrentStockItem);

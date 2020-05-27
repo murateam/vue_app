@@ -238,7 +238,7 @@ export default {
   },
   created() {
     this.$store.dispatch('RESET_CLIENT_ORDER');
-    // this.$store.dispatch('GET_CURRENT_RATE');
+    this.$store.dispatch('GET_CURRENT_RATE');
   },
   methods: {
     dateFilter(value) {
@@ -341,17 +341,6 @@ export default {
   },
   watch: {
     listItems() {
-      const clientOrder = this.singleClientOrder;
-      // const currentRate = 0;
-      // function refrashCurrentRate(clientOrder) {
-      // const clientOrder = this.singleClientOrder;
-      if (clientOrder.state === 'published') {
-        this.$store.dispatch('GET_SAVED_RATE', clientOrder.eur_rate);
-      } else {
-        this.$store.dispatch('GET_CURRENT_RATE');
-      }
-      // }
-      // console.log(refrashCurrentRate(this.singleClientOrder));
       this.$store.dispatch('CALCULATE_PRICE_FOR_CLIENT_ORDER');
       // console.log(newCount, oldCount);
     },

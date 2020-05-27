@@ -65,13 +65,18 @@ const mutations = {
 };
 const actions = {
   CALCULATE_PRICE_FOR_CLIENT_ORDER: async (context) => {
+    const clientOrder = await context.getters.GET_SINGLE_CLIENT_ORDER;
+    console.log(clientOrder.eur_rate);
+    // if (clientOrder.eur_rate !== context.GET_EUR_RATE.current_rate) {
+    //   context.dispatch('GET_SAVED_RATE');
+    // }
     const array1 = context.getters.GET_LIST_STOCK_ITEMS;
     const array2 = array1.map((item) => item.current_price_ru * item.items_amount);
     const inValue = 0;
     const sum = array2.reduce(
       (accum, item) => accum + item, inValue,
     );
-    context.commit('SET_PRICE_FOR_CLIENT_ORDER', sum);
+    context.commit('SET_PRICE_FOR_CLIENT_ORDER', sum * context.getters.GET_EUR_RATE.current_rate);
   },
   GET_CURRENT_EUR_RATE: (context) => {
     console.log(context);
@@ -82,6 +87,12 @@ const actions = {
   },
   GET_SINGLE_CLIENT_ORDER: async (context, id) => {
     const { data } = await axios.get(singleClientOrderURL + id);
+    // console.log(data);
+    // if (data.state === 'published') {
+    //   context.dispatch('GET_SAVED_RATE', data.eur_rate);
+    // } else {
+    //   context.dispatch('GET_CURRENT_RATE');
+    // }
     context.commit('SET_SINGLE_CLIENT_ORDER', data);
     context.dispatch('GET_SINGLE_CLIENT', data.client);
   },
