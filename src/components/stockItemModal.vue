@@ -121,7 +121,7 @@ export default {
     saveItem() {
       this.hide();
       this.$store.dispatch('CHANGE_STOCK_ITEM');
-      this.$store.dispatch('CALCULATE_PRICE_FOR_CLIENT_ORDER');
+      // this.$store.dispatch('CALCULATE_PRICE_FOR_CLIENT_ORDER');
     },
     cencel() {
       this.hide();

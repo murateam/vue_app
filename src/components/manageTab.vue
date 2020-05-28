@@ -137,8 +137,9 @@ export default {
     editClientOrder() {
       this.$store.dispatch('SET_CAN_CHANGE_CLIENT', false);
       if (this.selected.length > 0) {
-        this.$store.dispatch('GET_SINGLE_CLIENT_ORDER', this.selected[0].id);
-        this.$store.dispatch('GET_LIST_STOCK_ITEMS_CLIENT_ORDER', this.selected[0].id);
+        this.$store.dispatch('CALCULATE_PRICE_FOR_CLIENT_ORDER', this.selected);
+        // this.$store.dispatch('GET_SINGLE_CLIENT_ORDER', this.selected[0].id);
+        // this.$store.dispatch('GET_LIST_STOCK_ITEMS_CLIENT_ORDER', this.selected[0].id);
         // this.$store.dispatch('CALCULATE_PRICE_OF_CLIENT_ORDER');
         // this.$refs['single-client-order-modal'].show();
         this.$router.push('./singleClientOrder');

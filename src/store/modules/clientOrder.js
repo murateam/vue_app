@@ -28,12 +28,14 @@ const state = {
   listClientOrders: [],
   singleClientOrder: {},
   canChangeClient: true,
+  designerForModal: {},
 };
 const getters = {
   GET_EMPTY_CLIENT_ORDER: (state) => state.emptyClientOrder,
   GET_LIST_CLIENT_ORDERS: (state) => state.listClientOrders,
   GET_SINGLE_CLIENT_ORDER: (state) => state.singleClientOrder,
   GET_CAN_CHANGE_CLIENT: (state) => state.canChangeClient,
+  GET_DESIGNER_FOR_MODAL: (state) => state.designerForModal,
   /* eslint no-shadow: ["error", { "allow": ["state"] }] */
 };
 const mutations = {
@@ -62,15 +64,22 @@ const mutations = {
   RESET_CLIENT_ORDER: (state, payload) => {
     state.singleClientOrder = payload;
   },
+  SET_DESIGNER_FOR_MODAL: (state, payload) => {
+    state.designerForModal = payload;
+  },
+  CHANGE_DESIGNER_IN_CLIENT_ORDER: (state, payload) => {
+    state.singleClientOrder.designer = payload.designer;
+    state.singleClientOrder.d_percent = payload.d_percent;
+  },
 };
 const actions = {
-  CALCULATE_PRICE_FOR_CLIENT_ORDER: async (context) => {
+  CALCULATE_PRICE_FOR_CLIENT_ORDER: async (context, idxClientOrder) => {
+    await context.dispatch('GET_SINGLE_CLIENT_ORDER', idxClientOrder[0].id);
     const clientOrder = context.getters.GET_SINGLE_CLIENT_ORDER;
-    console.log(clientOrder.d_percent);
-    console.log(context.getters.GET_CURRENT_EUR_RATE);
     // if (clientOrder.eur_rate !== context.GET_EUR_RATE.current_rate) {
     //   await context.dispatch('GET_SAVED_RATE');
     // }
+    await context.dispatch('GET_LIST_STOCK_ITEMS_CLIENT_ORDER', idxClientOrder[0].id);
     const StockItems = context.getters.GET_LIST_STOCK_ITEMS;
     const listPriceAndAmount = StockItems.map((item) => item.current_price_ru * item.items_amount);
     const inValue = 0;
@@ -79,12 +88,6 @@ const actions = {
     );
     sum = sum * context.getters.GET_EUR_RATE.current_rate + clientOrder.d_percent;
     await context.commit('SET_PRICE_FOR_CLIENT_ORDER', sum);
-  },
-  CALCULATE_PRICE_SYNC: async (context) => {
-    console.log(context);
-  },
-  GET_CURRENT_EUR_RATE: (context) => {
-    console.log(context);
   },
   GET_LIST_CLIENT_ORDERS: async (context) => {
     const { data } = await axios.get(clientOrdersListURL);
@@ -100,6 +103,26 @@ const actions = {
     // }
     await context.commit('SET_SINGLE_CLIENT_ORDER', data);
     await context.dispatch('GET_SINGLE_CLIENT', data.client);
+  },
+  SET_DESIGNER_FOR_MODAL: (context) => {
+    const copyCurrentClientOrder = _.cloneDeep(context.getters.GET_SINGLE_CLIENT_ORDER);
+    context.commit('SET_DESIGNER_FOR_MODAL', copyCurrentClientOrder);
+  },
+  SET_DESIGNER_WITH_CALC_PRICE: async (context) => {
+    await context.dispatch('CHANGE_DESIGNER_IN_CLIENT_ORDER');
+    const clientOrder = context.getters.GET_SINGLE_CLIENT_ORDER;
+    const StockItems = context.getters.GET_LIST_STOCK_ITEMS;
+    const listPriceAndAmount = StockItems.map((item) => item.current_price_ru * item.items_amount);
+    const inValue = 0;
+    let sum = listPriceAndAmount.reduce(
+      (accum, item) => accum + item, inValue,
+    );
+    sum = sum * context.getters.GET_EUR_RATE.current_rate + clientOrder.d_percent;
+    await context.commit('SET_PRICE_FOR_CLIENT_ORDER', sum);
+  },
+  CHANGE_DESIGNER_IN_CLIENT_ORDER: async (context) => {
+    const newDesigner = context.getters.GET_DESIGNER_FOR_MODAL;
+    await context.commit('CHANGE_DESIGNER_IN_CLIENT_ORDER', newDesigner);
   },
   SAVE_CLIENT_ORDER: async (context, requestData) => {
     if (requestData.id) {

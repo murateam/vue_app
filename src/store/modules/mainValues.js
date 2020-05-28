@@ -18,13 +18,11 @@ const mutations = {
 const actions = {
   GET_CURRENT_RATE: (context) => {
     axios.get(currentRateURL).then((response) => {
-      console.log(response.data);
       context.commit('SET_EUR_RATE', response.data);
     });
   },
   GET_SAVED_RATE: (context, id) => {
     axios.get(savedRateURL + id).then((response) => {
-      console.log(response.data);
       context.commit('SET_EUR_RATE', response.data);
     });
   },

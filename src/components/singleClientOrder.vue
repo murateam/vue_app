@@ -136,7 +136,7 @@
                 </b-col>
                 <b-col align-self="start">
                   <b-card>
-                    <b-row><b-col><b-button>Дизайнер</b-button></b-col></b-row>
+                    <b-row><b-col><b-button @click="setDesigner">Дизайнер</b-button></b-col></b-row>
                     <!-- <b-row><b-col><h6>Дизайнер</h6></b-col></b-row> -->
                     <b-row class="mt-3">
                       <b-col>
@@ -221,6 +221,7 @@
                 <b-row class="mt-4">
                   <stock-item-modal ref="stock-item-modal"></stock-item-modal>
                   <stock-table> </stock-table>
+                  <designer-modal ref="designer-modal"></designer-modal>
                 </b-row>
             </b-container>
   </div>
@@ -231,12 +232,14 @@ import moment from 'moment';
 import clientModal from './clientModal.vue';
 import stockTable from './stockTable.vue';
 import stockItemModal from './stockItemModal.vue';
+import designerModal from './designerModal.vue';
 
 export default {
   components: {
     clientModal,
     stockTable,
     stockItemModal,
+    designerModal,
   },
   data() {
     return {
@@ -316,6 +319,10 @@ export default {
       this.$store.dispatch('SET_EMPTY_STOCK_ITEM');
       this.$store.dispatch('SET_IS_NEW_STOCK_ITEM', true);
     },
+    setDesigner() {
+      this.$refs['designer-modal'].show();
+      this.$store.dispatch('SET_DESIGNER_FOR_MODAL');
+    },
   },
   computed: {
     author() {
@@ -347,10 +354,10 @@ export default {
     },
   },
   watch: {
-    listItems(newCount) {
-    //   this.$store.dispatch('CALCULATE_PRICE_FOR_CLIENT_ORDER');
-      console.log(newCount);
-    },
+    // listItems(newCount) {
+    // //   this.$store.dispatch('CALCULATE_PRICE_FOR_CLIENT_ORDER');
+    //   console.log(newCount);
+    // },
   },
 };
 </script>
