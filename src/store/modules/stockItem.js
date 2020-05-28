@@ -91,7 +91,7 @@ const actions = {
     const emptyStockItem = _.cloneDeep(context.getters.GET_EMPTY_STOCK_ITEM);
     context.commit('SET_CURRENT_STOCK_ITEM', emptyStockItem);
   },
-  SET_CURRENT_STOCK_ITEM_BY_INDEX: (context, index) => {
+  SET_CURRENT_STOCK_ITEM_BY_INDEX: async (context, index) => {
     // context.commit('SET_INDEX_FOR_CURRENT_STOCK_ITEM', index);
     if (context.state.listStockItems[index].id === null) {
       const copyCurrentStockItem = _.cloneDeep(context.state.listStockItems[index]);
@@ -112,7 +112,7 @@ const actions = {
           },
         },
       };
-      context.commit('SET_CURRENT_STOCK_ITEM', tmpItem);
+      await context.commit('SET_CURRENT_STOCK_ITEM', tmpItem);
     }
   },
   ADD_ITEM_TO_LIST_STOCK_ITEMS: (context) => {

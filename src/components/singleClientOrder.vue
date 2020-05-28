@@ -134,28 +134,36 @@
                   </template>
                   </b-card>
                 </b-col>
-                <b-col align-self="center">
+                <b-col align-self="start">
                   <b-card>
-                    <b-row><b-col><h6>Дизайнер</h6></b-col></b-row>
+                    <b-row><b-col><b-button>Дизайнер</b-button></b-col></b-row>
+                    <!-- <b-row><b-col><h6>Дизайнер</h6></b-col></b-row> -->
                     <b-row class="mt-3">
                       <b-col>
-                        <b-form-input
+                        <b-card>
+                        <h6>{{singleClientOrder.designer}}</h6>
+                        </b-card>
+                        <!-- <b-form-input
                             type="text"
                             placeholder="Имя"
                             v-model=singleClientOrder.designer
                         >
-                        </b-form-input>
+                        </b-form-input> -->
                       </b-col>
                     </b-row>
                     <b-row class="mt-2">
                       <b-col>
-                        <b-form-input
+                        <b-card>
+                        <h6>{{singleClientOrder.d_percent}}</h6>
+                        </b-card>
+                        <!-- <b-form-input
                             placeholder="Вознаграждение"
                             type=number
                             v-model=singleClientOrder.d_percent
-                        ></b-form-input>
+                        ></b-form-input> -->
                       </b-col>
                     </b-row>
+                  </b-card>
                     <b-row align-h="between" class="mt-4">
                           <b-col cols="6">Общая стоимость:</b-col>
                           <b-col cols="6">
@@ -169,7 +177,6 @@
                               {{singleClientOrder.total_payment}}</div>
                           </b-col>
                     </b-row>
-                  </b-card>
                 </b-col>
               </b-row>
                 <b-form-group
@@ -340,9 +347,9 @@ export default {
     },
   },
   watch: {
-    listItems() {
-      this.$store.dispatch('CALCULATE_PRICE_FOR_CLIENT_ORDER');
-      // console.log(newCount, oldCount);
+    listItems(newCount) {
+    //   this.$store.dispatch('CALCULATE_PRICE_FOR_CLIENT_ORDER');
+      console.log(newCount);
     },
   },
 };
