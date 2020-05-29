@@ -24,7 +24,7 @@
               <b-col cols="11">
                 <b-form-group
                     id="form-designer-group"
-                    label="Вознаграждение"
+                    label="Вознаграждение (RUB)"
                     label-for="form-designer-input"
                 >
                   <b-input placeholder="Вознаграждение"

@@ -12,16 +12,16 @@
               </b-row>
               <b-row align-h="center" class="mt-4">
                 <b-col cols="5">
-                  <!-- <h3 v-if="singleClientOrder.public_num">
+                  <h3 v-if="singleClientOrder.public_num">
                     Заказ № {{singleClientOrder.public_num}}</h3>
-                  <h3 v-else>Новый заказ</h3> -->
+                  <h3 v-else>Новый заказ</h3>
                 </b-col>
               </b-row>
-              <!-- <b-row align-h="end" v-if="singleClientOrder.created">
+              <b-row align-h="end" v-if="singleClientOrder.created">
                 <b-col cols="4">
                   <p>Создан: {{dateFilter(singleClientOrder.created)}}</p>
                 </b-col>
-              </b-row> -->
+              </b-row>
               <b-row>
                 <b-col cols="8">
                   <b-card>
@@ -138,24 +138,16 @@
                   <b-card>
                     <b-row><b-col><b-button @click="setDesigner">Дизайнер</b-button></b-col></b-row>
                     <!-- <b-row><b-col><h6>Дизайнер</h6></b-col></b-row> -->
-                    <b-row class="mt-3">
-                      <b-col>
-                        <b-card>
-                        <h6>{{singleClientOrder.designer}}</h6>
-                        </b-card>
-                        <!-- <b-form-input
-                            type="text"
-                            placeholder="Имя"
-                            v-model=singleClientOrder.designer
-                        >
-                        </b-form-input> -->
+                    <b-row class="mt-3" align-h="end">
+                      <b-col cols="3">Имя:</b-col>
+                      <b-col cols="7">
+                        <h5>{{singleClientOrder.designer}}</h5>
                       </b-col>
                     </b-row>
                     <b-row class="mt-2">
+                      <b-col cols="7">Вознаграждение:</b-col>
                       <b-col>
-                        <b-card>
-                        <h6>{{singleClientOrder.d_percent}}</h6>
-                        </b-card>
+                        <h6>{{singleClientOrder.d_percent}} RUB</h6>
                         <!-- <b-form-input
                             placeholder="Вознаграждение"
                             type=number
@@ -164,19 +156,30 @@
                       </b-col>
                     </b-row>
                   </b-card>
+                  <b-card class="mt-3">
+                    <b-row>
+                      <b-col>Курс:</b-col>
+                      <b-col cols="6">
+                        <div class="bg-secondary text-light">
+                          {{eurRate.current_rate}} RUB/EUR</div>
+                      </b-col>
+                    </b-row>
                     <b-row align-h="between" class="mt-4">
                           <b-col cols="6">Общая стоимость:</b-col>
                           <b-col cols="6">
-                            <div class="bg-secondary text-light">{{singleClientOrder.price}}</div>
+                            <div class="bg-secondary text-light">
+                              {{singleClientOrder.price}} RUB
+                            </div>
                           </b-col>
                     </b-row>
                     <b-row align-h="between" class="mt-4">
                           <b-col cols="6">Оплачено:</b-col>
                           <b-col cols="6">
                             <div class="bg-secondary text-light">
-                              {{singleClientOrder.total_payment}}</div>
+                              {{singleClientOrder.total_payment}} RUB</div>
                           </b-col>
                     </b-row>
+                  </b-card>
                 </b-col>
               </b-row>
                 <b-form-group
@@ -193,7 +196,7 @@
                         ></b-form-input>
                 </b-form-group>
                 <b-row align-h="end" class="mt-3">
-                  <b-col cols="1">
+                  <b-col cols="2">
                     <b-button
                     @click="cancelSaveClientOrder"
                     variant="danger">Отмена</b-button>
@@ -354,10 +357,9 @@ export default {
     },
   },
   watch: {
-    // listItems(newCount) {
-    // //   this.$store.dispatch('CALCULATE_PRICE_FOR_CLIENT_ORDER');
-    //   console.log(newCount);
-    // },
+    listItems() {
+      this.$store.dispatch('CHANGE_STOCK_ITEMS_WITH_CALC_PRICE');
+    },
   },
 };
 </script>

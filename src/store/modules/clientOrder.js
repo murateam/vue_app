@@ -95,12 +95,11 @@ const actions = {
   },
   GET_SINGLE_CLIENT_ORDER: async (context, id) => {
     const { data } = await axios.get(singleClientOrderURL + id);
-    // console.log(data);
-    // if (data.state === 'published') {
-    //   context.dispatch('GET_SAVED_RATE', data.eur_rate);
-    // } else {
-    //   context.dispatch('GET_CURRENT_RATE');
-    // }
+    if (data.state === 'published') {
+      await context.dispatch('GET_SAVED_RATE', data.eur_rate);
+    } else {
+      await context.dispatch('GET_CURRENT_RATE');
+    }
     await context.commit('SET_SINGLE_CLIENT_ORDER', data);
     await context.dispatch('GET_SINGLE_CLIENT', data.client);
   },
@@ -110,6 +109,17 @@ const actions = {
   },
   SET_DESIGNER_WITH_CALC_PRICE: async (context) => {
     await context.dispatch('CHANGE_DESIGNER_IN_CLIENT_ORDER');
+    const clientOrder = context.getters.GET_SINGLE_CLIENT_ORDER;
+    const StockItems = context.getters.GET_LIST_STOCK_ITEMS;
+    const listPriceAndAmount = StockItems.map((item) => item.current_price_ru * item.items_amount);
+    const inValue = 0;
+    let sum = listPriceAndAmount.reduce(
+      (accum, item) => accum + item, inValue,
+    );
+    sum = sum * context.getters.GET_EUR_RATE.current_rate + clientOrder.d_percent;
+    await context.commit('SET_PRICE_FOR_CLIENT_ORDER', sum);
+  },
+  CHANGE_STOCK_ITEMS_WITH_CALC_PRICE: async (context) => {
     const clientOrder = context.getters.GET_SINGLE_CLIENT_ORDER;
     const StockItems = context.getters.GET_LIST_STOCK_ITEMS;
     const listPriceAndAmount = StockItems.map((item) => item.current_price_ru * item.items_amount);

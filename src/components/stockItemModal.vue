@@ -14,7 +14,7 @@
             {{ isNewStockItem }}
           <b-row>
             <b-col>
-              <label for="input-factory"></label>
+              <label for="input-factory">Фабрика</label>
               <b-input id="input-factory"
               v-model="currentStockItem.factory_item.factory_collection.factory.name"
               placeholder="Фабрика"></b-input>
@@ -23,13 +23,13 @@
               placeholder="Фабрика"></b-input> -->
             </b-col>
             <b-col>
-              <label for="input-collection"></label>
+              <label for="input-collection">Коллекция</label>
               <b-input id="input-collection"
               v-model="currentStockItem.factory_item.factory_collection.name"
               placeholder="Коллекция"></b-input>
             </b-col>
             <b-col>
-              <label for="input-catalog-num"></label>
+              <label for="input-catalog-num">Номер каталога</label>
               <b-input id="input-catalog-num"
               v-model="currentStockItem.factory_item.catalogue_number"
               placeholder="Номер каталога"></b-input>
@@ -39,7 +39,7 @@
             <b-col cols="3">
                 <b-form-group
                     id="form-passport-group"
-                    label="Колличество"
+                    label="Колличество (ед.)"
                     label-for="form-passport-input"
                 >
                     <b-row align-h="around">
@@ -54,7 +54,7 @@
             <b-col cols="3">
                 <b-form-group
                     id="form-passport-group"
-                    label="Цена"
+                    label="Цена (EUR)"
                     label-for="form-passport-input"
                 >
                     <b-row align-h="around">
@@ -117,11 +117,12 @@ export default {
     },
     addItem() {
       this.$store.dispatch('ADD_ITEM_TO_LIST_STOCK_ITEMS');
+      this.hide();
     },
     saveItem() {
-      this.hide();
       this.$store.dispatch('CHANGE_STOCK_ITEM');
       // this.$store.dispatch('CALCULATE_PRICE_FOR_CLIENT_ORDER');
+      this.hide();
     },
     cencel() {
       this.hide();
