@@ -96,7 +96,7 @@ const actions = {
     if (context.state.listStockItems[index].id === null) {
       const copyCurrentStockItem = _.cloneDeep(context.state.listStockItems[index]);
       context.commit('SET_CURRENT_STOCK_ITEM', copyCurrentStockItem);
-    } else if (context.state.listStockItems[index].is_correct) {
+    } else if (context.state.listStockItems[index].incorrect_factory.length === 0) {
       const copyCurrentStockItem = _.cloneDeep(context.state.listStockItems[index]);
       context.commit('SET_CURRENT_STOCK_ITEM', copyCurrentStockItem);
     } else {
@@ -112,6 +112,7 @@ const actions = {
           },
         },
       };
+      tmpItem.incorrect_factory = '';
       await context.commit('SET_CURRENT_STOCK_ITEM', tmpItem);
     }
   },
@@ -142,7 +143,7 @@ const actions = {
   CHANGE_STOCK_ITEM: (context) => {
     context.commit('CHANGE_STOCK_ITEM_IN_LIST');
   },
-  SAVE_STOCK_ITEM_FROM_CLIENT_ORDER: (context, clientOrder) => {
+  SAVE_STOCK_ITEM_FROM_CLIENT_ORDER: async (context, clientOrder) => {
     const listItems = context.getters.GET_LIST_STOCK_ITEMS;
     const listDelete = context.getters.GET_LIST_DELETE_STOCK_ITEMS;
     const requestData = [];
@@ -152,8 +153,13 @@ const actions = {
     // itemList.forEach((element) => {
     //   console.log(element);
     // });
-    axios.post(SaveStockItemsFromClientOrderURL, requestData).then(() => {
-      // context.commit('SET_LIST_STOCK_ITEMS', response.data);
+    await axios.post(SaveStockItemsFromClientOrderURL, requestData).then((response) => {
+      if (response.status === 200) {
+        context.commit('SET_COUNT_FOR_SUCCESS_OF_CLIENT_ORDER', 3);
+      } else {
+        alert('Что то пошло не так, договор не сохранен');
+      }
+      context.commit('SET_LIST_STOCK_ITEMS', response.data);
     });
   },
 };

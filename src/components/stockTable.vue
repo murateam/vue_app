@@ -26,10 +26,10 @@
           {{ data.item.client_order.public_num }}
         </template>
         <template v-slot:cell(factory)="data">
-          <template v-if="data.item.client_order.id === null">
+          <!-- <template v-if="data.item.client_order.id === null">
             {{ data.item.factory_item.factory_collection.factory.name }}
-          </template>
-          <template v-if="data.item.is_correct">
+          </template> -->
+          <template v-if="data.item.incorrect_factory.length == 0">
             {{ data.item.factory_item.factory_collection.factory.name }}
           </template>
           <template v-else>
@@ -37,10 +37,10 @@
           </template>
         </template>
         <template v-slot:cell(collection)="data">
-          <template v-if="data.item.client_order.id === null">
+          <!-- <template v-if="data.item.client_order.id === null">
             {{ data.item.factory_item.factory_collection.name }}
-          </template>
-          <template v-if="data.item.is_correct">
+          </template> -->
+          <template v-if="data.item.incorrect_factory.length == 0">
             {{ data.item.factory_item.factory_collection.name }}
           </template>
           <template v-else>
@@ -48,10 +48,10 @@
           </template>
         </template>
         <template v-slot:cell(catalogue_num)="data">
-          <template v-if="data.item.client_order.id === null">
+          <!-- <template v-if="data.item.client_order.id === null">
             {{ data.item.factory_item.catalogue_number }}
-          </template>
-          <template v-if="data.item.is_correct">
+          </template> -->
+          <template v-if="data.item.incorrect_factory.length == 0">
             {{ data.item.factory_item.catalogue_number }}
           </template>
           <template v-else>

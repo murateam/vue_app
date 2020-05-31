@@ -1,9 +1,6 @@
 <template>
   <b-container>
     <client-modal ref="client-modal"></client-modal>
-    <single-client-order-modal
-      ref="single-client-order-modal"
-    ></single-client-order-modal>
     <b-row align-h="start" class="mt-3">
       <b-col cols="2">
         <router-link
@@ -25,8 +22,7 @@
             class="btn btn-success btn-sm align=left d-block">Добавить заказчика</button>
         </b-button-group>
 
-        <div>{{ singleClientOrder }}</div>
-        <!-- <div>{{ selected }}</div> -->
+        <alert-messages ref="alert-message"></alert-messages>
 
         <b-table
           class="mt-3"
@@ -51,17 +47,18 @@
 
 <script>
 import moment from 'moment';
+import alertMessages from './alertMessages.vue';
 import clientModal from './clientModal.vue';
-import singleClientOrderModal from './singleClientOrderModal.vue';
 
 export default {
   name: 'manageTab',
   components: {
+    alertMessages,
     clientModal,
-    singleClientOrderModal,
   },
   data() {
     return {
+      showMod: true,
       selected: [],
       fields: [
         {

@@ -136,8 +136,14 @@
                 </b-col>
                 <b-col align-self="start">
                   <b-card>
-                    <b-row><b-col><b-button @click="setDesigner">Дизайнер</b-button></b-col></b-row>
-                    <!-- <b-row><b-col><h6>Дизайнер</h6></b-col></b-row> -->
+                    <b-row>
+                      <b-col>
+                        <b-button
+                        v-if="singleClientOrder.state == 'draft'"
+                        @click="setDesigner">Дизайнер</b-button>
+                        <h5 v-else>Дизайнер</h5>
+                      </b-col>
+                    </b-row>
                     <b-row class="mt-3" align-h="end">
                       <b-col cols="3">Имя:</b-col>
                       <b-col cols="7">
@@ -207,8 +213,8 @@
                     variant="primary">Сохранить</b-button>
                   </b-col>
                 </b-row>
-                {{ eurRate }}
-                {{ singleClientOrder }}
+                <!-- {{ eurRate }} -->
+                <!-- {{ singleClientOrder }} -->
                 <!-- {{ listItems }} -->
                 <!-- {{listDelete}} -->
                 <b-row align-h="center" class="mt-3">
@@ -217,6 +223,7 @@
                 <b-row align-h="start">
                   <b-col cols="3">
                     <b-button
+                    v-if="singleClientOrder.state == 'draft'"
                     @click="addStockItem"
                     >Добавить позицию</b-button>
                   </b-col>
@@ -283,6 +290,7 @@ export default {
           comment: this.singleClientOrder.comment,
         };
         this.$store.dispatch('SAVE_CLIENT_ORDER', requestData);
+        this.$router.push('./manageTab');
       } else {
         const requestData = {
           id: this.singleClientOrder.id,
@@ -294,6 +302,7 @@ export default {
           comment: this.singleClientOrder.comment,
         };
         this.$store.dispatch('SAVE_CLIENT_ORDER', requestData);
+        this.$router.push('./manageTab');
       }
       // this.hide();
     },
