@@ -10,6 +10,7 @@
                   to="manageTab">Назад</router-link>
                 </b-col>
               </b-row>
+              {{ singleClientOrder }}
               <b-row align-h="center" class="mt-4">
                 <b-col cols="5">
                   <h3 v-if="singleClientOrder.public_num">

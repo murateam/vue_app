@@ -10,7 +10,7 @@ const state = {
   emptyClientOrder: {
     id: null,
     public_num: '',
-    state: '',
+    state: 'draft',
     status: '',
     payment_status: '',
     author: '',
