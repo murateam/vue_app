@@ -22,7 +22,7 @@ const actions = {
   SET_AUTHOR: async (context, role) => {
     const roles = context.getters.GET_ROLE;
     const author = roles[role];
-    console.log(author);
+    // console.log(author);
     await context.commit('SET_AUTHOR', author);
   },
 };

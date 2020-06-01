@@ -36,6 +36,7 @@
                       <b-row v-if="singleClientOrder.state == 'draft'" align-h="end" class="mt-2">
                         <b-col cols="4">
                           <b-button
+                            v-if="author == 2"
                             aria-controls="collapseChoiceOtherClient"
                             @click="changeVisibleChoiceOtherClient"
                           >Сменить заказчика</b-button>
@@ -126,6 +127,7 @@
                         <b-row class="mt-2" align-h="end">
                           <b-col cols="4">
                             <b-button
+                            v-if="author == 2"
                             @click="editClient"
                             >Редактировать</b-button>
                           </b-col>
@@ -138,12 +140,13 @@
                 <b-col align-self="start">
                   <b-card>
                     <b-row>
-                      <b-col>
+                      <b-col v-if="author == 2">
                         <b-button
                         v-if="singleClientOrder.state == 'draft'"
                         @click="setDesigner">Дизайнер</b-button>
                         <h5 v-else>Дизайнер</h5>
                       </b-col>
+                      <b-col v-else><h5>Дизайнер</h5></b-col>
                     </b-row>
                     <b-row class="mt-3" align-h="end">
                       <b-col cols="3">Имя:</b-col>
@@ -196,11 +199,13 @@
                     class="mt-5"
                 >
                     <b-form-input
-                        id="form-description-input"
-                        type="text"
-                        placeholder="Коментарий к заказа"
-                        v-model=singleClientOrder.comment
-                        ></b-form-input>
+                      v-if="author == 2"
+                      id="form-description-input"
+                      type="text"
+                      placeholder="Коментарий к заказа"
+                      v-model=singleClientOrder.comment
+                      ></b-form-input>
+                    <div v-else><h5>{{ singleClientOrder.comment }}</h5></div>
                 </b-form-group>
                 <b-row align-h="end" class="mt-3">
                   <b-col cols="2">
@@ -218,22 +223,24 @@
                 <!-- {{ singleClientOrder }} -->
                 <!-- {{ listItems }} -->
                 <!-- {{listDelete}} -->
-                <b-row align-h="center" class="mt-3">
-                  <b-col cols="4"><h4>Позиции:</h4></b-col>
-                </b-row>
-                <b-row align-h="start">
-                  <b-col cols="3">
-                    <b-button
-                    v-if="singleClientOrder.state == 'draft'"
-                    @click="addStockItem"
-                    >Добавить позицию</b-button>
-                  </b-col>
-                </b-row>
-                <b-row class="mt-4">
-                  <stock-item-modal ref="stock-item-modal"></stock-item-modal>
-                  <stock-table> </stock-table>
-                  <designer-modal ref="designer-modal"></designer-modal>
-                </b-row>
+                <div v-if="author == 2">
+                  <b-row align-h="center" class="mt-3">
+                    <b-col cols="4"><h4>Позиции:</h4></b-col>
+                  </b-row>
+                  <b-row align-h="start">
+                    <b-col cols="3">
+                      <b-button
+                      v-if="singleClientOrder.state == 'draft'"
+                      @click="addStockItem"
+                      >Добавить позицию</b-button>
+                    </b-col>
+                  </b-row>
+                  <b-row class="mt-4">
+                    <stock-item-modal ref="stock-item-modal"></stock-item-modal>
+                    <stock-table> </stock-table>
+                    <designer-modal ref="designer-modal"></designer-modal>
+                  </b-row>
+                </div>
             </b-container>
   </div>
 </template>
@@ -286,6 +293,7 @@ export default {
         const requestData = {
           author: this.author,
           client: this.singleClient.id,
+          price: this.singleClientOrder.price,
           designer: this.singleClientOrder.designer,
           d_percent: this.singleClientOrder.d_percent,
           comment: this.singleClientOrder.comment,
@@ -298,6 +306,7 @@ export default {
           public_num: this.singleClientOrder.public_num,
           author: this.author,
           client: this.singleClient.id,
+          price: this.singleClientOrder.price,
           designer: this.singleClientOrder.designer,
           d_percent: this.singleClientOrder.d_percent,
           comment: this.singleClientOrder.comment,

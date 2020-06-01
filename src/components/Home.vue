@@ -3,12 +3,15 @@
         <h3 class="mt-3">Главная страница</h3>
         <b-row align-h="start" class="mt-3">
             <b-col cols="3">
-                <router-link
+              <b-button variant="success"
+              @click="manageTab"
+              >Клиентские договоры</b-button>
+                <!-- <router-link
                 class="btn btn-success"
-                to="manageTab">Менеджер</router-link>
+                to="manageTab">Менеджер</router-link> -->
             </b-col>
             <b-col cols="3">
-              <b-button @click="accountantTab">Оплата</b-button>
+              <b-button @click="accountantTab">Оплата по договору</b-button>
             </b-col>
             <b-col cols="3">
                 <b-button
@@ -22,12 +25,17 @@
 export default {
   name: 'Home',
   methods: {
+    async manageTab() {
+      await this.$store.dispatch('SET_AUTHOR', 'seller');
+      this.$router.push('/manageTab');
+    },
     listStockAll() {
       this.$store.dispatch('GET_ALL_STOCK_ITEMS');
       this.$router.push('/stockList');
     },
-    accountantTab() {
-      // this.$store.dispatch('SET_AUTHOR', 'seller');
+    async accountantTab() {
+      await this.$store.dispatch('SET_AUTHOR', 'accountant');
+      this.$router.push('/manageTab');
     },
   },
   mounted() {

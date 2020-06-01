@@ -13,16 +13,16 @@
                 >
                     Договор успешно сохранен!
                 </b-alert>
-                <!-- <b-alert
+                <b-alert
                     class="position-fixed fixed-top m-0 rounded-0"
-                    :show="alertMessCountDown"
+                    :show="unSuccessMessCountDown"
                     dismissible
                     variant="danger"
                     @dismissed="clientOrderCountDown=0"
                     @dismiss-count-down="clientOrderDownChanged"
                 >
                     Ошибка! Договор не сохранен!
-                </b-alert> -->
+                </b-alert>
             </b-col>
         </b-row>
     </b-container>
@@ -49,6 +49,9 @@ export default {
   computed: {
     successMessCountDown() {
       return this.$store.getters.GET_SUCCESS_MESSAGE_COUNT_DOWN;
+    },
+    unSuccessMessCountDown() {
+      return this.$store.getters.GET_UNSUCCESS_MESSAGE_COUNT_DOWN;
     },
   },
 };

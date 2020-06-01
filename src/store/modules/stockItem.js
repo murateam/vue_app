@@ -157,7 +157,7 @@ const actions = {
       if (response.status === 200) {
         context.commit('SET_COUNT_FOR_SUCCESS_OF_CLIENT_ORDER', 3);
       } else {
-        alert('Что то пошло не так, договор не сохранен');
+        context.commit('SET_COUNT_FOR_UNSUCCESS_OF_CLIENT_ORDER', 3);
       }
       context.commit('SET_LIST_STOCK_ITEMS', response.data);
     });

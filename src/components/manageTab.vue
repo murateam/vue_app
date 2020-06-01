@@ -9,18 +9,25 @@
       </b-col>
     </b-row>
       <div class="mt-3">
-        <b-button-group class="">
-          <button
-            @click="newClientOrder"
-            type="button"
-            id="order-add"
-            class="btn btn-secondary btn-sm align=left d-block">Создать заказ</button>
-          <button
-            @click="newClient"
-            type="button"
-            id="clien-add"
-            class="btn btn-success btn-sm align=left d-block">Добавить заказчика</button>
-        </b-button-group>
+        <div v-if="role == 2">
+          <b-button-group class="">
+            <button
+              @click="newClientOrder"
+              type="button"
+              id="order-add"
+              class="btn btn-secondary btn-sm align=left d-block">Создать заказ</button>
+            <button
+              @click="newClient"
+              type="button"
+              id="clien-add"
+              class="btn btn-success btn-sm align=left d-block">Добавить заказчика</button>
+          </b-button-group>
+        </div>
+        <div v-else>
+          <h4>Добавить платежи</h4>
+        </div>
+
+        {{ role }}
 
         <alert-messages ref="alert-message"></alert-messages>
 
@@ -34,6 +41,9 @@
         selectable
         select-mode="single"
         @row-selected="onRowSelected">
+          <!-- <template v-slot:cell(price)="data">
+            {{ data }}
+          </template> -->
           <template v-slot:cell(author)="data">
             {{ data.item.author.username }}
           </template>
@@ -148,6 +158,9 @@ export default {
     this.$store.dispatch('GET_LIST_CLIENT_ORDERS');
   },
   computed: {
+    role() {
+      return this.$store.getters.GET_AUTHOR;
+    },
     singleClient() {
       return this.$store.getters.GET_SINGLE_CLIENT;
     },
