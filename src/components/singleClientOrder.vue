@@ -207,7 +207,7 @@
                       ></b-form-input>
                     <div v-else><h5>{{ singleClientOrder.comment }}</h5></div>
                 </b-form-group>
-                <b-row align-h="end" class="mt-3">
+                <b-row align-h="end" class="mt-3" v-if="author == 2">
                   <b-col cols="2">
                     <b-button
                     @click="cancelSaveClientOrder"
@@ -357,8 +357,9 @@ export default {
       this.$store.dispatch('SET_DESIGNER_FOR_MODAL');
     },
     async addPayment() {
-      console.log('add_payment');
+      // console.log('add_payment');
       // await this.$store.dispatch('RESET_SINGLE_PAYMENT');
+      await this.$store.dispatch('SET_NEW_PAYMENT_FOR_CLIENT_ORDER');
       this.$refs['payment-modal'].show();
     },
   },

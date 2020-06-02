@@ -1,5 +1,6 @@
 /* eslint no-shadow: ["error", { "allow": ["state"] }] */
 // import axios from 'axios';
+import _ from 'lodash';
 
 const state = {
   emptyPayment: {
@@ -21,7 +22,7 @@ const getters = {
   GET_IS_NEW_PAYMENT: (state) => state.isNewPayment,
 };
 const mutations = {
-  RESET_SINGLE_PAYMENT: (state, emptyPayment) => {
+  SET_SINGLE_PAYMENT: (state, emptyPayment) => {
     state.singlePayment = emptyPayment;
   },
   SET_IS_NEW_PAYMENT: (state, bool) => {
@@ -30,8 +31,16 @@ const mutations = {
 };
 const actions = {
   RESET_SINGLE_PAYMENT: async (context) => {
-    const emptyPayment = await context.getters.GET_EMPTY_PAYMENT;
-    await context.commit('RESET_SINGLE_PAYMENT', emptyPayment);
+    const emptyPayment = await _.cloneDeep(context.getters.GET_EMPTY_PAYMENT);
+    await context.commit('SET_SINGLE_PAYMENT', emptyPayment);
+  },
+  SET_NEW_PAYMENT_FOR_CLIENT_ORDER: async (context) => {
+    const emptyPayment = await _.cloneDeep(context.getters.GET_EMPTY_PAYMENT);
+    const currentClientOrder = await context.getters.GET_SINGLE_CLIENT_ORDER;
+    emptyPayment.client_order = currentClientOrder.id;
+    await context.commit('SET_SINGLE_PAYMENT', emptyPayment);
+    // console.log(emptyPayment);
+    // console.log(currentClientOrder);
   },
   SET_IS_NEW_PAYMENT: (context, bool) => {
     context.commit('SET_IS_NEW_PAYMENT', bool);

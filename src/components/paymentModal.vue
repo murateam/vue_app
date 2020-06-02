@@ -6,14 +6,15 @@
     size='lg'>
       <b-form>
         <b-container>
+          {{ singlePayment }}
           <b-row align-h="center">
             <b-form-group
-            label-size="large"
+            label-size="lg"
             label="Платеж"></b-form-group>
           </b-row>
-          <b-row>
-              <b-col>
-                  <h5>К договору: {{ singleClientOrder.public_num }}</h5>
+          <b-row align-h="center">
+              <b-col cols="4">
+                  <h6>По договору: {{ singleClientOrder.public_num }}</h6>
               </b-col>
           </b-row>
           <b-row align-h="end" v-if="singlePayment.id != null">
@@ -21,14 +22,15 @@
                 <h7>Создан: {{ singlePayment.created }}</h7>
               </b-col>
           </b-row>
-          <b-row class="mt-3">
-            <b-col>
+          <b-row class="mt-3" align-h="end">
+            <b-col></b-col>
+            <!-- <b-col>
               <label for="input-client-order">Клиентский договор</label>
               <b-input id="input-client-order"
               v-model="singlePayment.clientOrder"
               placeholder="Клиентский договор"></b-input>
-            </b-col>
-            <b-col>
+            </b-col> -->
+            <b-col cols="3">
               <label for="input-payment-date">Дата платежа</label>
               <b-input id="input-payment-date"
               type="date"
@@ -45,7 +47,7 @@
             </b-col>
           </b-row>
           <b-row align-h="end" class="mt-3">
-            <b-col cols="3">
+            <b-col cols="4">
                 <b-form-group
                     id="form-value-group"
                     label="Платеж (RUB)"
