@@ -241,6 +241,21 @@
                     <designer-modal ref="designer-modal"></designer-modal>
                   </b-row>
                 </div>
+                <div v-if="author == 3">
+                  <b-row align-h="center" class="mt-3">
+                    <b-col cols="4"><h4>Платежи:</h4></b-col>
+                  </b-row>
+                  <b-row align-h="start">
+                    <b-col cols="3">
+                      <b-button
+                      @click="addPayment"
+                      >Добавить платеж</b-button>
+                    </b-col>
+                  </b-row>
+                  <b-row>
+                    <payment-modal ref="payment-modal"></payment-modal>
+                  </b-row>
+                </div>
             </b-container>
   </div>
 </template>
@@ -251,6 +266,7 @@ import clientModal from './clientModal.vue';
 import stockTable from './stockTable.vue';
 import stockItemModal from './stockItemModal.vue';
 import designerModal from './designerModal.vue';
+import paymentModal from './paymentModal.vue';
 
 export default {
   components: {
@@ -258,6 +274,7 @@ export default {
     stockTable,
     stockItemModal,
     designerModal,
+    paymentModal,
   },
   data() {
     return {
@@ -271,12 +288,6 @@ export default {
   methods: {
     dateFilter(value) {
       return moment(String(value)).format('DD/MM/YYYY');
-    },
-    show() {
-      this.$refs['single-client-order-modal'].show();
-    },
-    hide() {
-      this.$refs['single-client-order-modal'].hide();
     },
     checkClient() {
       this.$store.dispatch('RESET_CURRENT_CLIENT');
@@ -344,6 +355,11 @@ export default {
     setDesigner() {
       this.$refs['designer-modal'].show();
       this.$store.dispatch('SET_DESIGNER_FOR_MODAL');
+    },
+    async addPayment() {
+      console.log('add_payment');
+      // await this.$store.dispatch('RESET_SINGLE_PAYMENT');
+      this.$refs['payment-modal'].show();
     },
   },
   computed: {
