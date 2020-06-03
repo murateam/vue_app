@@ -7,7 +7,7 @@ const state = {
     accountant: 3,
     import: 4,
   },
-  author: 1,
+  author: 0,
 };
 const getters = {
   GET_AUTHOR: (state) => state.author,

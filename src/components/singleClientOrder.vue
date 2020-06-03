@@ -43,6 +43,7 @@
                         </b-col>
                       </b-row>
                       <b-collapse
+                        v-if="author == 2"
                         id="collapseChoiceOtherClient"
                         :visible="visibleChoiceOtherClient"
                       >

@@ -125,7 +125,12 @@ export default {
     },
     onRowSelected(items) {
       this.selected = items;
-      this.editClientOrder();
+      // this.editClientOrder();
+      if (this.role === 2) {
+        this.editClientOrder();
+      } else if (this.role === 3) {
+        this.editPayments();
+      }
     },
     newClient() {
       this.$store.dispatch('RESET_CURRENT_CLIENT');
@@ -152,6 +157,13 @@ export default {
         this.$router.push('./singleClientOrder');
       }
       this.$refs.manageTable.clearSelected();
+    },
+    async editPayments() {
+      await this.$store.dispatch('GET_LIST_PAYMENTS_FOR_CLIENT_ORDER', this.selected);
+      if (this.selected.length > 0) {
+        this.$store.dispatch('CALCULATE_PRICE_FOR_CLIENT_ORDER', this.selected);
+        this.$router.push('./singleClientOrder');
+      }
     },
   },
   mounted() {

@@ -3,6 +3,7 @@ import axios from 'axios';
 import _ from 'lodash';
 
 const PaymentsURL = 'http://127.0.0.1:5000/api/payments/';
+const PaymentsForClientOrderURL = 'http://127.0.0.1:5000/api/payments_for_order/';
 
 const state = {
   emptyPayment: {
@@ -30,6 +31,9 @@ const mutations = {
   SET_IS_NEW_PAYMENT: (state, bool) => {
     state.isNewPayment = bool;
   },
+  SET_LIST_PAYMENTS: (state, payload) => {
+    state.listPayments = payload;
+  },
   ADD_PAYMENT_TO_LIST_PAYMENTS: (state, payment) => {
     state.listPayments.push(payment);
   },
@@ -53,15 +57,27 @@ const actions = {
   SAVE_PAYMENT_FROM_CLIENT_ORDER: (context) => {
     console.log(context);
   },
-  SAVE_NEW_PAYMENT: (context) => {
+  SAVE_NEW_PAYMENT: async (context) => {
     const payment = context.getters.GET_SINGLE_PAYMENT;
-    // console.log(payment);
-    axios.post(PaymentsURL, payment).then((response) => {
-      context.commit('ADD_PAYMENT_TO_LIST_PAYMENTS', response.data);
-    });
+    const newPayment = await axios.post(PaymentsURL, payment);
+    await context.commit('ADD_PAYMENT_TO_LIST_PAYMENTS', newPayment.data);
+    await context.dispatch('CALC_AND_SAVE_TOTAL_PAYMENTS');
   },
-  ADD_PAYMENT_TO_CLEINT_ORDER: (context) => {
-    console.log(context);
+  GET_LIST_PAYMENTS_FOR_CLIENT_ORDER: async (context, clientOrder) => {
+    const listPayments = await axios.get(PaymentsForClientOrderURL + clientOrder[0].id);
+    context.commit('SET_LIST_PAYMENTS', listPayments.data);
+  },
+  CALC_AND_SAVE_TOTAL_PAYMENTS: (context) => {
+    const listPayments = context.getters.GET_LIST_PAYMENTS;
+    const singleClientOrder = context.getters.GET_SINGLE_CLIENT_ORDER;
+    // console.log(listPayments);
+    const inValue = 0;
+    const sum = listPayments.reduce(
+      (accum, item) => accum + item.payment_value, inValue,
+    );
+    singleClientOrder.total_payment = sum;
+    // console.log(singleClientOrder);
+    context.dispatch('SAVE_CLIENT_ORDER', singleClientOrder);
   },
 };
 
