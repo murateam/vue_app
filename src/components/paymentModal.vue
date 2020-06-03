@@ -68,7 +68,7 @@
               <b-button variant="danger">Отменить</b-button>
             </b-col>
             <b-col cols="2">
-              <b-button variant="primary">Добавить</b-button>
+              <b-button variant="primary" @click="saveNewPayment">Добавить</b-button>
             </b-col>
             <!-- <b-col cols="2">
               <b-button variant="primary">Сохранить</b-button>
@@ -84,6 +84,9 @@ export default {
   methods: {
     show() {
       this.$refs['payment-modal'].show();
+    },
+    saveNewPayment() {
+      this.$store.dispatch('SAVE_NEW_PAYMENT');
     },
   },
   created() {

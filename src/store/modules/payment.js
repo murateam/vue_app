@@ -1,6 +1,8 @@
 /* eslint no-shadow: ["error", { "allow": ["state"] }] */
-// import axios from 'axios';
+import axios from 'axios';
 import _ from 'lodash';
+
+const PaymentsURL = 'http://127.0.0.1:5000/api/payments/';
 
 const state = {
   emptyPayment: {
@@ -28,6 +30,9 @@ const mutations = {
   SET_IS_NEW_PAYMENT: (state, bool) => {
     state.isNewPayment = bool;
   },
+  ADD_PAYMENT_TO_LIST_PAYMENTS: (state, payment) => {
+    state.listPayments.push(payment);
+  },
 };
 const actions = {
   RESET_SINGLE_PAYMENT: async (context) => {
@@ -44,6 +49,19 @@ const actions = {
   },
   SET_IS_NEW_PAYMENT: (context, bool) => {
     context.commit('SET_IS_NEW_PAYMENT', bool);
+  },
+  SAVE_PAYMENT_FROM_CLIENT_ORDER: (context) => {
+    console.log(context);
+  },
+  SAVE_NEW_PAYMENT: (context) => {
+    const payment = context.getters.GET_SINGLE_PAYMENT;
+    // console.log(payment);
+    axios.post(PaymentsURL, payment).then((response) => {
+      context.commit('ADD_PAYMENT_TO_LIST_PAYMENTS', response.data);
+    });
+  },
+  ADD_PAYMENT_TO_CLEINT_ORDER: (context) => {
+    console.log(context);
   },
 };
 
