@@ -253,8 +253,11 @@
                       >Добавить платеж</b-button>
                     </b-col>
                   </b-row>
-                  <b-row>
-                    <payment-modal ref="payment-modal"></payment-modal>
+                  <b-row align-h="center" class="mt-3">
+                    <b-col>
+                      <payment-modal ref="payment-modal"></payment-modal>
+                      <payment-table></payment-table>
+                    </b-col>
                   </b-row>
                 </div>
             </b-container>
@@ -268,6 +271,7 @@ import stockTable from './stockTable.vue';
 import stockItemModal from './stockItemModal.vue';
 import designerModal from './designerModal.vue';
 import paymentModal from './paymentModal.vue';
+import paymentTable from './paymentTable.vue';
 
 export default {
   components: {
@@ -276,6 +280,7 @@ export default {
     stockItemModal,
     designerModal,
     paymentModal,
+    paymentTable,
   },
   data() {
     return {

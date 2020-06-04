@@ -65,6 +65,7 @@ const actions = {
   },
   GET_LIST_PAYMENTS_FOR_CLIENT_ORDER: async (context, clientOrder) => {
     const listPayments = await axios.get(PaymentsForClientOrderURL + clientOrder[0].id);
+    // console.log(listPayments);
     context.commit('SET_LIST_PAYMENTS', listPayments.data);
   },
   CALC_AND_SAVE_TOTAL_PAYMENTS: (context) => {
