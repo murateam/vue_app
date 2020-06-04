@@ -2,7 +2,8 @@
 import axios from 'axios';
 import _ from 'lodash';
 
-const PaymentsURL = 'http://127.0.0.1:5000/api/payments/';
+// const PaymentsURL = 'http://127.0.0.1:5000/api/payments/';
+const PaymentsNewURL = 'http://127.0.0.1:5000/api/payments/new/';
 const PaymentsForClientOrderURL = 'http://127.0.0.1:5000/api/payments_for_order/';
 
 const state = {
@@ -54,12 +55,12 @@ const actions = {
   SET_IS_NEW_PAYMENT: (context, bool) => {
     context.commit('SET_IS_NEW_PAYMENT', bool);
   },
-  SAVE_PAYMENT_FROM_CLIENT_ORDER: (context) => {
-    console.log(context);
-  },
+  // SAVE_PAYMENT_FROM_CLIENT_ORDER: (context) => {
+  //   console.log(context);
+  // },
   SAVE_NEW_PAYMENT: async (context) => {
-    const payment = context.getters.GET_SINGLE_PAYMENT;
-    const newPayment = await axios.post(PaymentsURL, payment);
+    const payment = await context.getters.GET_SINGLE_PAYMENT;
+    const newPayment = await axios.post(PaymentsNewURL, payment);
     await context.commit('ADD_PAYMENT_TO_LIST_PAYMENTS', newPayment.data);
     await context.dispatch('CALC_AND_SAVE_TOTAL_PAYMENTS');
   },

@@ -2,6 +2,7 @@ import axios from 'axios';
 
 const singleClientURL = 'http://127.0.0.1:5000/api/clients/';
 const clientCheckURL = 'http://127.0.0.1:5000/api/clients/check/';
+const clientNewURL = 'http://127.0.0.1:5000/api/clients/new';
 
 const state = {
   singleClient: {
@@ -111,7 +112,7 @@ const actions = {
       //   context.commit('CHANGE_CLIENT', response.data);
       // });
     } else {
-      axios.post(singleClientURL, requestData).then((response) => {
+      axios.post(clientNewURL, requestData).then((response) => {
         context.commit('SET_SINGLE_CLIENT', response.data);
       });
       // await axios.post(singleClientURL, requestData);
