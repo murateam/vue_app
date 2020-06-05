@@ -47,8 +47,22 @@
           <template v-slot:cell(author)="data">
             {{ data.item.author.username }}
           </template>
-          <template v-slot:cell(send)>
-            <div>когда отправлен в импорт или кнопка "отправить" в импорт</div>
+          <template v-if="role == 2" v-slot:cell(import)="data">
+            <template v-if="data.item.state == 'published'">
+              {{ dateFilter(data.item.when_published) }}
+            </template>
+            <template v-else>
+              <div
+              v-if="data.item.payment_status == 'waiting for payment'">
+                Ждем предоплаты</div>
+              <div v-else>
+                <b-button
+                  class="btn btn-success"
+                  @click="sendToImport(data.item)"
+                >В импорт
+                </b-button>
+              </div>
+            </template>
           </template>
         </b-table>
       </div>
@@ -81,8 +95,9 @@ export default {
           formatter: 'nameClientShort',
         },
         {
-          key: 'status',
+          key: 'state',
           label: 'Состояние',
+          formatter: 'stateFilter',
         },
         {
           key: 'price',
@@ -98,8 +113,8 @@ export default {
           formatter: 'dateFilter',
         },
         {
-          key: 'send',
-          label: 'Отправлен',
+          key: 'import',
+          label: 'Импорт',
         },
         {
           key: 'designer',
@@ -119,6 +134,18 @@ export default {
   methods: {
     dateFilter(value) {
       return moment(String(value)).format('DD/MM/YYYY');
+    },
+    stateFilter(value) {
+      let state = '';
+      if (value === 'draft') {
+        state = 'Черновик';
+      } else {
+        state = 'Опубликован';
+      }
+      return state;
+    },
+    sendToImport(item) {
+      console.log(item);
     },
     nameClientShort(value) {
       return `${value.last_name} ${value.first_name.charAt(0)}. ${value.middle_name.charAt(0)}.`;
