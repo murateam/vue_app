@@ -19,7 +19,7 @@
           </b-row>
           <b-row align-h="end" v-if="singlePayment.id != null">
               <b-col cols="3">
-                <h7>Создан: {{ singlePayment.created }}</h7>
+                <h6>Создан: {{ dateCut(singlePayment.created) }}</h6>
               </b-col>
           </b-row>
           <b-row class="mt-3" align-h="end">
@@ -33,8 +33,9 @@
             <b-col cols="3">
               <label for="input-payment-date">Дата платежа</label>
               <b-input id="input-payment-date"
+              required
               type="date"
-              v-model="singlePayment.payment_date"
+              v-model="paymentDate"
               placeholder="Дата палтежа"></b-input>
             </b-col>
           </b-row>
@@ -42,6 +43,7 @@
             <b-col>
               <label for="input-payment-comment">Коментарий</label>
               <b-input id="input-payment-comment"
+              type="text"
               v-model="singlePayment.comment"
               placeholder="Коментарий"></b-input>
             </b-col>
@@ -56,6 +58,7 @@
                     <b-row align-h="end">
                         <b-col cols="12">
                             <b-input placeholder="Платеж"
+                            required
                             type="number"
                             v-model.number="singlePayment.payment_value"></b-input>
                         </b-col>
@@ -68,11 +71,13 @@
               <b-button variant="danger">Отменить</b-button>
             </b-col>
             <b-col cols="2">
-              <b-button variant="primary" @click="saveNewPayment">Добавить</b-button>
+              <b-button
+              v-if="singlePayment.id === null"
+              variant="primary" @click="savePayment">Добавить</b-button>
+              <b-button
+              v-else
+              variant="primary" @click="savePayment">Сохранить</b-button>
             </b-col>
-            <!-- <b-col cols="2">
-              <b-button variant="primary">Сохранить</b-button>
-            </b-col> -->
           </b-row>
         </b-container>
       </b-form>
@@ -80,13 +85,30 @@
 </template>
 
 <script>
+import moment from 'moment';
+
 export default {
+  data() {
+    return {
+      paymentDate: null,
+    };
+  },
   methods: {
     show() {
       this.$refs['payment-modal'].show();
     },
-    saveNewPayment() {
-      this.$store.dispatch('SAVE_NEW_PAYMENT');
+    hide() {
+      this.$refs['payment-modal'].hide();
+    },
+    savePayment() {
+      this.$store.dispatch('SAVE_PAYMENT', this.paymentDate);
+      this.hide();
+    },
+    dateFilter(value) {
+      return moment(String(value)).format('YYYY-MM-DD');
+    },
+    dateCut(value) {
+      return moment(String(value)).format('DD-MM-YYYY');
     },
   },
   created() {
@@ -98,6 +120,11 @@ export default {
     },
     singleClientOrder() {
       return this.$store.getters.GET_SINGLE_CLIENT_ORDER;
+    },
+  },
+  watch: {
+    singlePayment() {
+      this.paymentDate = this.dateFilter(this.singlePayment.payment_date);
     },
   },
 };

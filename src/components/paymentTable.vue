@@ -13,20 +13,29 @@
           {{ data.index + 1}}
         </template>
         <template v-slot:cell(check)="row">
-          <b-button variant="outline-dark" @click="editItem(row.index)">...</b-button>
+          <b-button
+          size="sm"
+          variant="outline-dark" @click="editPayment(row.index)">...</b-button>
         </template>
         <template v-slot:cell(delete)="row">
-          <b-button variant="outline-danger" @click="deleteItem(row.index)">X</b-button>
+          <b-button
+          size="sm"
+          variant="outline-danger" @click="deletePayment(row.index)">X</b-button>
         </template>
       </b-table>
+      <payment-modal ref="payment-modal"></payment-modal>
     </b-col>
   </b-row>
 </template>
 
 <script>
 import moment from 'moment';
+import paymentModal from './paymentModal.vue';
 
 export default {
+  components: {
+    paymentModal,
+  },
   data() {
     return {
       payment_fields: [
@@ -61,6 +70,14 @@ export default {
   methods: {
     dateFilter(value) {
       return moment(String(value)).format('DD/MM/YYYY');
+    },
+    async editPayment(index) {
+      await this.$store.dispatch('SET_CURRENT_PAYMENT_BY_INDEX', index);
+      await this.$store.dispatch('SET_IS_NEW_PAYMENT', false);
+      this.$refs['payment-modal'].show();
+    },
+    deletePayment(index) {
+      this.$store.dispatch('DELETE_PAYMENT', index);
     },
   },
   computed: {

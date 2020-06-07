@@ -2,8 +2,8 @@
 import axios from 'axios';
 import _ from 'lodash';
 
-// const PaymentsURL = 'http://127.0.0.1:5000/api/payments/';
-const PaymentsNewURL = 'http://127.0.0.1:5000/api/payments/new/';
+const PaymentsURL = 'http://127.0.0.1:5000/api/payments/';
+const PaymentsSaveURL = 'http://127.0.0.1:5000/api/payments/save/';
 const PaymentsForClientOrderURL = 'http://127.0.0.1:5000/api/payments_for_order/';
 
 const state = {
@@ -38,6 +38,16 @@ const mutations = {
   ADD_PAYMENT_TO_LIST_PAYMENTS: (state, payment) => {
     state.listPayments.push(payment);
   },
+  CHANGE_PAYMENT_IN_LIST: async (state, changedPayment) => {
+    const arrBefore = state.listPayments;
+    const arrTmp = [];
+    arrTmp.push(changedPayment);
+    const arrFinal = arrBefore.map((obj) => arrTmp.find((o) => o.id === obj.id) || obj);
+    state.listPayments = arrFinal;
+  },
+  DELETE_PAYMENT_FROM_LIST: (state, index) => {
+    state.listPayments.splice(index, 1);
+  },
 };
 const actions = {
   RESET_SINGLE_PAYMENT: async (context) => {
@@ -49,37 +59,56 @@ const actions = {
     const currentClientOrder = await context.getters.GET_SINGLE_CLIENT_ORDER;
     emptyPayment.client_order = currentClientOrder.id;
     await context.commit('SET_SINGLE_PAYMENT', emptyPayment);
-    // console.log(emptyPayment);
-    // console.log(currentClientOrder);
   },
   SET_IS_NEW_PAYMENT: (context, bool) => {
     context.commit('SET_IS_NEW_PAYMENT', bool);
   },
-  // SAVE_PAYMENT_FROM_CLIENT_ORDER: (context) => {
-  //   console.log(context);
-  // },
-  SAVE_NEW_PAYMENT: async (context) => {
+  SAVE_PAYMENT: async (context, date) => {
     const payment = await context.getters.GET_SINGLE_PAYMENT;
-    const newPayment = await axios.post(PaymentsNewURL, payment);
-    await context.commit('ADD_PAYMENT_TO_LIST_PAYMENTS', newPayment.data);
+    payment.payment_date = date;
+    const savedPayment = await axios.post(PaymentsSaveURL, payment);
+    if (context.getters.GET_IS_NEW_PAYMENT === true) {
+      await context.commit('ADD_PAYMENT_TO_LIST_PAYMENTS', savedPayment.data);
+    } else {
+      await context.commit('CHANGE_PAYMENT_IN_LIST', savedPayment.data);
+    }
     await context.dispatch('CALC_AND_SAVE_TOTAL_PAYMENTS');
   },
   GET_LIST_PAYMENTS_FOR_CLIENT_ORDER: async (context, clientOrder) => {
     const listPayments = await axios.get(PaymentsForClientOrderURL + clientOrder[0].id);
-    // console.log(listPayments);
     context.commit('SET_LIST_PAYMENTS', listPayments.data);
   },
   CALC_AND_SAVE_TOTAL_PAYMENTS: (context) => {
     const listPayments = context.getters.GET_LIST_PAYMENTS;
     const singleClientOrder = context.getters.GET_SINGLE_CLIENT_ORDER;
-    // console.log(listPayments);
     const inValue = 0;
     const sum = listPayments.reduce(
       (accum, item) => accum + item.payment_value, inValue,
     );
+    if (singleClientOrder.price === 0) {
+      singleClientOrder.payment_status = 'waiting for payment';
+    } else if (sum < singleClientOrder.price / 2) {
+      singleClientOrder.payment_status = 'waiting for payment';
+    } else if (sum === singleClientOrder.price) {
+      singleClientOrder.payment_status = 'paid';
+    } else {
+      singleClientOrder.payment_status = 'partially paid';
+    }
     singleClientOrder.total_payment = sum;
-    // console.log(singleClientOrder);
+    console.log(singleClientOrder);
     context.dispatch('SAVE_CLIENT_ORDER', singleClientOrder);
+  },
+  SET_CURRENT_PAYMENT_BY_INDEX: async (context, index) => {
+    const copyPayment = _.cloneDeep(context.state.listPayments[index]);
+    context.commit('SET_SINGLE_PAYMENT', copyPayment);
+  },
+  DELETE_PAYMENT: async (context, index) => {
+    const paymentToDelete = _.cloneDeep(context.state.listPayments[index]);
+    const response = await axios.delete(PaymentsURL + paymentToDelete.id);
+    if (response.status === 204) {
+      await context.commit('DELETE_PAYMENT_FROM_LIST', index);
+      context.dispatch('CALC_AND_SAVE_TOTAL_PAYMENTS');
+    }
   },
 };
 

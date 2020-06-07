@@ -54,11 +54,12 @@
             <template v-else>
               <div
               v-if="data.item.payment_status == 'waiting for payment'">
-                Ждем предоплаты</div>
+                Ждем оплаты</div>
               <div v-else>
                 <b-button
+                  size="sm"
                   class="btn btn-success"
-                  @click="sendToImport(data.item)"
+                  @click="sendToImport(data.item.id)"
                 >В импорт
                 </b-button>
               </div>
@@ -144,8 +145,8 @@ export default {
       }
       return state;
     },
-    sendToImport(item) {
-      console.log(item);
+    sendToImport(id) {
+      this.$store.dispatch('TO_IMPORT', id);
     },
     nameClientShort(value) {
       return `${value.last_name} ${value.first_name.charAt(0)}. ${value.middle_name.charAt(0)}.`;

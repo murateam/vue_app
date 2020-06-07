@@ -366,6 +366,7 @@ export default {
       // console.log('add_payment');
       // await this.$store.dispatch('RESET_SINGLE_PAYMENT');
       await this.$store.dispatch('SET_NEW_PAYMENT_FOR_CLIENT_ORDER');
+      await this.$store.dispatch('SET_IS_NEW_PAYMENT', true);
       this.$refs['payment-modal'].show();
     },
   },

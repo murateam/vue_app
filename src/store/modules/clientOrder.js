@@ -4,6 +4,7 @@ import _ from 'lodash';
 const clientOrdersListURL = 'http://127.0.0.1:5000/api/client_orders/';
 const clientOrderAddURL = 'http://127.0.0.1:5000/api/client_order/add/';
 const singleClientOrderURL = 'http://127.0.0.1:5000/api/client_orders/';
+const clientOrderToImportURL = 'http://127.0.0.1:5000/api/client_order/to_import';
 
 
 const state = {
@@ -155,6 +156,15 @@ const actions = {
   RESET_CLIENT_ORDER: (context) => {
     const emptyClientOrder = _.cloneDeep(context.getters.GET_EMPTY_CLIENT_ORDER);
     context.commit('RESET_CLIENT_ORDER', emptyClientOrder);
+  },
+  TO_IMPORT: async (context, id) => {
+    // need add in clientOrder eur_rate!!!
+    const requestData = [];
+    requestData.push({ value: id });
+    requestData.push({ value: 'toImport' });
+    const response = await axios.post(clientOrderToImportURL, requestData);
+    console.log(response);
+    console.log(context);
   },
 };
 export default {
