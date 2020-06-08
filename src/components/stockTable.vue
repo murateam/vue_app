@@ -68,10 +68,14 @@
           {{ data.item.stock_choices }}
         </template>
         <template v-slot:cell(check)="row">
-          <b-button variant="outline-dark" @click="editItem(row.index)">...</b-button>
+          <b-button
+          v-if="row.item.stock_choices == 'cencel'"
+          variant="outline-dark" @click="editItem(row.index)">...</b-button>
         </template>
         <template v-slot:cell(delete)="row">
-          <b-button variant="outline-danger" @click="deleteItem(row.index)">X</b-button>
+          <b-button
+          v-if="row.item.stock_choices == 'cencel'"
+          variant="outline-danger" @click="deleteItem(row.index)">X</b-button>
         </template>
         </b-table>
       </b-col>

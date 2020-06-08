@@ -4,6 +4,8 @@ import Home from '../components/Home.vue';
 import manageTab from '../components/manageTab.vue';
 import singleClientOrder from '../components/singleClientOrder.vue';
 import stockList from '../components/stockList.vue';
+import importTab from '../components/importTable.vue';
+import importOrder from '../components/importOrder.vue';
 
 
 Vue.use(VueRouter);
@@ -28,6 +30,16 @@ const routes = [
     path: '/stockList',
     name: 'stockList',
     component: stockList,
+  },
+  {
+    path: '/importTab',
+    name: 'importTab',
+    component: importTab,
+  },
+  {
+    path: '/importOrder',
+    name: 'importOrder',
+    component: importOrder,
   },
 ];
 

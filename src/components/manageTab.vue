@@ -59,7 +59,7 @@
                 <b-button
                   size="sm"
                   class="btn btn-success"
-                  @click="sendToImport(data.item.id)"
+                  @click="sendToImport(data.item)"
                 >В импорт
                 </b-button>
               </div>
@@ -145,8 +145,9 @@ export default {
       }
       return state;
     },
-    sendToImport(id) {
-      this.$store.dispatch('TO_IMPORT', id);
+    async sendToImport(item) {
+      await this.$store.dispatch('GET_CURRENT_RATE');
+      this.$store.dispatch('TO_IMPORT', item);
     },
     nameClientShort(value) {
       return `${value.last_name} ${value.first_name.charAt(0)}. ${value.middle_name.charAt(0)}.`;

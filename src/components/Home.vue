@@ -17,6 +17,11 @@
                 <b-button
                 @click="listStockAll">Склад</b-button>
             </b-col>
+            <b-col>
+              <b-button
+              @click="importOrdersTab"
+              cols="3">Заказы на импорт</b-button>
+            </b-col>
         </b-row>
     </b-container>
 </template>
@@ -36,6 +41,11 @@ export default {
     async accountantTab() {
       await this.$store.dispatch('SET_AUTHOR', 'accountant');
       this.$router.push('/manageTab');
+    },
+    async importOrdersTab() {
+      await this.$store.dispatch('SET_AUTHOR', 'import');
+      await this.$store.dispatch('GET_LIST_IMPORT_ORDERS');
+      this.$router.push('/importTab');
     },
   },
   mounted() {

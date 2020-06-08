@@ -16,10 +16,12 @@ const mutations = {
   },
 };
 const actions = {
-  GET_CURRENT_RATE: (context) => {
-    axios.get(currentRateURL).then((response) => {
-      context.commit('SET_EUR_RATE', response.data);
-    });
+  GET_CURRENT_RATE: async (context) => {
+    // axios.get(currentRateURL).then((response) => {
+    //   context.commit('SET_EUR_RATE', response.data);
+    // });
+    const response = await axios.get(currentRateURL);
+    await context.commit('SET_EUR_RATE', response.data);
   },
   GET_SAVED_RATE: (context, id) => {
     axios.get(savedRateURL + id).then((response) => {

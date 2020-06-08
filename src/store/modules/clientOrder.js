@@ -1,3 +1,4 @@
+/* eslint no-param-reassign: "error" */
 import axios from 'axios';
 import _ from 'lodash';
 
@@ -49,6 +50,9 @@ const mutations = {
     state.listClientOrders[objIndex].designer = payload.designer;
     state.listClientOrders[objIndex].d_percent = payload.d_percent;
     state.listClientOrders[objIndex].comment = payload.comment;
+    state.listClientOrders[objIndex].state = payload.state;
+    state.listClientOrders[objIndex].status = payload.status;
+    state.listClientOrders[objIndex].payment_status = payload.payment_status;
   },
   SET_LIST_CLIENT_ORDERS: (state, payload) => {
     state.listClientOrders = payload;
@@ -157,14 +161,14 @@ const actions = {
     const emptyClientOrder = _.cloneDeep(context.getters.GET_EMPTY_CLIENT_ORDER);
     context.commit('RESET_CLIENT_ORDER', emptyClientOrder);
   },
-  TO_IMPORT: async (context, id) => {
-    // need add in clientOrder eur_rate!!!
-    const requestData = [];
-    requestData.push({ value: id });
-    requestData.push({ value: 'toImport' });
-    const response = await axios.post(clientOrderToImportURL, requestData);
-    console.log(response);
-    console.log(context);
+  TO_IMPORT: async (context, item) => {
+    const idEurRate = await context.getters.GET_EUR_RATE;
+    item.eur_rate = idEurRate.id;
+    const { data } = await axios.post(clientOrderToImportURL, item);
+    axios.get(`http://localhost:5000/api/client_orders/for_list/${data.id}`).then((response) => {
+      context.commit('CHANGE_CLIENT_ORDER', response.data);
+      // context.dispatch('SAVE_STOCK_ITEM_FROM_CLIENT_ORDER', response.data);
+    });
   },
 };
 export default {
