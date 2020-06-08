@@ -34,7 +34,8 @@ export default {
       await this.$store.dispatch('SET_AUTHOR', 'seller');
       this.$router.push('/manageTab');
     },
-    listStockAll() {
+    async listStockAll() {
+      await this.$store.dispatch('SET_AUTHOR', 'import');
       this.$store.dispatch('GET_ALL_STOCK_ITEMS');
       this.$router.push('/stockList');
     },

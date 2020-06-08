@@ -1,10 +1,10 @@
 <template>
     <b-container>
-      <b-row align-h="start">
+      <b-row align-h="start" class="mt-3">
         <b-col cols="2">
-          <!-- <router-link
+          <router-link
           class="btn btn-dark"
-          to="/">На главную</router-link> -->
+          to="/">На главную</router-link>
         </b-col>
       </b-row>
         <stock-item-modal ref="stock-item-modal"></stock-item-modal>

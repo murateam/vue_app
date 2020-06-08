@@ -10,9 +10,10 @@
         <b-row align-h="center">
             <b-col cols="3">
                 <button
-                    type="button"
-                    id="order-add"
-                    class="btn btn-secondary btn-sm align=left d-block"
+                  @click="addImportOrder"
+                  type="button"
+                  id="order-add"
+                  class="btn btn-secondary btn-sm align=left d-block"
                 >Создать заказ</button>
               </b-col>
         </b-row>
@@ -20,9 +21,10 @@
         <b-row class="mt-3">
             <b-col>
                 <b-table
-                small
-                :fields="fields"
-                :items="listImportOrders"
+                  striped hover small
+                  responsive
+                  :fields="fields"
+                  :items="listImportOrders"
                 >
                     <template v-slot:cell(index)="data">
                     {{ data.index + 1}}
@@ -37,6 +39,8 @@
 import moment from 'moment';
 
 export default {
+  components: {
+  },
   name: 'importTab',
   data() {
     return {
@@ -54,12 +58,45 @@ export default {
         {
           key: 'AB_num',
         },
+        {
+          key: 'VAITEK_order',
+        },
+        {
+          key: 'VAITEK_payment',
+        },
+        {
+          key: 'KW',
+        },
+        {
+          key: 'TRID',
+        },
+        {
+          key: 'TTN',
+        },
+        {
+          key: 'bill',
+        },
+        {
+          key: 'amount_place',
+        },
+        {
+          key: 'volume',
+        },
+        {
+          key: 'weight',
+        },
+        {
+          key: 'container_num',
+        },
       ],
     };
   },
   methods: {
     dateFilter(value) {
       return moment(String(value)).format('DD-MM-YYYY');
+    },
+    addImportOrder() {
+      this.$router.push('./importOrder');
     },
   },
   computed: {

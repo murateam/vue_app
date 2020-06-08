@@ -67,15 +67,18 @@
         <template v-slot:cell(state)="data">
           {{ data.item.stock_choices }}
         </template>
-        <template v-slot:cell(check)="row">
+        <template v-slot:cell(check)="row" v-if="role == 2">
           <b-button
-          v-if="row.item.stock_choices == 'cencel'"
+          size="sm"
+          v-if="row.item.stock_choices == 'cancel'"
           variant="outline-dark" @click="editItem(row.index)">...</b-button>
         </template>
-        <template v-slot:cell(delete)="row">
+        <template v-slot:cell(delete)="row" v-if="role == 2">
           <b-button
-          v-if="row.item.stock_choices == 'cencel'"
-          variant="outline-danger" @click="deleteItem(row.index)">X</b-button>
+          size="sm"
+          v-if="row.item.stock_choices == 'cancel'"
+          variant="outline-danger" @click="deleteItem(row.index)">
+          X</b-button>
         </template>
         </b-table>
       </b-col>
@@ -169,6 +172,9 @@ export default {
     },
     currentItem() {
       return this.$store.getters.GET_CURRENT_STOCK_ITEM;
+    },
+    role() {
+      return this.$store.getters.GET_AUTHOR;
     },
   },
 };
