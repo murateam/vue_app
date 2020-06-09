@@ -21,10 +21,14 @@
         <b-row class="mt-3">
             <b-col>
                 <b-table
+                  ref="importOrdersTab"
                   striped hover small
                   responsive
                   :fields="fields"
                   :items="listImportOrders"
+                  selectable
+                  select-mode="single"
+                  @row-selected="onRowSelected"
                 >
                     <template v-slot:cell(index)="data">
                     {{ data.index + 1}}
@@ -89,6 +93,7 @@ export default {
           key: 'container_num',
         },
       ],
+      selected: [],
     };
   },
   methods: {
@@ -97,6 +102,21 @@ export default {
     },
     addImportOrder() {
       this.$router.push('./importOrder');
+    },
+    editImportOrder() {
+      if (this.selected.length > 0) {
+        this.$router.push('./singleClientOrder');
+      }
+      this.$refs.importOrdersTab.clearSelected();
+    },
+    onRowSelected(items) {
+      this.selected = items;
+      if (this.role === 4) {
+        this.editImportOrder();
+      }
+      // else if (this.role === 3) {
+      //   this.editPayments();
+      // }
     },
   },
   computed: {

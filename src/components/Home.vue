@@ -15,13 +15,24 @@
             </b-col>
             <b-col cols="3">
                 <b-button
-                @click="listStockAll">Склад</b-button>
+                  @click="listStockAll">Склад
+                </b-button>
             </b-col>
             <b-col>
               <b-button
-              @click="importOrdersTab"
-              cols="3">Заказы на импорт</b-button>
+                @click="importOrdersTab"
+                cols="3">Заказы на импорт</b-button>
             </b-col>
+        </b-row>
+        <b-row class="mt-4">
+          <b-col cols="3"></b-col>
+          <b-col cols="3"></b-col>
+          <b-col cols="3"></b-col>
+          <b-col cols="3">
+            <b-button
+              @click="stockTableExpanded"
+            >Позиции на импорт</b-button>
+          </b-col>
         </b-row>
     </b-container>
 </template>
@@ -47,6 +58,9 @@ export default {
       await this.$store.dispatch('SET_AUTHOR', 'import');
       await this.$store.dispatch('GET_LIST_IMPORT_ORDERS');
       this.$router.push('/importTab');
+    },
+    stockTableExpanded() {
+      this.$router.push('/stockTableExp');
     },
   },
   mounted() {
