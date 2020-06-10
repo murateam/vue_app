@@ -4,7 +4,7 @@
       <b-col cols="2">
         <router-link
         class="btn btn-dark"
-        to="importTab">Назад</router-link>
+        to="/importTab">Назад</router-link>
       </b-col>
     </b-row>
     {{ singleImportOrder }}

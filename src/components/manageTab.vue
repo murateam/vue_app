@@ -33,14 +33,14 @@
 
         <b-table
           class="mt-3"
-        ref="manageTable"
-        striped hover small
-        responsive
-        :items="clientOrders"
-        :fields="fields"
-        selectable
-        select-mode="single"
-        @row-selected="onRowSelected">
+          ref="manageTable"
+          striped hover small
+          responsive
+          :items="clientOrders"
+          :fields="fields"
+          selectable
+          select-mode="single"
+          @row-selected="onRowSelected">
           <!-- <template v-slot:cell(price)="data">
             {{ data }}
           </template> -->

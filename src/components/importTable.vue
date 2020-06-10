@@ -101,11 +101,13 @@ export default {
       return moment(String(value)).format('DD-MM-YYYY');
     },
     addImportOrder() {
+      this.$store.dispatch('RESET_SINGLE_IMPORT_ORDER');
       this.$router.push('./importOrder');
     },
     editImportOrder() {
       if (this.selected.length > 0) {
-        this.$router.push('./singleClientOrder');
+        this.$store.dispatch('GET_IMPORT_ORDER_BY_INDEX', this.selected[0]);
+        this.$router.push('./importOrder');
       }
       this.$refs.importOrdersTab.clearSelected();
     },
@@ -122,6 +124,9 @@ export default {
   computed: {
     listImportOrders() {
       return this.$store.getters.GET_LIST_IMPORT_ORDERS;
+    },
+    role() {
+      return this.$store.getters.GET_AUTHOR;
     },
   },
 };

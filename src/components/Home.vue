@@ -21,7 +21,7 @@
             <b-col>
               <b-button
                 @click="importOrdersTab"
-                cols="3">Заказы на импорт</b-button>
+                cols="3">Заказы импорт</b-button>
             </b-col>
         </b-row>
         <b-row class="mt-4">
@@ -31,7 +31,7 @@
           <b-col cols="3">
             <b-button
               @click="stockTableExpanded"
-            >Позиции на импорт</b-button>
+            >Позиции импорт</b-button>
           </b-col>
         </b-row>
     </b-container>
@@ -60,6 +60,7 @@ export default {
       this.$router.push('/importTab');
     },
     stockTableExpanded() {
+      this.$store.dispatch('GET_STOCK_ITEMS_EXP');
       this.$router.push('/stockTableExp');
     },
   },

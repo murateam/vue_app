@@ -1,5 +1,5 @@
 <template>
-    <b-container>
+    <b-container fluid>
       <b-row align-h="start" class="mt-3">
         <b-col cols="2">
           <router-link
@@ -15,7 +15,9 @@
           <!-- <div>{{currentStockItem}}</div> -->
           <!-- <div>{{listItems}}</div>
           <div>{{listDelete}}</div> -->
+      <b-row><b-col>
         <stock-table class="mt-3"></stock-table>
+      </b-col></b-row>
     </b-container>
 </template>
 
