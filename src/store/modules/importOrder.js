@@ -50,7 +50,6 @@ const actions = {
     await context.commit('SET_SINGLE_IMPORT_ORDER', emptyImportOrder);
   },
   GET_IMPORT_ORDER_BY_INDEX: (context, item) => {
-    console.log(item);
     context.commit('SET_SINGLE_IMPORT_ORDER', item);
   },
 };

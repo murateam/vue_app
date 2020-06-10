@@ -46,6 +46,7 @@ export default {
       this.$router.push('/manageTab');
     },
     async listStockAll() {
+      await this.$store.dispatch('SET_IS_LIST_EXPANDED', false);
       await this.$store.dispatch('SET_AUTHOR', 'import');
       this.$store.dispatch('GET_ALL_STOCK_ITEMS');
       this.$router.push('/stockList');
@@ -59,9 +60,10 @@ export default {
       await this.$store.dispatch('GET_LIST_IMPORT_ORDERS');
       this.$router.push('/importTab');
     },
-    stockTableExpanded() {
+    async stockTableExpanded() {
+      await this.$store.dispatch('SET_IS_LIST_EXPANDED', true);
       this.$store.dispatch('GET_STOCK_ITEMS_EXP');
-      this.$router.push('/stockTableExp');
+      this.$router.push('/stockList');
     },
   },
   mounted() {

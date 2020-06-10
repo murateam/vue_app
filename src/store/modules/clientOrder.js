@@ -81,9 +81,6 @@ const actions = {
   CALCULATE_PRICE_FOR_CLIENT_ORDER: async (context, ClientOrder) => {
     await context.dispatch('GET_SINGLE_CLIENT_ORDER', ClientOrder[0].id);
     const clientOrder = context.getters.GET_SINGLE_CLIENT_ORDER;
-    // if (clientOrder.eur_rate !== context.GET_EUR_RATE.current_rate) {
-    //   await context.dispatch('GET_SAVED_RATE');
-    // }
     await context.dispatch('GET_LIST_STOCK_ITEMS_CLIENT_ORDER', ClientOrder[0].id);
     const StockItems = context.getters.GET_LIST_STOCK_ITEMS;
     const listPriceAndAmount = StockItems.map((item) => item.current_price_ru * item.items_amount);

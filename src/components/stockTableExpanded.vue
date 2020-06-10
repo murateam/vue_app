@@ -1,26 +1,17 @@
 <template>
-  <b-container fluid>
+  <b-container>
     <stock-item ref="stock-item"></stock-item>
-    <b-row class="mt-3" align-h="start">
-      <b-col cols="2">
-        <router-link
-        class="btn btn-dark"
-        to="/">На главную</router-link>
-      </b-col>
-    </b-row>
-    <b-row class="mt-3">
+    <b-row>
       <b-col>
-        <!-- {{ stockItems }} -->
         <b-table
         small striped
-        responsive="sm"
+        responsive
         :fields="fields"
         :items="stockItems"
         selectable
         select-mode="multi"
         @row-selected="onRowSelected">
         <template v-slot:cell(select)="{ rowSelected }">
-          <!-- {{ rowSelected }} -->
           <template v-if="rowSelected">
             <span>&check;</span>
           </template>
@@ -90,7 +81,6 @@
           X</b-button>
         </template>
         </b-table>
-        <!-- {{ selected }} -->
       </b-col>
     </b-row>
   </b-container>
@@ -185,11 +175,11 @@ export default {
     stockItems() {
       return this.$store.getters.GET_LIST_STOCK_ITEMS_EXP;
     },
-    currentItem() {
-      return null;
-    },
+    // currentItem() {
+    //   return this.$store.getters.GET_CURRENT_STOCK_ITEM;
+    // },
     role() {
-      return null;
+      return this.$store.getters.GET_AUTHOR;
     },
   },
 };

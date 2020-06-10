@@ -6,7 +6,6 @@ import singleClientOrder from '../components/singleClientOrder.vue';
 import stockList from '../components/stockList.vue';
 import importTab from '../components/importTable.vue';
 import importOrder from '../components/importOrder.vue';
-import stockTableExpanded from '../components/stockTableExpanded.vue';
 
 
 Vue.use(VueRouter);
@@ -41,11 +40,6 @@ const routes = [
     path: '/importOrder',
     name: 'importOrder',
     component: importOrder,
-  },
-  {
-    path: '/stockTableExp',
-    name: 'stockTableExp',
-    component: stockTableExpanded,
   },
 ];
 

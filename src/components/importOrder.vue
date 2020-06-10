@@ -179,12 +179,17 @@
 </template>
 
 <script>
+import _ from 'lodash';
+
 export default {
   name: 'importOrder',
   methods: {
   },
   created() {
-    this.$store.dispatch('RESET_SINGLE_IMPORT_ORDER');
+    const importOrder = this.$store.getters.GET_SINGLE_IMPORT_ORDER;
+    if (_.isEmpty(importOrder)) {
+      this.$store.dispatch('RESET_SINGLE_IMPORT_ORDER');
+    }
   },
   computed: {
     singleImportOrder() {
