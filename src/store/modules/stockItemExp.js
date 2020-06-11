@@ -4,10 +4,34 @@ import axios from 'axios';
 const stockItemExpURL = 'http://127.0.0.1:5000/api/stock_items/import/';
 
 const state = {
+  emptyStockItemExp: {
+    id: null,
+    client_order: null,
+    factory_item: null,
+    import_order: null,
+    incorrect_factory: null,
+    is_correct: false,
+    is_ordered: false,
+    is_shipped: false,
+    stock_choices: null,
+    items_amount: null,
+    last_price_ru: 0,
+    current_price_ru: 0,
+    last_price_eur: 0,
+    current_price_eur: 0,
+    created: null,
+    comment: null,
+    record_history: null,
+    bank_euro_rate: 0,
+    factory_price_eur: 0,
+    factor: 0,
+  },
+  currentStockItem: {},
   listStockItemsExp: [],
   isListExpanded: false,
 };
 const getters = {
+  GET_EMPTY_STOCK_ITEM_EXP: (state) => state.emptyStockItemExp,
   GET_LIST_STOCK_ITEMS_EXP: (state) => state.listStockItemsExp,
   GET_IS_LIST_EXPANDED: (state) => state.isListExpanded,
 };
@@ -20,6 +44,9 @@ const mutations = {
   },
 };
 const actions = {
+  RESET_STOCK_ITEM_EXP: async (context) => {
+    console.log(context);
+  },
   GET_STOCK_ITEMS_EXP: async (context) => {
     const stockItemExp = await axios.get(stockItemExpURL);
     context.commit('SET_LIST_STOCK_ITEMS_EXP', stockItemExp.data);

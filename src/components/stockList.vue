@@ -31,7 +31,7 @@
           </b-col>
         </b-row>
       </div>
-      {{ isListExpanded }}
+      <!-- {{ isListExpanded }} -->
     </b-container>
 </template>
 

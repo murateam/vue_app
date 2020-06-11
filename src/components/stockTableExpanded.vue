@@ -1,7 +1,14 @@
 <template>
   <b-container>
-    <stock-item ref="stock-item"></stock-item>
-    <b-row>
+    <b-row align-h="start">
+      <b-col cols="4">
+        <b-button
+        :disabled="canEdit()"
+          @click="editStockItem"
+        >Edit</b-button>
+      </b-col>
+    </b-row>
+    <b-row class="mt-3">
       <b-col>
         <b-table
         small striped
@@ -81,18 +88,17 @@
           X</b-button>
         </template>
         </b-table>
+        {{ selected }}
       </b-col>
     </b-row>
   </b-container>
 </template>
 
 <script>
-import stockItem from './stockItemModal.vue';
 
 export default {
   name: 'stockTableExtanded',
   components: {
-    stockItem,
   },
   data() {
     return {
@@ -146,23 +152,24 @@ export default {
     };
   },
   methods: {
-    // factory(value) {
-    //   console.log(value);
-    //   let factory = '';
-    //   if (value.is_corrected === true) {
-    //     factory = value.factory_item.factory_collection.factory.name;
-    //   } else {
-    //     factory = value.incorrect_factory.splist('&')[0];
-    //   }
-    // return `${}`;
-    // },
+    canEdit() {
+      let edit = true;
+      if (this.selected.length === 1) {
+        edit = false;
+      } else {
+        edit = true;
+      }
+      return edit;
+    },
+    editStockItem() {
+      this.$router.push('/stockItemExp');
+    },
     onRowSelected(items) {
       this.selected = items;
     },
     editItem(index) {
       this.$store.dispatch('SET_CURRENT_STOCK_ITEM_BY_INDEX', index);
       this.$store.dispatch('SET_IS_NEW_STOCK_ITEM', false);
-      this.$refs['stock-item'].show();
     },
     deleteItem(index) {
       this.$store.dispatch('MOVE_ITEM_TO_DELETE_LIST', index);
