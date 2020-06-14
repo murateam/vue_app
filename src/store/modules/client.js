@@ -66,20 +66,22 @@ const actions = {
     });
   },
   CHECK_CLIENT(context, requestData) {
-    axios.post(clientCheckURL, requestData)
-      .then((response) => {
-        context.commit('SET_SINGLE_CLIENT', response.data);
-        context.commit('SET_SEPARATE_CLIENT_DETAILS', {
-          passportSeries: response.data.passport.split('&')[0],
-          passportNumber: response.data.passport.split('&')[1],
-          passportGiven: response.data.passport.split('&')[2],
-          addressCountry: response.data.address.split('&')[0],
-          addressArea: response.data.address.split('&')[1],
-          addressCity: response.data.address.split('&')[2],
-          addressStreet: response.data.address.split('&')[3],
-        });
-      })
-      .catch(() => {});
+    if (requestData.name.length > 0) {
+      axios.post(clientCheckURL, requestData)
+        .then((response) => {
+          context.commit('SET_SINGLE_CLIENT', response.data);
+          context.commit('SET_SEPARATE_CLIENT_DETAILS', {
+            passportSeries: response.data.passport.split('&')[0],
+            passportNumber: response.data.passport.split('&')[1],
+            passportGiven: response.data.passport.split('&')[2],
+            addressCountry: response.data.address.split('&')[0],
+            addressArea: response.data.address.split('&')[1],
+            addressCity: response.data.address.split('&')[2],
+            addressStreet: response.data.address.split('&')[3],
+          });
+        })
+        .catch(() => {});
+    }
   },
   RESET_CURRENT_CLIENT(context) {
     context.commit('SET_SINGLE_CLIENT',

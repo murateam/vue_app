@@ -9,13 +9,13 @@
         <b-container fluid>
                 <b-row align-h="center">
                     <b-form-group
-                    label="Заказчик"
+                    label="Customer"
                     label-class="font-weight-bold pt-0"
                     label-size="lg"></b-form-group>
                 </b-row>
                 <b-form-group
                     id="form-birthday-group"
-                    label="ФИО:"
+                    label="Full Name:"
                     label-for="form-birthday-input"
                 >
                 <b-row v-if="ifClientExist" align-h="start">
@@ -26,36 +26,36 @@
                 <b-row v-else align-h="start">
                     <b-col>
                         <label class="sr-only"
-                        for="inline-form-input-last-name">Фамилия</label>
+                        for="inline-form-input-last-name">Last Name</label>
                         <b-input
                         id="inline-form-input-last-name"
                         class="md-2 mr-sm-2 mb-sm-0"
-                        placeholder="Фамилия"
+                        placeholder="Last Name"
                         v-model="singleClient.last_name"></b-input>
                     </b-col>
                     <b-col>
                         <label class="sr-only"
-                        for="inline-form-input-first-name">Имя</label>
+                        for="inline-form-input-first-name">First Name</label>
                         <b-input
                         id="inline-form-input-first-name"
                         class="md-2 mr-sm-2 mb-sm-0"
-                        placeholder="Имя"
+                        placeholder="First Name"
                         v-model="singleClient.first_name"></b-input>
                     </b-col>
                     <b-col>
                         <label class="sr-only"
-                        for="inline-form-input-middle-name">Отчество</label>
+                        for="inline-form-input-middle-name">Middle Name</label>
                         <b-input
                         id="inline-form-input-middle-name"
                         class="md-2 mr-sm-2 mb-sm-0"
-                        placeholder="Отчество"
+                        placeholder="Middle name"
                         v-model="singleClient.middle_name"></b-input>
                     </b-col>
                 </b-row>
                 </b-form-group>
                 <b-form-group
                     id="form-birthday-group"
-                    label="День рождения:"
+                    label="Birthday:"
                     label-for="form-birthday-input"
                     class="mt-3"
                 >
@@ -76,27 +76,27 @@
                 >
                     <b-row align-h="around">
                         <b-col cols="2">
-                            <b-input placeholder="Серия"
+                            <b-input placeholder="Series"
                             v-model="separateClientDetails.passportSeries"></b-input>
                         </b-col>
                         <b-col cols="3">
-                            <b-input placeholder="Номер"
+                            <b-input placeholder="Number"
                             v-model="separateClientDetails.passportNumber"></b-input>
                         </b-col>
                         <b-col>
-                            <b-input placeholder="Кем выдан"
+                            <b-input placeholder="Who issued"
                             v-model="separateClientDetails.passportGiven"></b-input>
                         </b-col>
                     </b-row>
                 </b-form-group>
                 <b-form-group
                     id="form-contact-group"
-                    label="Контактные данные"
+                    label="Contact info"
                     label-for="form-contact-input"
                 >
                     <b-row align-h="start">
                         <b-col cols="4">
-                            <b-input placeholder="Телефон"
+                            <b-input placeholder="Phone"
                             v-model="singleClient.phone"></b-input>
                         </b-col>
                         <b-col cols="6">
@@ -108,14 +108,14 @@
                 <b-card bg-variant="light" class="mt-5">
                     <b-form-group
                         label-cols-lg="3"
-                        label="Адрес"
+                        label="Address"
                         label-size="lg"
                         label-class="font-weight-bold pt-0"
                         class="md-0"
                     >
                         <b-form-group
                             label-cols-sm="3"
-                            label="Страна:"
+                            label="Country:"
                             label-align-sm="right"
                             label-for="country"
                         >
@@ -124,7 +124,7 @@
                         </b-form-group>
                         <b-form-group
                             label-cols-sm="3"
-                            label="Область:"
+                            label="Area:"
                             label-align-sm="right"
                             label-for="area"
                         >
@@ -133,7 +133,7 @@
                         </b-form-group>
                         <b-form-group
                             label-cols-sm="3"
-                            label="Город:"
+                            label="City:"
                             label-align-sm="right"
                             label-for="city"
                         >
@@ -142,7 +142,7 @@
                         </b-form-group>
                         <b-form-group
                             label-cols-sm="3"
-                            label="Улица:"
+                            label="Street:"
                             label-align-sm="right"
                             label-for="street"
                         >
@@ -154,12 +154,12 @@
                 <b-row align-h="end">
                     <b-col cols="2">
                         <b-button
-                        variant="danger" class="mt-5">Отмена</b-button>
+                        variant="danger" class="mt-5">Cancel</b-button>
                     </b-col>
                     <b-col cols="2">
                         <b-button
                         @click="saveClient"
-                        variant="primary" class="mt-5">Сохранить</b-button>
+                        variant="primary" class="mt-5">Save</b-button>
                     </b-col>
                 </b-row>
         </b-container>

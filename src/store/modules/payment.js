@@ -95,7 +95,6 @@ const actions = {
       singleClientOrder.payment_status = 'partially paid';
     }
     singleClientOrder.total_payment = sum;
-    console.log(singleClientOrder);
     context.dispatch('SAVE_CLIENT_ORDER', singleClientOrder);
   },
   SET_CURRENT_PAYMENT_BY_INDEX: async (context, index) => {

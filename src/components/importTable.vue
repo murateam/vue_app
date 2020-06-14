@@ -4,7 +4,7 @@
             <b-col cols="2">
                 <router-link
                 class="btn btn-dark"
-                to="/">На главную</router-link>
+                to="/">Home</router-link>
             </b-col>
         </b-row>
         <b-row align-h="center">
@@ -14,7 +14,7 @@
                   type="button"
                   id="order-add"
                   class="btn btn-secondary btn-sm align=left d-block"
-                >Создать заказ</button>
+                >Create order</button>
               </b-col>
         </b-row>
         {{ listImportOrders }}
@@ -106,7 +106,7 @@ export default {
     },
     editImportOrder() {
       if (this.selected.length > 0) {
-        this.$store.dispatch('GET_IMPORT_ORDER_BY_INDEX', this.selected[0]);
+        this.$store.dispatch('SET_SINGLE_IMPORT_ORDER', this.selected[0]);
         this.$router.push('./importOrder');
       }
       this.$refs.importOrdersTab.clearSelected();

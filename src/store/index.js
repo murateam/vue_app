@@ -8,6 +8,7 @@ import clientOrder from './modules/clientOrder';
 import stockItem from './modules/stockItem';
 import payment from './modules/payment';
 import importOrder from './modules/importOrder';
+import factoryItem from './modules/factoryItem';
 import stockItemExp from './modules/stockItemExp';
 
 Vue.use(Vuex);
@@ -26,6 +27,7 @@ export default new Vuex.Store({
     stockItem,
     payment,
     importOrder,
+    factoryItem,
     stockItemExp,
   },
 });

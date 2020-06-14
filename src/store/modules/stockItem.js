@@ -35,7 +35,7 @@ const state = {
     is_correct: false,
     is_ordered: false,
     is_shipped: false,
-    stock_choices: 'waiting for processing',
+    stock_choices: 'cencel',
     items_amount: 0,
     last_price_ru: 0,
     current_price_ru: 0,

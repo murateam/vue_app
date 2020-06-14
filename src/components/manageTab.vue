@@ -53,7 +53,7 @@
             </template>
             <template v-else>
               <div
-              v-if="data.item.payment_status == 'waiting for payment'">
+                v-if="data.item.payment_status == 'waiting for payment'">
                 Ждем оплаты</div>
               <div v-else>
                 <b-button

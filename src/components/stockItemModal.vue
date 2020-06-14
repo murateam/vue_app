@@ -14,25 +14,49 @@
             {{ isNewStockItem }}
           <b-row>
             <b-col>
-              <label for="input-factory">Фабрика</label>
+              <label for="input-factory">Factory</label>
               <b-input id="input-factory"
+              trim
+              aria-describedby="input-live-help input-live-feedback"
+              :state="checkFactory"
+              debounce="700"
+              list="factories-list"
               v-model="currentStockItem.factory_item.factory_collection.factory.name"
-              placeholder="Фабрика"></b-input>
-              <!-- <b-input id="input-factory" v-else
-              v-model="currentStockItem.incorrect_factory"
-              placeholder="Фабрика"></b-input> -->
+              placeholder="Factory"></b-input>
+              <datalist id="factories-list">
+                <option
+                  v-for="factory in listNameFactories" :key="factory.name"
+                >{{ factory.name }}</option>
+              </datalist>
             </b-col>
             <b-col>
-              <label for="input-collection">Коллекция</label>
-              <b-input id="input-collection"
-              v-model="currentStockItem.factory_item.factory_collection.name"
-              placeholder="Коллекция"></b-input>
+              <label for="input-collection">Collection</label>
+                <b-input id="input-collection"
+                debounce="700"
+                :state="checkFactoryCollections"
+                list="factory-collections-list"
+                v-model="currentStockItem.factory_item.factory_collection.name"
+                placeholder="Collection"></b-input>
+                <datalist id="factory-collections-list">
+                  <option
+                    v-for="collection in listNameFactoryCollections" :key="collection.name"
+                  >{{ collection.name }}</option>
+                </datalist>
             </b-col>
             <b-col>
-              <label for="input-catalog-num">Номер каталога</label>
-              <b-input id="input-catalog-num"
-              v-model="currentStockItem.factory_item.catalogue_number"
-              placeholder="Номер каталога"></b-input>
+              <label for="input-catalog-num">Catalogue number</label>
+                <b-input id="input-catalog-num"
+                debounce="700"
+                :state="checkCatalogueNumber"
+                list="catalogue-number-list"
+                v-model="currentStockItem.factory_item.catalogue_number"
+                placeholder="Catalogue number"></b-input>
+                <datalist id="catalogue-number-list">
+                  <option
+                    v-for="catalogueNumber in listCatalogueNumbers"
+                    :key="catalogueNumber.catalogue_number"
+                  > {{catalogueNumber.catalogue_number}} </option>
+                </datalist>
             </b-col>
           </b-row>
           <b-row align-h="end" class="mt-3">
@@ -61,29 +85,12 @@
                         <b-col>
                             <b-input placeholder="Цена"
                             type="number"
-                            v-model.number="currentStockItem.current_price_ru"></b-input>
+                            v-model.number="currentStockItem.current_price_eur"></b-input>
                         </b-col>
                     </b-row>
                 </b-form-group>
             </b-col>
-            <!-- <b-col cols="2">
-              <label for="price"></label>
-              <b-input id="price"
-              type="number"
-              v-model="currentStockItem.current_price_ru"
-              placeholder="Цена"></b-input>
-            </b-col> -->
           </b-row>
-          <!-- <b-row>
-            <b-col></b-col>
-            <b-col>
-              <label for="input-amount"></label>
-              <b-input id="input-amount"
-              type="number"
-              v-model="currentStockItem.items_amount"
-              placeholder="Колличество"></b-input>
-            </b-col>
-          </b-row> -->
           <b-row class="mt-3" align-h="end">
             <b-col cols="2">
               <b-button variant="danger" @click="cencel">Отменить</b-button>
@@ -101,12 +108,15 @@
 </template>
 
 <script>
+import _ from 'lodash';
+
 export default {
   data() {
     return {};
   },
   created() {
     this.$store.dispatch('SET_EMPTY_STOCK_ITEM');
+    this.$store.dispatch('GET_LIST_NAME_FACTORIES');
   },
   methods: {
     show() {
@@ -121,23 +131,71 @@ export default {
     },
     saveItem() {
       this.$store.dispatch('CHANGE_STOCK_ITEM');
-      // this.$store.dispatch('CALCULATE_PRICE_FOR_CLIENT_ORDER');
       this.hide();
     },
     cencel() {
       this.hide();
       this.$store.dispatch('SET_EMPTY_STOCK_ITEM');
     },
+    checkObjectByProperty(obj, objType) {
+      let foundObj = {};
+      if (objType === 'factory') {
+        foundObj = _.find(this.listNameFactories, ['name', obj]);
+      } else if (objType === 'collections') {
+        foundObj = _.find(this.listNameFactoryCollections, ['name', obj]);
+      } else {
+        foundObj = _.find(this.listCatalogueNumbers, ['catalogue_number', obj]);
+      }
+      let result = false;
+      if (_.isObject(foundObj)) {
+        result = true;
+        this.getNextDataList(objType);
+      }
+      return result;
+    },
+    getNextDataList(objType) {
+      if (objType === 'factory') {
+        const factory = this.currentStockItem.factory_item.factory_collection.factory.name;
+        this.$store.dispatch('GET_LIST_COLLECTIONS_BY_FACTORY', factory);
+      } else if (objType === 'collections') {
+        const collections = this.currentStockItem.factory_item.factory_collection.name;
+        this.$store.dispatch('GET_CATALOGUE_NUMBERS_BY_COLLECTION', collections);
+      }
+    },
   },
-  // mounted() {
-  //   this.$store.dispatch('SET_EMPTY_STOCK_ITEM');
-  // },
   computed: {
     currentStockItem() {
       return this.$store.getters.GET_CURRENT_STOCK_ITEM;
     },
     isNewStockItem() {
       return this.$store.getters.GET_IS_NEW_STOCK_ITEM;
+    },
+    listNameFactories() {
+      return this.$store.getters.GET_LIST_NAME_FACTORIES;
+    },
+    listNameFactoryCollections() {
+      return this.$store.getters.GET_LIST_NAME_FACTORY_COLLECTIONS;
+    },
+    listCatalogueNumbers() {
+      return this.$store.getters.GET_LIST_NUMBER_FACTORY_ITEMS;
+    },
+    checkFactory() {
+      return this.checkObjectByProperty(
+        this.currentStockItem.factory_item.factory_collection.factory.name,
+        'factory',
+      );
+    },
+    checkFactoryCollections() {
+      return this.checkObjectByProperty(
+        this.currentStockItem.factory_item.factory_collection.name,
+        'collections',
+      );
+    },
+    checkCatalogueNumber() {
+      return this.checkObjectByProperty(
+        this.currentStockItem.factory_item.catalogue_number,
+        'catalogueNumber',
+      );
     },
   },
 };

@@ -11,7 +11,7 @@
                     @dismissed="clientOrderCountDown=0"
                     @dismiss-count-down="clientOrderDownChanged"
                 >
-                    Договор успешно сохранен!
+                    Order saved successful!
                 </b-alert>
                 <b-alert
                     class="position-fixed fixed-top m-0 rounded-0"
@@ -21,7 +21,7 @@
                     @dismissed="clientOrderCountDown=0"
                     @dismiss-count-down="clientOrderDownChanged"
                 >
-                    Ошибка! Договор не сохранен!
+                    Error! Order not saved!
                 </b-alert>
             </b-col>
         </b-row>

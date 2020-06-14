@@ -27,7 +27,7 @@
                     label="Вознаграждение (RUB)"
                     label-for="form-designer-input"
                 >
-                  <b-input placeholder="Вознаграждение"
+                  <b-input placeholder="Reward"
                   type="number"
                   v-model.number="singleClientOrder.d_percent"></b-input>
                 </b-form-group>
@@ -35,10 +35,10 @@
             </b-row>
             <b-row align-h="end" class="mt-3">
                 <b-col cols="3">
-                  <b-button variant="danger" @click="cencel">Закрыть</b-button>
+                  <b-button variant="danger" @click="cencel">Cancel</b-button>
                 </b-col>
                 <b-col cols="4">
-                  <b-button @click="saveDesigner" variant="primary">Сохранить</b-button>
+                  <b-button @click="saveDesigner" variant="primary">Save</b-button>
                 </b-col>
             </b-row>
         </b-container>

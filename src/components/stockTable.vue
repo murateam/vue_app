@@ -62,7 +62,7 @@
           {{ data.item.items_amount }}
         </template>
         <template v-slot:cell(price)="data">
-          {{ data.item.current_price_ru }}
+          {{ data.item.current_price_eur }}
         </template>
         <template v-slot:cell(state)="data">
           {{ data.item.stock_choices }}

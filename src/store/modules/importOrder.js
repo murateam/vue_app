@@ -49,7 +49,7 @@ const actions = {
     const emptyImportOrder = await _.cloneDeep(context.getters.GET_EMPTY_IMPORT_ORDER);
     await context.commit('SET_SINGLE_IMPORT_ORDER', emptyImportOrder);
   },
-  GET_IMPORT_ORDER_BY_INDEX: (context, item) => {
+  SET_SINGLE_IMPORT_ORDER: (context, item) => {
     context.commit('SET_SINGLE_IMPORT_ORDER', item);
   },
 };

@@ -69,7 +69,7 @@
           {{ data.item.items_amount }}
         </template>
         <template v-slot:cell(price)="data">
-          {{ data.item.current_price_ru }}
+          {{ data.item.current_price_eur }}
         </template>
         <template v-slot:cell(state)="data">
           {{ data.item.stock_choices }}
@@ -129,6 +129,9 @@ export default {
           label: 'Номер в каталоге',
         },
         {
+          key: 'is_correct',
+        },
+        {
           key: 'amount',
           label: 'Колличество',
         },
@@ -161,7 +164,9 @@ export default {
       }
       return edit;
     },
-    editStockItem() {
+    async editStockItem() {
+      await this.$store.dispatch('SET_SINGLE_STOCK_ITEM_EXP', this.selected[0]);
+      this.$store.dispatch('GET_LIST_NAME_FACTORIES');
       this.$router.push('/stockItemExp');
     },
     onRowSelected(items) {
@@ -171,9 +176,9 @@ export default {
       this.$store.dispatch('SET_CURRENT_STOCK_ITEM_BY_INDEX', index);
       this.$store.dispatch('SET_IS_NEW_STOCK_ITEM', false);
     },
-    deleteItem(index) {
-      this.$store.dispatch('MOVE_ITEM_TO_DELETE_LIST', index);
-    },
+    // deleteItem(index) {
+    //   this.$store.dispatch('MOVE_ITEM_TO_DELETE_LIST', index);
+    // },
   },
   mounted() {
     // this.$store.dispatch('GET_ALL_ITEMS');
