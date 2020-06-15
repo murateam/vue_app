@@ -83,7 +83,7 @@ const actions = {
     const clientOrder = context.getters.GET_SINGLE_CLIENT_ORDER;
     await context.dispatch('GET_LIST_STOCK_ITEMS_CLIENT_ORDER', ClientOrder[0].id);
     const StockItems = context.getters.GET_LIST_STOCK_ITEMS;
-    const listPriceAndAmount = StockItems.map((item) => item.current_price_ru * item.items_amount);
+    const listPriceAndAmount = StockItems.map((item) => item.current_price_eur * item.items_amount);
     const inValue = 0;
     let sum = listPriceAndAmount.reduce(
       (accum, item) => accum + item, inValue,

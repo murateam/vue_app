@@ -1,12 +1,22 @@
 <template>
   <b-container>
     <b-row align-h="start">
-      <b-col cols="4">
+      <b-col cols="3">
         <b-button
         :disabled="canEdit()"
           @click="editStockItem"
         >Edit</b-button>
       </b-col>
+      <b-col cols="3">
+        <b-button
+        :disabled="canAdd()"
+        @click="addItemsToOrder"
+        >Add to order</b-button>
+      </b-col>
+    </b-row>
+    {{ importOrder }}
+    <b-row align-h="end">
+      <b-col cols="2" class="bg-success text-light">{{ bankEurRate.RUB }}</b-col>
     </b-row>
     <b-row class="mt-3">
       <b-col>
@@ -164,6 +174,15 @@ export default {
       }
       return edit;
     },
+    canAdd() {
+      let edit = true;
+      if (this.selected.length > 0) {
+        edit = false;
+      } else {
+        edit = true;
+      }
+      return edit;
+    },
     async editStockItem() {
       await this.$store.dispatch('SET_SINGLE_STOCK_ITEM_EXP', this.selected[0]);
       this.$store.dispatch('GET_LIST_NAME_FACTORIES');
@@ -176,22 +195,24 @@ export default {
       this.$store.dispatch('SET_CURRENT_STOCK_ITEM_BY_INDEX', index);
       this.$store.dispatch('SET_IS_NEW_STOCK_ITEM', false);
     },
-    // deleteItem(index) {
-    //   this.$store.dispatch('MOVE_ITEM_TO_DELETE_LIST', index);
-    // },
-  },
-  mounted() {
-    // this.$store.dispatch('GET_ALL_ITEMS');
+    addItemsToOrder() {
+      // this.selected.forEach(
+      //   ((value) => { this.$store.dispatch('CALC_AND_SAVE_ITEM', value); }),
+      // );
+    },
   },
   computed: {
     stockItems() {
       return this.$store.getters.GET_LIST_STOCK_ITEMS_EXP;
     },
-    // currentItem() {
-    //   return this.$store.getters.GET_CURRENT_STOCK_ITEM;
-    // },
     role() {
       return this.$store.getters.GET_AUTHOR;
+    },
+    bankEurRate() {
+      return this.$store.getters.GET_BANK_EUR_RATE;
+    },
+    importOrder() {
+      return this.$store.getters.GET_SINGLE_IMPORT_ORDER;
     },
   },
 };

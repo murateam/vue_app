@@ -81,6 +81,13 @@ const actions = {
       await context.commit('SET_SINGLE_STOCK_ITEM', tmpItem);
     }
   },
+  CALC_AND_SAVE_ITEM: async (context, item) => {
+    // need to calculate factor and current price RUB
+    const currentBankEurRate = context.getters.GET_BANK_EUR_RATE.RUB;
+    console.log(currentBankEurRate);
+    console.log(item);
+  },
+  ADD_ITEMS_TO_IMPORT_ORDER: () => {},
 };
 
 export default {

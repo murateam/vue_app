@@ -91,6 +91,15 @@
                 </b-form-group>
             </b-col>
           </b-row>
+          <b-row align-h="start" no-gutters>
+            <b-col md="auto" align-self="center"><h6>Comment:</h6></b-col>
+            <b-col>
+              <b-input
+                type="text"
+                v-model="currentStockItem.comment"
+              ></b-input>
+            </b-col>
+          </b-row>
           <b-row class="mt-3" align-h="end">
             <b-col cols="2">
               <b-button variant="danger" @click="cencel">Отменить</b-button>

@@ -22,7 +22,9 @@ const actions = {
   SET_AUTHOR: async (context, role) => {
     const roles = context.getters.GET_ROLE;
     const author = roles[role];
-    // console.log(author);
+    if (roles[role] === 4) {
+      context.dispatch('GET_BANK_EUR_RATE');
+    }
     await context.commit('SET_AUTHOR', author);
   },
 };
