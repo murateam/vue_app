@@ -114,7 +114,7 @@ export default {
         this.$router.push('./importOrder');
       }
       this.$refs.importOrdersTab.clearSelected();
-      this.$store.dispatch('SET_BOOL_CHOOSING_IMPORT_TABLE', false);
+      this.$store.dispatch('SET_BOOL_CHOOSING_IMPORT_ORDERS', false);
     },
     onRowSelected(items) {
       this.selected = items;
@@ -134,7 +134,7 @@ export default {
       return this.$store.getters.GET_AUTHOR;
     },
     boolChoosingImportTable() {
-      return this.$store.getters.GET_BOOL_CHOOSING_IMPORT_TABLE;
+      return this.$store.getters.GET_BOOL_CHOOSING_IMPORT_ORDERS;
     },
   },
 };

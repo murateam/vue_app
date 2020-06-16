@@ -35,10 +35,10 @@ const getters = {
   GET_EMPTY_IMPORT_ORDER: (state) => state.empryImportOrder,
   GET_LIST_IMPORT_ORDERS: (state) => state.listImportOrders,
   GET_SINGLE_IMPORT_ORDER: (state) => state.singleImportOrder,
-  GET_BOOL_CHOOSING_IMPORT_TABLE: (state) => state.choosingImportOrderThroughModal,
+  GET_BOOL_CHOOSING_IMPORT_ORDERS: (state) => state.choosingImportOrderThroughModal,
 };
 const mutations = {
-  SET_BOOL_CHOOSING_IMPORT_TABLE: (state, payload) => {
+  SET_BOOL_CHOOSING_IMPORT_ORDERS: (state, payload) => {
     state.choosingImportOrderThroughModal = payload;
   },
   SET_LIST_IMPORT_ORDERS: (state, listImportOrders) => {
@@ -52,8 +52,8 @@ const mutations = {
   },
 };
 const actions = {
-  SET_BOOL_CHOOSING_IMPORT_TABLE: (context, bool) => {
-    context.commit('SET_BOOL_CHOOSING_IMPORT_TABLE', bool);
+  SET_BOOL_CHOOSING_IMPORT_ORDERS: async (context, bool) => {
+    await context.commit('SET_BOOL_CHOOSING_IMPORT_ORDERS', bool);
   },
   RESET_SINGLE_IMPORT_ORDER: async (context) => {
     const emptyImportOrder = await _.cloneDeep(context.getters.GET_EMPTY_IMPORT_ORDER);

@@ -1,20 +1,22 @@
 <template>
   <b-container>
     <b-row align-h="start">
-      <b-col cols="3">
+      <b-col cols="2">
         <b-button
         :disabled="canEdit()"
           @click="editStockItem"
-        >Edit</b-button>
+        >Edit item</b-button>
       </b-col>
-      <b-col cols="3">
+      <b-col cols="2">
         <b-button
+        v-if="boolChoosingStockItems == false"
         :disabled="canAdd()"
         @click="addItemsToNewOrder"
         >Add to new order</b-button>
       </b-col>
-      <b-col>
+      <b-col cols="2">
         <b-button
+        v-if="boolChoosingStockItems == false"
         :disabled="canAdd()"
         @click="addItemsToExistOrder"
         >Add to exist order</b-button>
@@ -104,7 +106,8 @@
           X</b-button>
         </template>
         </b-table>
-        <import-modal ref="import-modal"></import-modal>
+        <import-modal
+        ref="import-modal"></import-modal>
         {{ selected }}
       </b-col>
     </b-row>
@@ -115,9 +118,9 @@
 import importModal from './importModalForItemsOrOrders.vue';
 
 export default {
-  name: 'stockTableExtanded',
+  name: 'stockTableExpanded',
   components: {
-    importModal,
+    'import-modal': importModal,
   },
   data() {
     return {
@@ -211,7 +214,8 @@ export default {
       // );
     },
     async addItemsToExistOrder() {
-      await this.$store.dispatch('SET_BOOL_CHOOSING_IMPORT_TABLE', true);
+      await this.$store.dispatch('SET_BOOL_CHOOSING_STOCK_ITEMS', false);
+      await this.$store.dispatch('SET_BOOL_CHOOSING_IMPORT_ORDERS', true);
       await this.$store.dispatch('GET_LIST_IMPORT_ORDERS');
       this.$refs['import-modal'].show();
     },
@@ -228,6 +232,9 @@ export default {
     },
     importOrder() {
       return this.$store.getters.GET_SINGLE_IMPORT_ORDER;
+    },
+    boolChoosingStockItems() {
+      return this.$store.getters.GET_BOOL_CHOOSING_STOCK_ITEMS;
     },
   },
 };

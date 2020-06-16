@@ -54,8 +54,8 @@ const mutations = {
   },
 };
 const actions = {
-  SET_BOOL_CHOOSING_STOCK_ITEMS: (context, bool) => {
-    context.commit('SET_BOOL_CHOOSING_STOCK_ITEMS', bool);
+  SET_BOOL_CHOOSING_STOCK_ITEMS: async (context, bool) => {
+    await context.commit('SET_BOOL_CHOOSING_STOCK_ITEMS', bool);
   },
   RESET_STOCK_ITEM_EXP: async (context) => {
     const emptyStockItme = context.getters.GET_EMPTY_STOCK_ITEM_EXP;

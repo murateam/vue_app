@@ -175,15 +175,36 @@
         placeholder=""></b-input>
       </b-col>
     </b-row>
+    <b-row class="mt-3" align-h="start">
+      <b-col cols="3">
+        <b-button
+          @click="addStockItems"
+        >Add Stock Items</b-button>
+      </b-col>
+    </b-row>
+    <b-row>
+      <b-col>
+        <import-modal ref="import-modal"></import-modal>
+      </b-col>
+    </b-row>
   </b-container>
 </template>
 
 <script>
 import _ from 'lodash';
+import importModal from './importModalForItemsOrOrders.vue';
 
 export default {
   name: 'importOrder',
+  components: {
+    importModal,
+  },
   methods: {
+    async addStockItems() {
+      await this.$store.dispatch('SET_BOOL_CHOOSING_IMPORT_ORDERS', false);
+      await this.$store.dispatch('SET_BOOL_CHOOSING_STOCK_ITEMS', true);
+      this.$refs['import-modal'].show();
+    },
   },
   created() {
     const importOrder = this.$store.getters.GET_SINGLE_IMPORT_ORDER;
