@@ -30,14 +30,19 @@ const state = {
   currentStockItem: {},
   listStockItemsExp: [],
   isListExpanded: false,
+  choosingStockItemsThroughModal: false,
 };
 const getters = {
   GET_EMPTY_STOCK_ITEM_EXP: (state) => state.emptyStockItemExp,
   GET_LIST_STOCK_ITEMS_EXP: (state) => state.listStockItemsExp,
   GET_IS_LIST_EXPANDED: (state) => state.isListExpanded,
   GET_CURRENT_STOCK_ITEM_EXP: (state) => state.currentStockItem,
+  GET_BOOL_CHOOSING_STOCK_ITEMS: (state) => state.choosingStockItemsThroughModal,
 };
 const mutations = {
+  SET_BOOL_CHOOSING_STOCK_ITEMS: (state, payload) => {
+    state.choosingStockItemsThroughModal = payload;
+  },
   SET_LIST_STOCK_ITEMS_EXP: (state, payload) => {
     state.listStockItemsExp = payload;
   },
@@ -49,6 +54,9 @@ const mutations = {
   },
 };
 const actions = {
+  SET_BOOL_CHOOSING_STOCK_ITEMS: (context, bool) => {
+    context.commit('SET_BOOL_CHOOSING_STOCK_ITEMS', bool);
+  },
   RESET_STOCK_ITEM_EXP: async (context) => {
     const emptyStockItme = context.getters.GET_EMPTY_STOCK_ITEM_EXP;
     context.commit('SET_SINGE_STOCK_ITEM', emptyStockItme);
@@ -87,7 +95,12 @@ const actions = {
     console.log(currentBankEurRate);
     console.log(item);
   },
-  ADD_ITEMS_TO_IMPORT_ORDER: () => {},
+  ADD_ITEMS_TO_IMPORT_ORDER: async (context) => {
+    const currentImportOrder = await context.getters.GET_SINGLE_IMPORT_ORDER;
+    if (_.isEmpty(currentImportOrder)) {
+      await context.dispatch('SAVE_NEW_IMPORT_ORDER');
+    }
+  },
 };
 
 export default {

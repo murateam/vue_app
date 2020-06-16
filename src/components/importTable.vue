@@ -1,13 +1,17 @@
 <template>
     <b-container>
-        <b-row align-h="start" class="mt-3">
+        <b-row align-h="start" class="mt-3"
+          v-if="boolChoosingImportTable == false"
+        >
             <b-col cols="2">
                 <router-link
                 class="btn btn-dark"
                 to="/">Home</router-link>
             </b-col>
         </b-row>
-        <b-row align-h="center">
+        <b-row align-h="center"
+          v-if="boolChoosingImportTable == false"
+        >
             <b-col cols="3">
                 <button
                   @click="addImportOrder"
@@ -17,7 +21,7 @@
                 >Create order</button>
               </b-col>
         </b-row>
-        {{ listImportOrders }}
+        <!-- {{ listImportOrders }} -->
         <b-row class="mt-3">
             <b-col>
                 <b-table
@@ -100,8 +104,8 @@ export default {
     dateFilter(value) {
       return moment(String(value)).format('DD-MM-YYYY');
     },
-    addImportOrder() {
-      this.$store.dispatch('RESET_SINGLE_IMPORT_ORDER');
+    async addImportOrder() {
+      await this.$store.dispatch('SAVE_NEW_IMPORT_ORDER');
       this.$router.push('./importOrder');
     },
     editImportOrder() {
@@ -110,6 +114,7 @@ export default {
         this.$router.push('./importOrder');
       }
       this.$refs.importOrdersTab.clearSelected();
+      this.$store.dispatch('SET_BOOL_CHOOSING_IMPORT_TABLE', false);
     },
     onRowSelected(items) {
       this.selected = items;
@@ -127,6 +132,9 @@ export default {
     },
     role() {
       return this.$store.getters.GET_AUTHOR;
+    },
+    boolChoosingImportTable() {
+      return this.$store.getters.GET_BOOL_CHOOSING_IMPORT_TABLE;
     },
   },
 };
