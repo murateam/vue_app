@@ -7,9 +7,10 @@
         @hidden="resetModal"
     >
         <b-container fluid>
+          <!-- {{ currentStockItem }} -->
             <div v-if="typeFactoryItem == 'factory'">
               <b-row align-h="center">
-                <b-col cols="3"><h5>Factory</h5></b-col>
+                <b-col md="auto"><h5>Factory</h5></b-col>
               </b-row>
               <b-row class="mt-4" align-h="start">
                 <b-col md="auto" align-self="center">
@@ -20,9 +21,60 @@
                 </b-col>
               </b-row>
             </div>
-            <div v-if="typeFactoryItem == 'collection'"><h5>Collection</h5>
+            <div v-else>
+              <b-row>
+                <b-col>
+                  <h6>
+                    Factory:
+                  </h6>
+                </b-col>
+                <b-col>
+                  <h5>{{ currentStockItem.factory_item.factory_collection.factory.name}}</h5>
+                </b-col>
+              </b-row>
             </div>
-            <div v-if="typeFactoryItem == 'catalogue-number'"><h5>Catalogue number</h5>
+            <div v-if="typeFactoryItem == 'collection'">
+              <b-row align-h="center">
+                <b-col md="auto">
+                  <h5>Collection</h5>
+                </b-col>
+              </b-row>
+              <b-row align-h="end">
+                <b-col md="auto">
+                  <b-form-checkbox>
+                    Is produced?
+                  </b-form-checkbox>
+                </b-col>
+              </b-row>
+              <b-row class="mt-3">
+                <b-col md="auto" align-self="center">Name Collection:</b-col>
+                <b-col>
+                  <b-input></b-input>
+                </b-col>
+              </b-row>
+            </div>
+            <div v-if="typeFactoryItem == 'catalogue-number'">
+              <b-row align-h="center">
+                <b-col md="auto">
+                  <h5>Catalogue number</h5>
+                </b-col>
+              </b-row>
+              <b-row class="mt-3">
+                <b-col md="auto">Description:</b-col>
+              </b-row>
+              <b-row>
+                <b-col>
+                  <b-input></b-input>
+                </b-col>
+              </b-row>
+              <b-row align-h="end" class="mt-4">
+                <b-col cols="3" align-self="center">
+                  Catalogue number:
+                </b-col>
+                <b-col cols="4">
+                  <b-input></b-input>
+                </b-col>
+              </b-row>
             </div>
             <b-row class="mt-3" align-h="end">
             <b-col cols="2">
@@ -56,6 +108,9 @@ export default {
   computed: {
     typeFactoryItem() {
       return this.$store.getters.GET_TYPE_FACTORY_ITEM;
+    },
+    currentStockItem() {
+      return this.$store.getters.GET_CURRENT_STOCK_ITEM_EXP;
     },
   },
 };
