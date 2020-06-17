@@ -97,9 +97,7 @@ const actions = {
   },
   ADD_ITEMS_TO_IMPORT_ORDER: async (context) => {
     const currentImportOrder = await context.getters.GET_SINGLE_IMPORT_ORDER;
-    if (_.isEmpty(currentImportOrder)) {
-      await context.dispatch('SAVE_NEW_IMPORT_ORDER');
-    }
+    console.log(currentImportOrder);
   },
 };
 

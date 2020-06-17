@@ -35,7 +35,7 @@ const state = {
     is_correct: false,
     is_ordered: false,
     is_shipped: false,
-    stock_choices: 'cencel',
+    stock_choices: 'cancel',
     items_amount: 0,
     last_price_ru: 0,
     current_price_ru: 0,
@@ -116,9 +116,10 @@ const actions = {
       await context.commit('SET_CURRENT_STOCK_ITEM', tmpItem);
     }
   },
-  ADD_ITEM_TO_LIST_STOCK_ITEMS: (context) => {
+  ADD_ITEM_TO_LIST_STOCK_ITEMS: async (context) => {
     const data = _.cloneDeep(context.getters.GET_CURRENT_STOCK_ITEM);
-    context.commit('ADD_ITEM_TO_LIST_STOCK_ITEMS', data);
+    await context.commit('ADD_ITEM_TO_LIST_STOCK_ITEMS', data);
+    await context.dispatch('CHANGE_STOCK_ITEMS_WITH_CALC_PRICE');
   },
   MOVE_ITEM_TO_DELETE_LIST: (context, index) => {
     context.commit('MOVE_ITEM_TO_DELETE_LIST', index);
@@ -153,14 +154,13 @@ const actions = {
     // itemList.forEach((element) => {
     //   console.log(element);
     // });
-    await axios.post(SaveStockItemsFromClientOrderURL, requestData).then((response) => {
-      if (response.status === 200) {
-        context.commit('SET_COUNT_FOR_SUCCESS_OF_CLIENT_ORDER', 3);
-      } else {
-        context.commit('SET_COUNT_FOR_UNSUCCESS_OF_CLIENT_ORDER', 3);
-      }
-      context.commit('SET_LIST_STOCK_ITEMS', response.data);
-    });
+    const response = await axios.post(SaveStockItemsFromClientOrderURL, requestData);
+    if (response.status === 200) {
+      await context.commit('SET_COUNT_FOR_SUCCESS_OF_CLIENT_ORDER', 3);
+    } else {
+      await context.commit('SET_COUNT_FOR_UNSUCCESS_OF_CLIENT_ORDER', 3);
+    }
+    await context.commit('SET_LIST_STOCK_ITEMS', response.data);
   },
 };
 

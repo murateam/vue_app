@@ -59,6 +59,7 @@ export default {
     },
     saveDesigner() {
       this.$store.dispatch('SET_DESIGNER_WITH_CALC_PRICE');
+      // this.$store.dispatch('CHANGE_STOCK_ITEMS_WITH_CALC_PRICE');
       this.hide();
     },
   },

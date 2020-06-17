@@ -203,6 +203,8 @@ export default {
     async addStockItems() {
       await this.$store.dispatch('SET_BOOL_CHOOSING_IMPORT_ORDERS', false);
       await this.$store.dispatch('SET_BOOL_CHOOSING_STOCK_ITEMS', true);
+      await this.$store.dispatch('SET_IS_LIST_EXPANDED', true);
+      await this.$store.dispatch('GET_STOCK_ITEMS_EXP');
       this.$refs['import-modal'].show();
     },
   },

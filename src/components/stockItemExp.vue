@@ -213,12 +213,16 @@ export default {
       if (this.checkFactory) {
         this.$store.dispatch('SET_TYPE_FACTORY_ITEM', 'collection');
         this.$refs['factory-item-modal'].show();
+      } else {
+        alert('Please enter Factory');
       }
     },
     addNewCatalogueNumber() {
       if (this.checkFactoryCollections) {
         this.$store.dispatch('SET_TYPE_FACTORY_ITEM', 'catalogue-number');
         this.$refs['factory-item-modal'].show();
+      } else {
+        alert('Please enter Factory Collection');
       }
     },
   },
@@ -258,6 +262,9 @@ export default {
         this.currentStockItem.factory_item.catalogue_number,
         'catalogueNumber',
       );
+    },
+    typeFactoryItem() {
+      return this.$store.getters.GET_TYPE_FACTORY_ITEM;
     },
   },
 };

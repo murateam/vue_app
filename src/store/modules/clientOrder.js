@@ -111,20 +111,22 @@ const actions = {
   },
   SET_DESIGNER_WITH_CALC_PRICE: async (context) => {
     await context.dispatch('CHANGE_DESIGNER_IN_CLIENT_ORDER');
-    const clientOrder = context.getters.GET_SINGLE_CLIENT_ORDER;
-    const StockItems = context.getters.GET_LIST_STOCK_ITEMS;
-    const listPriceAndAmount = StockItems.map((item) => item.current_price_ru * item.items_amount);
-    const inValue = 0;
-    let sum = listPriceAndAmount.reduce(
-      (accum, item) => accum + item, inValue,
-    );
-    sum = sum * context.getters.GET_EUR_RATE.current_rate + clientOrder.d_percent;
-    await context.commit('SET_PRICE_FOR_CLIENT_ORDER', sum);
+    await context.dispatch('CHANGE_STOCK_ITEMS_WITH_CALC_PRICE');
+  //   const clientOrder = context.getters.GET_SINGLE_CLIENT_ORDER;
+  //   const StockItems = context.getters.GET_LIST_STOCK_ITEMS;
+  //   const listPriceAndAmount = StockItems.map(
+  //     (item) => item.current_price_eur * item.items_amount);
+  //   const inValue = 0;
+  //   let sum = listPriceAndAmount.reduce(
+  //     (accum, item) => accum + item, inValue,
+  //   );
+  //   sum = sum * context.getters.GET_EUR_RATE.current_rate + clientOrder.d_percent;
+  //   await context.commit('SET_PRICE_FOR_CLIENT_ORDER', sum);
   },
   CHANGE_STOCK_ITEMS_WITH_CALC_PRICE: async (context) => {
     const clientOrder = context.getters.GET_SINGLE_CLIENT_ORDER;
     const StockItems = context.getters.GET_LIST_STOCK_ITEMS;
-    const listPriceAndAmount = StockItems.map((item) => item.current_price_ru * item.items_amount);
+    const listPriceAndAmount = StockItems.map((item) => item.current_price_eur * item.items_amount);
     const inValue = 0;
     let sum = listPriceAndAmount.reduce(
       (accum, item) => accum + item, inValue,
@@ -139,16 +141,14 @@ const actions = {
   SAVE_CLIENT_ORDER: async (context, requestData) => {
     if (requestData.id) {
       const { data } = await axios.put(singleClientOrderURL + requestData.id, requestData);
-      axios.get(`http://localhost:5000/api/client_orders/for_list/${data.id}`).then((response) => {
-        context.commit('CHANGE_CLIENT_ORDER', response.data);
-        context.dispatch('SAVE_STOCK_ITEM_FROM_CLIENT_ORDER', response.data);
-      });
+      const response = await axios.get(`http://localhost:5000/api/client_orders/for_list/${data.id}`);
+      await context.commit('CHANGE_CLIENT_ORDER', response.data);
+      await context.dispatch('SAVE_STOCK_ITEM_FROM_CLIENT_ORDER', response.data);
     } else {
       const { data } = await axios.post(clientOrderAddURL, requestData);
-      axios.get(`http://localhost:5000/api/client_orders/for_list/${data.id}`).then((response) => {
-        context.commit('ADD_CLIENT_ORDER', response.data);
-        context.dispatch('SAVE_STOCK_ITEM_FROM_CLIENT_ORDER', response.data);
-      });
+      const response = await axios.get(`http://localhost:5000/api/client_orders/for_list/${data.id}`);
+      await context.commit('ADD_CLIENT_ORDER', response.data);
+      await context.dispatch('SAVE_STOCK_ITEM_FROM_CLIENT_ORDER', response.data);
     }
   },
   SET_CAN_CHANGE_CLIENT: (context, bool) => {
