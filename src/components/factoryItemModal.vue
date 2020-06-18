@@ -8,35 +8,37 @@
     >
         <b-container fluid>
           <!-- {{ currentStockItem }} -->
-            <b-card>
-              <div v-if="typeFactoryItem == 'factory'">
-                <b-row align-h="center">
-                  <b-col md="auto"><h5>Factory</h5></b-col>
-                </b-row>
-                <b-row class="mt-4" align-h="start">
-                  <b-col md="auto" align-self="center">
-                    <h6>Name:</h6>
-                  </b-col>
-                  <b-col>
-                    <b-input></b-input>
-                  </b-col>
-                </b-row>
-              </div>
-              <div v-else>
-                <b-row align-h="center">
-                  <b-col md="auto"><h5>Factory</h5></b-col>
-                </b-row>
-                <b-row class="mt-4" align-h="start">
-                  <b-col md="auto" align-self="center">
-                    <h6>Name:</h6>
-                  </b-col>
-                  <b-col>
-                    <h5>{{ currentStockItem.factory_item.factory_collection.factory.name}}</h5>
-                  </b-col>
-                </b-row>
-              </div>
-            </b-card>
-            <b-card class="mt-3">
+          <b-card>
+            <div v-if="typeFactoryItem == 'factory'">
+              <b-row align-h="center">
+                <b-col md="auto"><h5>Factory</h5></b-col>
+              </b-row>
+              <b-row class="mt-4" align-h="start">
+                <b-col md="auto" align-self="center">
+                  <h6>Name:</h6>
+                </b-col>
+                <b-col>
+                  <b-input></b-input>
+                </b-col>
+              </b-row>
+            </div>
+            <div v-else>
+              <b-row align-h="center">
+                <b-col md="auto"><h5>Factory</h5></b-col>
+              </b-row>
+              <b-row class="mt-4" align-h="start">
+                <b-col md="auto" align-self="center">
+                  <h6>Name:</h6>
+                </b-col>
+                <b-col>
+                  <h5>{{ currentStockItem.factory_item.factory_collection.factory.name}}</h5>
+                </b-col>
+              </b-row>
+            </div>
+          </b-card>
+          <b-card class="mt-3">
+            <div v-if="typeFactoryItem == 'factory'"></div>
+            <div v-else>
               <div v-if="typeFactoryItem == 'collection'">
                 <b-row align-h="center">
                   <b-col md="auto">
@@ -64,7 +66,9 @@
                   </b-col>
                 </b-row>
                 <b-row align-h="end">
-                  <b-col md="auto" v-if="currentStockItem.factory_item.factory_collection.is_made">
+                  <b-col
+                    md="auto"
+                    v-if="currentStockItem.factory_item.factory_collection.is_made">
                     {{ currentStockItem.factory_item.factory_collection.is_made }}
                   </b-col>
                 </b-row>
@@ -75,8 +79,11 @@
                   </b-col>
                 </b-row>
               </div>
-            </b-card>
-            <b-card class="mt-3">
+            </div>
+          </b-card>
+          <b-card class="mt-3">
+            <div v-if="typeFactoryItem == 'collection'"></div>
+            <div v-else>
               <div v-if="typeFactoryItem == 'catalogue-number'">
                 <b-row align-h="center">
                   <b-col md="auto">
@@ -100,7 +107,8 @@
                   </b-col>
                 </b-row>
               </div>
-            </b-card>
+            </div>
+          </b-card>
             <b-row class="mt-3" align-h="end">
             <b-col cols="2">
                 <b-button variant="danger">Cancel</b-button>

@@ -5,6 +5,9 @@ import axios from 'axios';
 const ListNameFactoriesURL = 'http://127.0.0.1:5000/api/factories/list_names/';
 const ListNameFactoryCollectionsURL = 'http://127.0.0.1:5000/api/factories/collections/list_names/';
 const ListNumberFactoryItemsURL = 'http://127.0.0.1:5000/api/factories/items/list_numbers/';
+// const factoriesURL = 'http://127.0.0.1:5000/api/factories/';
+// const collectionURL = 'http://127.0.0.1:5000/api/factories/collecitons/';
+// const factoryItemsURL = 'http://127.0.0.1:5000/api/factories/items/';
 
 const state = {
   listNameFactories: [],

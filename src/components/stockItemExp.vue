@@ -41,6 +41,7 @@
                         placement="top"
                         ref="popForFactory"
                         target="input-factory"
+                        v-if="popForFactory"
                         :show.sync="popForFactory">
                         <strong>Enter me correctly, first!</strong>
                       </b-popover>
@@ -75,6 +76,7 @@
                         placement="top"
                         ref="popForCollection"
                         target="input-collection"
+                        v-if="popForCollection"
                         :show.sync="popForCollection">
                         <strong>Enter me correctly, first!</strong>
                       </b-popover>
@@ -184,6 +186,8 @@ export default {
       timerCollection: null,
     };
   },
+  mounted() {
+  },
   created() {
     this.$store.dispatch('SET_EMPTY_STOCK_ITEM');
   },
@@ -193,7 +197,7 @@ export default {
         this.time -= 1;
       } else {
         this.popForFactory = false;
-        this.$refs.popForFactory.$emit('disable');
+        // this.$refs.popForFactory.$emit('disable');
         clearInterval(this.timerFactory);
         this.timerFactory = null;
       }
@@ -208,7 +212,7 @@ export default {
         this.time -= 1;
       } else {
         this.popForCollection = false;
-        this.$refs.popForCollection.$emit('disable');
+        // this.$refs.popForCollection.$emit('disable');
         clearInterval(this.timerCollection);
         this.timerCollection = null;
       }
@@ -264,7 +268,7 @@ export default {
         this.$store.dispatch('SET_TYPE_FACTORY_ITEM', 'collection');
         this.$refs['factory-item-modal'].show();
       } else {
-        this.$refs.popForFactory.$emit('enable');
+        // this.$refs.popForFactory.$emit('enable');
         this.popForFactory = true;
         this.popFactory();
         // this.popForFactory = true;
@@ -275,7 +279,7 @@ export default {
         this.$store.dispatch('SET_TYPE_FACTORY_ITEM', 'catalogue-number');
         this.$refs['factory-item-modal'].show();
       } else {
-        this.$refs.popForCollection.$emit('enable');
+        // this.$refs.popForCollection.$emit('enable');
         this.popForCollection = true;
         this.popCollection();
       }
