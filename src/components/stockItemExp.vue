@@ -16,6 +16,7 @@
                 <h4>Item</h4>
               </b-row>
                 {{ currentStockItem }}
+                <!-- <h4> {{ timer }} </h4> -->
               <b-row align-h="end" class="mt-3">
                 <b-col cols="4">
                   <h5>Client Order: {{ currentStockItem.client_order.public_num }}</h5>
@@ -36,6 +37,13 @@
                       >New</b-button>
                     </b-col>
                     <b-col sm>
+                      <b-popover
+                        placement="top"
+                        ref="popForFactory"
+                        target="input-factory"
+                        :show.sync="popForFactory">
+                        <strong>Enter me correctly, first!</strong>
+                      </b-popover>
                       <b-input id="input-factory"
                       debounce="700"
                       list="factories-list"
@@ -63,6 +71,13 @@
                       >New</b-button>
                     </b-col>
                     <b-col sm>
+                      <b-popover
+                        placement="top"
+                        ref="popForCollection"
+                        target="input-collection"
+                        :show.sync="popForCollection">
+                        <strong>Enter me correctly, first!</strong>
+                      </b-popover>
                       <b-input id="input-collection"
                       debounce="700"
                       list="factory-collections-list"
@@ -162,12 +177,47 @@ export default {
   },
   data() {
     return {
+      popForFactory: false,
+      popForCollection: false,
+      time: 1,
+      timerFactory: null,
+      timerCollection: null,
     };
   },
   created() {
     this.$store.dispatch('SET_EMPTY_STOCK_ITEM');
   },
   methods: {
+    factoryDecrement() {
+      if (this.time > 0) {
+        this.time -= 1;
+      } else {
+        this.popForFactory = false;
+        this.$refs.popForFactory.$emit('disable');
+        clearInterval(this.timerFactory);
+        this.timerFactory = null;
+      }
+    },
+    popFactory() {
+      if (this.timerFactory === null) {
+        this.timerFactory = setInterval(this.factoryDecrement, 1000);
+      }
+    },
+    collectionDecrement() {
+      if (this.time > 0) {
+        this.time -= 1;
+      } else {
+        this.popForCollection = false;
+        this.$refs.popForCollection.$emit('disable');
+        clearInterval(this.timerCollection);
+        this.timerCollection = null;
+      }
+    },
+    popCollection() {
+      if (this.timerCollection == null) {
+        this.timerCollection = setInterval(this.collectionDecrement, 1000);
+      }
+    },
     addItem() {
       this.$store.dispatch('ADD_ITEM_TO_LIST_STOCK_ITEMS');
     },
@@ -214,7 +264,10 @@ export default {
         this.$store.dispatch('SET_TYPE_FACTORY_ITEM', 'collection');
         this.$refs['factory-item-modal'].show();
       } else {
-        alert('Please enter Factory');
+        this.$refs.popForFactory.$emit('enable');
+        this.popForFactory = true;
+        this.popFactory();
+        // this.popForFactory = true;
       }
     },
     addNewCatalogueNumber() {
@@ -222,7 +275,9 @@ export default {
         this.$store.dispatch('SET_TYPE_FACTORY_ITEM', 'catalogue-number');
         this.$refs['factory-item-modal'].show();
       } else {
-        alert('Please enter Factory Collection');
+        this.$refs.popForCollection.$emit('enable');
+        this.popForCollection = true;
+        this.popCollection();
       }
     },
   },
