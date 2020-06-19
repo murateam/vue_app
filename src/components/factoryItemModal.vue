@@ -15,7 +15,7 @@
               </b-row>
               <b-row class="mt-4" align-h="start">
                 <b-col md="auto" align-self="center">
-                  <h6>Name:</h6>
+                  <div>Name:</div>
                 </b-col>
                 <b-col>
                   <b-input></b-input>
@@ -28,10 +28,10 @@
               </b-row>
               <b-row class="mt-4" align-h="start">
                 <b-col md="auto" align-self="center">
-                  <h6>Name:</h6>
+                  <div>Name:</div>
                 </b-col>
                 <b-col>
-                  <h5>{{ currentStockItem.factory_item.factory_collection.factory.name}}</h5>
+                  <h6>{{ currentStockItem.factory_item.factory_collection.factory.name}}</h6>
                 </b-col>
               </b-row>
             </div>
@@ -62,20 +62,22 @@
               <div v-else>
                 <b-row align-h="center">
                   <b-col md="auto">
-                    <h5>Collection</h5>
+                    <h5>Collection:</h5>
                   </b-col>
                 </b-row>
                 <b-row align-h="end">
                   <b-col
                     md="auto"
                     v-if="currentStockItem.factory_item.factory_collection.is_made">
-                    {{ currentStockItem.factory_item.factory_collection.is_made }}
+                    <h6>{{ currentStockItem.factory_item.factory_collection.is_made }}</h6>
                   </b-col>
                 </b-row>
                 <b-row class="mt-3">
                   <b-col md="auto" align-self="center">Name Collection:</b-col>
                   <b-col>
-                    {{ currentStockItem.factory_item.factory_collection.name }}
+                    <h6>
+                      {{ currentStockItem.factory_item.factory_collection.name }}
+                    </h6>
                   </b-col>
                 </b-row>
               </div>
@@ -117,6 +119,9 @@
                 <b-button variant="primary">Save</b-button>
             </b-col>
             </b-row>
+            <div>{{ currentFactory }}</div>
+            <div>{{ currentCollection }}</div>
+            <div>{{ currentFactoryItem }}</div>
         </b-container>
     </b-modal>
 </template>
@@ -144,6 +149,15 @@ export default {
     },
     currentStockItem() {
       return this.$store.getters.GET_CURRENT_STOCK_ITEM_EXP;
+    },
+    currentFactory() {
+      return this.$store.getters.GET_CURRENT_FACTORY;
+    },
+    currentCollection() {
+      return this.$store.getters.GET_CURRENT_COLLECTION;
+    },
+    currentFactoryItem() {
+      return this.$store.getters.GET_CURRENT_FACTORY_ITEM;
     },
   },
 };

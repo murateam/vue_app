@@ -15,7 +15,9 @@
               <b-row align-h="center">
                 <h4>Item</h4>
               </b-row>
+              <div>{{ testFactory }}</div>
                 {{ currentStockItem }}
+                {{ listNameFactories }}
                 <!-- <h4> {{ timer }} </h4> -->
               <b-row align-h="end" class="mt-3">
                 <b-col cols="4">
@@ -238,11 +240,15 @@ export default {
       let foundObj = {};
       if (objType === 'factory') {
         foundObj = _.find(this.listNameFactories, ['name', obj]);
+        this.$store.dispatch('RESET_LIST_COLLECTIONS_AND_NUMBERS');
       } else if (objType === 'collections') {
         foundObj = _.find(this.listNameFactoryCollections, ['name', obj]);
+        // this.$store.dispatch('SET_CURRENT_FACTORY_ITEM', foundObj);
       } else {
         foundObj = _.find(this.listCatalogueNumbers, ['catalogue_number', obj]);
+        // this.$store.dispatch('SET_CURRENT_FACTORY_ITEM', foundObj);
       }
+      this.$store.dispatch('SET_CURRENT_FACTORY_ITEM', foundObj);
       let result = false;
       if (_.isObject(foundObj)) {
         result = true;
@@ -261,6 +267,7 @@ export default {
     },
     addNewFactory() {
       this.$store.dispatch('SET_TYPE_FACTORY_ITEM', 'factory');
+      this.$store.dispatch('SET_CURRENT_FACTORY_ITEM', 'empty');
       this.$refs['factory-item-modal'].show();
     },
     addNewFactoryCollection() {
@@ -324,6 +331,9 @@ export default {
     },
     typeFactoryItem() {
       return this.$store.getters.GET_TYPE_FACTORY_ITEM;
+    },
+    testFactory() {
+      return this.$store.getters.GET_CURRENT_FACTORY;
     },
   },
 };
