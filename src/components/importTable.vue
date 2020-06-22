@@ -111,6 +111,8 @@ export default {
     editImportOrder() {
       if (this.selected.length > 0) {
         this.$store.dispatch('SET_SINGLE_IMPORT_ORDER', this.selected[0]);
+        this.$store.dispatch('SET_IS_LIST_USED_IN_IMPORT_ORDER', true);
+        this.$store.dispatch('GET_LIST_STOCK_ITEMS_EXP_FOR_IMPORT_ORDER', this.selected[0]);
         this.$router.push('./importOrder');
       }
       this.$refs.importOrdersTab.clearSelected();

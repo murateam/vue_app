@@ -256,7 +256,7 @@ export default {
       let foundObj = {};
       if (objType === 'factory') {
         foundObj = _.find(this.listNameFactories, ['name', obj]);
-        this.$store.dispatch('RESET_LIST_COLLECTIONS_AND_NUMBERS');
+        // this.$store.dispatch('RESET_LIST_COLLECTIONS_AND_NUMBERS');
       } else if (objType === 'collections') {
         foundObj = _.find(this.listNameFactoryCollections, ['name', obj]);
         // this.$store.dispatch('SET_CURRENT_FACTORY_ITEM', foundObj);

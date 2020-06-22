@@ -3,6 +3,7 @@ import axios from 'axios';
 import _ from 'lodash';
 
 const stockItemExpURL = 'http://127.0.0.1:5000/api/stock_items/import/';
+const listStockItemsForImportOrder = 'http://127.0.0.1:5000/api/stock_items/import_order/';
 
 const state = {
   emptyStockItemExp: {
@@ -33,6 +34,7 @@ const state = {
   listStockItemsExpForImportOrder: [],
   isListExpanded: false,
   choosingStockItemsThroughModal: false,
+  isListUsedInImportOrder: false,
 };
 const getters = {
   GET_EMPTY_STOCK_ITEM_EXP: (state) => state.emptyStockItemExp,
@@ -42,6 +44,7 @@ const getters = {
   GET_IS_LIST_EXPANDED: (state) => state.isListExpanded,
   GET_CURRENT_STOCK_ITEM_EXP: (state) => state.currentStockItem,
   GET_BOOL_CHOOSING_STOCK_ITEMS: (state) => state.choosingStockItemsThroughModal,
+  GET_IS_LIST_USED_IN_IMPORT_ORDER: (state) => state.isListUsedInImportOrder,
 };
 const mutations = {
   SET_BOOL_CHOOSING_STOCK_ITEMS: (state, payload) => {
@@ -49,6 +52,9 @@ const mutations = {
   },
   SET_LIST_STOCK_ITEMS_EXP: (state, payload) => {
     state.listStockItemsExp = payload;
+  },
+  GET_LIST_STOCK_ITEMS_EXP_FOR_IMPORT_ORDER: (state, payload) => {
+    state.listStockItemsExpForImportOrder = payload;
   },
   SET_IS_LIST_EXPANDED: (state, payload) => {
     state.isListExpanded = payload;
@@ -59,8 +65,17 @@ const mutations = {
   SET_LIST_STOCK_ITEMS_BEFORE_SAVE: (state, payload) => {
     state.listStockItemsExpBeforeSave = payload;
   },
+  ADD_STOCK_ITEM_TO_LIST_IMPORT_ORDER: (state, payload) => {
+    state.listStockItemsExpForImportOrder.push(payload);
+  },
+  SET_IS_LIST_USED_IN_IMPORT_ORDER: (state, payload) => {
+    state.isListUsedInImportOrder = payload;
+  },
 };
 const actions = {
+  SET_IS_LIST_USED_IN_IMPORT_ORDER: (context, bool) => {
+    context.commit('SET_IS_LIST_USED_IN_IMPORT_ORDER', bool);
+  },
   SET_BOOL_CHOOSING_STOCK_ITEMS: async (context, bool) => {
     await context.commit('SET_BOOL_CHOOSING_STOCK_ITEMS', bool);
   },
@@ -71,6 +86,10 @@ const actions = {
   GET_STOCK_ITEMS_EXP: async (context) => {
     const stockItemExp = await axios.get(stockItemExpURL);
     context.commit('SET_LIST_STOCK_ITEMS_EXP', stockItemExp.data);
+  },
+  GET_LIST_STOCK_ITEMS_EXP_FOR_IMPORT_ORDER: async (context, importOrder) => {
+    const listStockItemsResponse = await axios.get(listStockItemsForImportOrder + importOrder.id);
+    context.commit('GET_LIST_STOCK_ITEMS_EXP_FOR_IMPORT_ORDER', listStockItemsResponse.data);
   },
   SET_IS_LIST_EXPANDED: async (context, bool) => {
     await context.commit('SET_IS_LIST_EXPANDED', bool);
@@ -99,12 +118,12 @@ const actions = {
   SET_LIST_STOCK_ITEMS_BEFORE_SAVE: (context, items) => {
     context.commit('SET_LIST_STOCK_ITEMS_BEFORE_SAVE', items);
   },
-  CALC_AND_SAVE_ITEM: async (context, item) => {
-    // need to calculate factor and current price RUB
-    const currentBankEurRate = context.getters.GET_BANK_EUR_RATE.RUB;
-    console.log(currentBankEurRate);
-    console.log(item);
-  },
+  // CALC_AND_SAVE_ITEM: async (context, item) => {
+  //   // need to calculate factor and current price RUB
+  //   const currentBankEurRate = context.getters.GET_BANK_EUR_RATE.RUB;
+  //   console.log(currentBankEurRate);
+  //   console.log(item);
+  // },
   ADD_ITEMS_TO_IMPORT_ORDER: async (context) => {
     /* eslint no-param-reassign: ["error", { "props": false }] */
     const currentImportOrder = await context.getters.GET_SINGLE_IMPORT_ORDER;
@@ -114,11 +133,13 @@ const actions = {
       (async (value) => {
         value.import_order = currentImportOrder.id;
         value.stock_choices = 'processed';
-        console.log(value);
-      //   //  await this.$store.dispatch('SET_IMPORT_ORDER_FOR_STOCK_ITEM_EXP', value);
+        const response = await axios.put(stockItemExpURL + value.id, value);
+        context.commit('ADD_STOCK_ITEM_TO_LIST_IMPORT_ORDER', response.data);
       }),
     );
   },
+  // SAVE_STOCK_ITEM_EXP: async (context, item) => {
+  // },
 };
 
 export default {

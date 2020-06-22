@@ -65,6 +65,7 @@ export default {
     async stockTableExpanded() {
       await this.$store.dispatch('SET_AUTHOR', 'import');
       await this.$store.dispatch('SET_IS_LIST_EXPANDED', true);
+      this.$store.dispatch('SET_IS_LIST_USED_IN_IMPORT_ORDER', false);
       this.$store.dispatch('GET_STOCK_ITEMS_EXP');
       this.$router.push('/stockList');
     },

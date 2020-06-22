@@ -1,5 +1,6 @@
 <template>
   <b-container>
+      {{ isListUsedInImportOrder }}
     <b-row align-h="start">
       <b-col cols="2">
         <b-button
@@ -7,14 +8,14 @@
           @click="editStockItem"
         >Edit item</b-button>
       </b-col>
-      <b-col cols="2">
+      <b-col cols="2" v-if="isListUsedInImportOrder == false">
         <b-button
         v-if="boolChoosingStockItems == false"
         :disabled="canAdd()"
         @click="addItemsToNewOrder"
         >Add to new order</b-button>
       </b-col>
-      <b-col cols="2">
+      <b-col cols="2" v-if="isListUsedInImportOrder == false">
         <b-button
         v-if="boolChoosingStockItems == false"
         :disabled="canAdd()"
@@ -228,7 +229,14 @@ export default {
   },
   computed: {
     stockItems() {
-      return this.$store.getters.GET_LIST_STOCK_ITEMS_EXP;
+      // return this.$store.getters.GET_LIST_STOCK_ITEMS_EXP;
+      let listItems = [];
+      if (this.isListUsedInImportOrder) {
+        listItems = this.$store.getters.GET_LIST_STOCK_ITEMS_EXP_FOR_IMPORT_ORDER;
+      } else {
+        listItems = this.$store.getters.GET_LIST_STOCK_ITEMS_EXP;
+      }
+      return listItems;
     },
     role() {
       return this.$store.getters.GET_AUTHOR;
@@ -241,6 +249,9 @@ export default {
     },
     boolChoosingStockItems() {
       return this.$store.getters.GET_BOOL_CHOOSING_STOCK_ITEMS;
+    },
+    isListUsedInImportOrder() {
+      return this.$store.getters.GET_IS_LIST_USED_IN_IMPORT_ORDER;
     },
   },
 };

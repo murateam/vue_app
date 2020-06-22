@@ -187,17 +187,24 @@
         <import-modal ref="import-modal"></import-modal>
       </b-col>
     </b-row>
+    <b-row>
+      <b-col>
+        <stock-table-expanded></stock-table-expanded>
+      </b-col>
+    </b-row>
   </b-container>
 </template>
 
 <script>
 import _ from 'lodash';
 import importModal from './importModalForItemsOrOrders.vue';
+import stockTableExpanded from './stockTableExpanded.vue';
 
 export default {
   name: 'importOrder',
   components: {
     importModal,
+    stockTableExpanded,
   },
   methods: {
     async addStockItems() {
