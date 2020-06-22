@@ -53,6 +53,7 @@ const mutations = {
     state.listClientOrders[objIndex].state = payload.state;
     state.listClientOrders[objIndex].status = payload.status;
     state.listClientOrders[objIndex].payment_status = payload.payment_status;
+    state.listClientOrders[objIndex].price = payload.price;
   },
   SET_LIST_CLIENT_ORDERS: (state, payload) => {
     state.listClientOrders = payload;

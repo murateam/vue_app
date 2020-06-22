@@ -108,7 +108,7 @@
         </b-table>
         <import-modal
         ref="import-modal"></import-modal>
-        {{ selected }}
+        <!-- {{ selected }} -->
       </b-col>
     </b-row>
   </b-container>
@@ -214,10 +214,16 @@ export default {
       // );
     },
     async addItemsToExistOrder() {
+      await this.$store.dispatch('SET_LIST_STOCK_ITEMS_BEFORE_SAVE', this.selected);
       await this.$store.dispatch('SET_BOOL_CHOOSING_STOCK_ITEMS', false);
       await this.$store.dispatch('SET_BOOL_CHOOSING_IMPORT_ORDERS', true);
       await this.$store.dispatch('GET_LIST_IMPORT_ORDERS');
       this.$refs['import-modal'].show();
+      // await this.selected.forEach(
+      //   (async (value) => {
+      //      await this.$store.dispatch('SET_IMPORT_ORDER_FOR_STOCK_ITEM_EXP', value);
+      //   }),
+      // );
     },
   },
   computed: {

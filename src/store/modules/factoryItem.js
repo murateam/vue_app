@@ -180,7 +180,7 @@ const actions = {
     } else if (currentTypeFactoryItem === 'catalogue-number') {
       let factoryItemResponse = {};
       if (currentFactoryItem.id == null) {
-        currentFactoryItem.factory_collection = { id: currentCollection.id };
+        currentFactoryItem.factory_collection = currentCollection.id;
         console.log('POST factory item');
         factoryItemResponse = await axios.post(factoryItemsURL, currentFactoryItem);
         await context.commit('ADD_FACTORY_ITEM_TO_LIST', factoryItemResponse.data);

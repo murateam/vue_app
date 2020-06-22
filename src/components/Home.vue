@@ -58,6 +58,8 @@ export default {
     async importOrdersTab() {
       await this.$store.dispatch('SET_AUTHOR', 'import');
       await this.$store.dispatch('GET_LIST_IMPORT_ORDERS');
+      this.$store.dispatch('SET_BOOL_CHOOSING_IMPORT_ORDERS', false);
+      this.$store.dispatch('SET_BOOL_CHOOSING_STOCK_ITEMS', false);
       this.$router.push('/importTab');
     },
     async stockTableExpanded() {

@@ -1,7 +1,7 @@
 <template>
     <b-container>
         <b-row align-h="start" class="mt-3"
-          v-if="boolChoosingImportTable == false"
+          v-if="boolChoosingImportOrders == false"
         >
             <b-col cols="2">
                 <router-link
@@ -10,7 +10,7 @@
             </b-col>
         </b-row>
         <b-row align-h="center"
-          v-if="boolChoosingImportTable == false"
+          v-if="boolChoosingImportOrders == false"
         >
             <b-col cols="3">
                 <button
@@ -116,10 +116,22 @@ export default {
       this.$refs.importOrdersTab.clearSelected();
       this.$store.dispatch('SET_BOOL_CHOOSING_IMPORT_ORDERS', false);
     },
+    async addStockItemsToImportOrder() {
+      if (this.selected.length > 0) {
+        await this.$store.dispatch('SET_SINGLE_IMPORT_ORDER', this.selected[0]);
+        this.$store.dispatch('ADD_ITEMS_TO_IMPORT_ORDER');
+      }
+      this.$refs.importOrdersTab.clearSelected();
+      this.$store.dispatch('SET_BOOL_CHOOSING_IMPORT_ORDERS', false);
+    },
     onRowSelected(items) {
       this.selected = items;
       if (this.role === 4) {
-        this.editImportOrder();
+        if (this.boolChoosingImportOrders === true) {
+          this.addStockItemsToImportOrder();
+        } else {
+          this.editImportOrder();
+        }
       }
       // else if (this.role === 3) {
       //   this.editPayments();
@@ -133,7 +145,7 @@ export default {
     role() {
       return this.$store.getters.GET_AUTHOR;
     },
-    boolChoosingImportTable() {
+    boolChoosingImportOrders() {
       return this.$store.getters.GET_BOOL_CHOOSING_IMPORT_ORDERS;
     },
   },
