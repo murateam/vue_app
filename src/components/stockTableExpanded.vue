@@ -109,7 +109,7 @@
         </b-table>
         <import-modal
         ref="import-modal"></import-modal>
-        <!-- {{ selected }} -->
+        {{ boolChoosingStockItems }}
       </b-col>
     </b-row>
   </b-container>
@@ -229,6 +229,7 @@ export default {
   },
   computed: {
     stockItems() {
+      console.log('get');
       // return this.$store.getters.GET_LIST_STOCK_ITEMS_EXP;
       let listItems = [];
       if (this.isListUsedInImportOrder) {
@@ -253,6 +254,8 @@ export default {
     isListUsedInImportOrder() {
       return this.$store.getters.GET_IS_LIST_USED_IN_IMPORT_ORDER;
     },
+  },
+  watch: {
   },
 };
 </script>

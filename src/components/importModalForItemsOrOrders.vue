@@ -34,9 +34,9 @@ export default {
       this.$refs.importModal.hide();
     },
     reset() {
-      console.log('reset');
       this.$store.dispatch('SET_BOOL_CHOOSING_IMPORT_ORDERS', false);
       this.$store.dispatch('SET_BOOL_CHOOSING_STOCK_ITEMS', false);
+      this.$store.dispatch('SET_IS_LIST_USED_IN_IMPORT_ORDER', true);
     },
   },
   computed: {

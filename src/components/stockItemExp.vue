@@ -4,9 +4,13 @@
           <b-container>
             <b-row align-h="start" class="mt-3">
               <b-col cols="2">
-                <b-button
+                <!-- <b-button
                   class="btn btn-dark"
                   @click="backToStockTableExp"
+                >Back</b-button> -->
+                <b-button
+                  class="btn btn-dark"
+                  @click="back"
                 >Back</b-button>
               </b-col>
             </b-row>
@@ -171,7 +175,7 @@
                     </b-form-group>
                 </b-col>
               </b-row>
-              <b-row class="mt-3" align-h="end">
+              <b-row class="mt-3 mb-5" align-h="end">
                 <b-col cols="2">
                   <b-button variant="danger">Cancel</b-button>
                 </b-col>
@@ -180,7 +184,7 @@
                 </b-col>
               </b-row>
             </div>
-            <div v-else class="mt-5"><h3>Forbidden</h3></div>
+            <div v-else class="mt-5 mb-5"><h3>Forbidden</h3></div>
           </b-container>
         </b-form>
         <factory-item-modal ref="factory-item-modal"></factory-item-modal>
@@ -249,8 +253,8 @@ export default {
     cencel() {
       this.$store.dispatch('SET_EMPTY_STOCK_ITEM');
     },
-    backToStockTableExp() {
-      this.$router.push('stockList');
+    back() {
+      this.$router.go(-1);
     },
     checkObjectByType(obj, objType) {
       let foundObj = {};

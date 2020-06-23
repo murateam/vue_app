@@ -210,6 +210,7 @@ export default {
     async addStockItems() {
       await this.$store.dispatch('SET_BOOL_CHOOSING_IMPORT_ORDERS', false);
       await this.$store.dispatch('SET_BOOL_CHOOSING_STOCK_ITEMS', true);
+      this.$store.dispatch('SET_IS_LIST_USED_IN_IMPORT_ORDER', false);
       await this.$store.dispatch('SET_IS_LIST_EXPANDED', true);
       await this.$store.dispatch('GET_STOCK_ITEMS_EXP');
       this.$refs['import-modal'].show();
@@ -224,6 +225,13 @@ export default {
   computed: {
     singleImportOrder() {
       return this.$store.getters.GET_SINGLE_IMPORT_ORDER;
+    },
+  },
+  watch: {
+    $route(to, from) {
+      console.log('route');
+      console.log(to);
+      console.log(from);
     },
   },
 };
