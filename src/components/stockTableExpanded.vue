@@ -2,11 +2,23 @@
   <b-container>
       {{ isListUsedInImportOrder }}
     <b-row align-h="start">
+      <b-col cols="2" v-if="boolChoosingStockItems">
+        <b-button
+        :disabled="canAdd()"
+          @click="addItems"
+        >Add</b-button>
+      </b-col>
       <b-col cols="2">
         <b-button
         :disabled="canEdit()"
           @click="editStockItem"
         >Edit item</b-button>
+      </b-col>
+      <b-col cols="2" v-if="isListUsedInImportOrder">
+        <b-button
+        :disabled="canAdd()"
+          @click="deleteStockItemFromImportOrder"
+        >Delete item</b-button>
       </b-col>
       <b-col cols="2" v-if="isListUsedInImportOrder == false">
         <b-button
@@ -210,9 +222,15 @@ export default {
     },
     addItemsToNewOrder() {
       this.$store.dispatch('ADD_ITEMS_TO_IMPORT_ORDER');
-      // this.selected.forEach(
-      //   ((value) => { this.$store.dispatch('CALC_AND_SAVE_ITEM', value); }),
-      // );
+    },
+    async addItems() {
+      await this.$store.dispatch('SET_LIST_STOCK_ITEMS_BEFORE_SAVE', this.selected);
+      await this.$store.dispatch('SET_BOOL_CHOOSING_STOCK_ITEMS', true);
+      this.$store.dispatch('ADD_ITEMS_TO_IMPORT_ORDER');
+      // await this.$store.dispatch('SET_BOOL_CHOOSING_STOCK_ITEMS', false);
+      // await this.$store.dispatch('SET_BOOL_CHOOSING_IMPORT_ORDERS', true);
+      // await this.$store.dispatch('GET_LIST_IMPORT_ORDERS');
+      // this.$refs['import-modal'].show();
     },
     async addItemsToExistOrder() {
       await this.$store.dispatch('SET_LIST_STOCK_ITEMS_BEFORE_SAVE', this.selected);
@@ -220,16 +238,23 @@ export default {
       await this.$store.dispatch('SET_BOOL_CHOOSING_IMPORT_ORDERS', true);
       await this.$store.dispatch('GET_LIST_IMPORT_ORDERS');
       this.$refs['import-modal'].show();
-      // await this.selected.forEach(
-      //   (async (value) => {
-      //      await this.$store.dispatch('SET_IMPORT_ORDER_FOR_STOCK_ITEM_EXP', value);
-      //   }),
-      // );
+    },
+    async deleteStockItemFromImportOrder() {
+    /* eslint no-param-reassign: ["error", { "props": false }] */
+      await this.selected.forEach(
+        ((value) => {
+          const savingItem = [];
+          savingItem.push('delete');
+          value.stock_choices = 'waiting for processing';
+          value.import_order = null;
+          savingItem.push(value);
+          this.$store.dispatch('SAVE_STOCK_ITEM_EXP_VIA_ARRAY', savingItem);
+        }),
+      );
     },
   },
   computed: {
     stockItems() {
-      console.log('get');
       // return this.$store.getters.GET_LIST_STOCK_ITEMS_EXP;
       let listItems = [];
       if (this.isListUsedInImportOrder) {

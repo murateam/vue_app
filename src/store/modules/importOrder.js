@@ -70,7 +70,6 @@ const actions = {
     const order = context.getters.GET_EMPTY_IMPORT_ORDER;
     const author = context.getters.GET_AUTHOR;
     order.import_user = author;
-    console.log(order);
     const newImportOrder = await axios.post(saveNewImportOrderURL, order);
     context.commit('SET_SINGLE_IMPORT_ORDER', newImportOrder.data);
     context.commit('ADD_IMPORT_ORDER_TO_LIST', newImportOrder.data);

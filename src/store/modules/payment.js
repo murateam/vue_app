@@ -38,7 +38,7 @@ const mutations = {
   ADD_PAYMENT_TO_LIST_PAYMENTS: (state, payment) => {
     state.listPayments.push(payment);
   },
-  CHANGE_PAYMENT_IN_LIST: async (state, changedPayment) => {
+  CHANGE_PAYMENT_IN_LIST: (state, changedPayment) => {
     const arrBefore = state.listPayments;
     const arrTmp = [];
     arrTmp.push(changedPayment);

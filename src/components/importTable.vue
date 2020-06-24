@@ -122,6 +122,8 @@ export default {
       if (this.selected.length > 0) {
         await this.$store.dispatch('SET_SINGLE_IMPORT_ORDER', this.selected[0]);
         this.$store.dispatch('ADD_ITEMS_TO_IMPORT_ORDER');
+        this.$store.dispatch('SET_IS_LIST_USED_IN_IMPORT_ORDER', true);
+        this.$router.push('./importOrder');
       }
       this.$refs.importOrdersTab.clearSelected();
       this.$store.dispatch('SET_BOOL_CHOOSING_IMPORT_ORDERS', false);

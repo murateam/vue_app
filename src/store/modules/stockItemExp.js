@@ -68,8 +68,17 @@ const mutations = {
   ADD_STOCK_ITEM_TO_LIST_IMPORT_ORDER: (state, payload) => {
     state.listStockItemsExpForImportOrder.push(payload);
   },
+  ADD_STOCK_ITEM_TO_LIST_EXP: (state, payload) => {
+    state.listStockItemsExp.push(payload);
+  },
   SET_IS_LIST_USED_IN_IMPORT_ORDER: (state, payload) => {
     state.isListUsedInImportOrder = payload;
+  },
+  DELETE_STOCK_ITEM_EXP_FROM_IMPORT_ORDER_LIST: (state, payload) => {
+    const objIndex = state.listStockItemsExpForImportOrder.findIndex(
+      ((obj) => obj.id === payload.id),
+    );
+    state.listStockItemsExpForImportOrder.splice(objIndex, 1);
   },
 };
 const actions = {
@@ -128,7 +137,6 @@ const actions = {
     /* eslint no-param-reassign: ["error", { "props": false }] */
     const currentImportOrder = await context.getters.GET_SINGLE_IMPORT_ORDER;
     const stockItemsForSave = await context.getters.GET_LIST_STOCK_ITEMS_BEFORE_SAVE;
-    console.log(currentImportOrder);
     await stockItemsForSave.forEach(
       (async (value) => {
         value.import_order = currentImportOrder.id;
@@ -138,8 +146,19 @@ const actions = {
       }),
     );
   },
-  // SAVE_STOCK_ITEM_EXP: async (context, item) => {
-  // },
+  SAVE_STOCK_ITEM_EXP_VIA_ARRAY: async (context, item) => {
+    const [action, savingItem] = await item;
+    const responseItem = await axios.put(stockItemExpURL + savingItem.id, savingItem);
+    if (responseItem.status === 200) {
+      if (action === 'delete') {
+        context.commit('DELETE_STOCK_ITEM_EXP_FROM_IMPORT_ORDER_LIST', responseItem.data);
+        context.commit('ADD_STOCK_ITEM_TO_LIST_EXP', responseItem.data);
+      }
+    }
+  },
+  DELETE_STOCK_ITEM_EXP_FROM_IMPORT_ORDER_LIST: (context, item) => {
+    context.commit('DELETE_STOCK_ITEM_EXP_FROM_IMPORT_ORDER_LIST', item);
+  },
 };
 
 export default {
