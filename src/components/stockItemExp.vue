@@ -184,7 +184,7 @@
                 <b-col cols="2">
                   {{ currentFactoryItem }}
                   <b-button
-                    :disabled="canSave()"
+                    :disabled="currentFactoryItem.id == null"
                     @click="saveItemExp"
                     variant="primary"
                   >Save</b-button>
@@ -257,17 +257,18 @@ export default {
     saveItem() {
       this.$store.dispatch('CHANGE_STOCK_ITEM');
     },
-    canSave() {
-    },
     saveItemExp() {
       const item = this.currentStockItem;
+      const factoryItemID = this.currentFactoryItem.id;
+      item.factory_item = factoryItemID;
+      console.log(item);
       const savingItem = [];
       savingItem.push('save');
       savingItem.push(item);
       this.$store.dispatch('SAVE_STOCK_ITEM_EXP_VIA_ARRAY', savingItem);
     },
     cencel() {
-      this.$store.dispatch('SET_EMPTY_STOCK_ITEM');
+      // this.$store.dispatch('SET_EMPTY_STOCK_ITEM');
     },
     back() {
       this.$router.go(-1);
@@ -282,12 +283,13 @@ export default {
         // this.$store.dispatch('SET_CURRENT_FACTORY_ITEM', foundObj);
       } else {
         foundObj = _.find(this.listCatalogueNumbers, ['catalogue_number', obj]);
-        this.$store.dispatch('SET_CURRENT_FACTORY_ITEM', 'empty');
       }
       let result = false;
       if (_.isObject(foundObj)) {
         result = true;
         this.getNextDataList(objType, foundObj);
+      } else {
+        this.$store.dispatch('SET_CURRENT_FACTORY_ITEM', 'empty');
       }
       return result;
     },
