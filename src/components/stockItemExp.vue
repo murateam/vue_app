@@ -152,9 +152,10 @@
                     >
                         <b-row align-h="around">
                             <b-col>
-                                <b-input placeholder="Amount"
+                              <h5>{{ currentStockItem.items_amount }}</h5>
+                                <!-- <b-input placeholder="Amount"
                                 v-model="currentStockItem.items_amount"
-                                type="number"></b-input>
+                                type="number"></b-input> -->
                             </b-col>
                         </b-row>
                     </b-form-group>
@@ -162,14 +163,15 @@
                 <b-col cols="3">
                     <b-form-group
                         id="form-passport-group"
-                        label="Price(EUR)"
+                        label="Price for client(EUR)"
                         label-for="form-passport-input"
                     >
                         <b-row align-h="around">
                             <b-col>
-                                <b-input placeholder="Price(EUR)"
+                              <h5>{{ currentStockItem.current_price_eur }}</h5>
+                                <!-- <b-input placeholder="Price(EUR)"
                                 v-model="currentStockItem.current_price_eur"
-                                type="number"></b-input>
+                                type="number"></b-input> -->
                             </b-col>
                         </b-row>
                     </b-form-group>
@@ -180,7 +182,12 @@
                   <b-button variant="danger">Cancel</b-button>
                 </b-col>
                 <b-col cols="2">
-                  <b-button variant="primary">Save</b-button>
+                  {{ currentFactoryItem }}
+                  <b-button
+                    :disabled="canSave()"
+                    @click="saveItemExp"
+                    variant="primary"
+                  >Save</b-button>
                 </b-col>
               </b-row>
             </div>
@@ -250,6 +257,15 @@ export default {
     saveItem() {
       this.$store.dispatch('CHANGE_STOCK_ITEM');
     },
+    canSave() {
+    },
+    saveItemExp() {
+      const item = this.currentStockItem;
+      const savingItem = [];
+      savingItem.push('save');
+      savingItem.push(item);
+      this.$store.dispatch('SAVE_STOCK_ITEM_EXP_VIA_ARRAY', savingItem);
+    },
     cencel() {
       this.$store.dispatch('SET_EMPTY_STOCK_ITEM');
     },
@@ -266,7 +282,7 @@ export default {
         // this.$store.dispatch('SET_CURRENT_FACTORY_ITEM', foundObj);
       } else {
         foundObj = _.find(this.listCatalogueNumbers, ['catalogue_number', obj]);
-        // this.$store.dispatch('SET_CURRENT_FACTORY_ITEM', foundObj);
+        this.$store.dispatch('SET_CURRENT_FACTORY_ITEM', 'empty');
       }
       let result = false;
       if (_.isObject(foundObj)) {
@@ -369,6 +385,9 @@ export default {
     },
     typeFactoryItem() {
       return this.$store.getters.GET_TYPE_FACTORY_ITEM;
+    },
+    currentFactoryItem() {
+      return this.$store.getters.GET_CURRENT_FACTORY_ITEM;
     },
   },
 };

@@ -2,8 +2,8 @@
     <b-modal
       @hide="reset"
       size="xl"
-      id="importModal"
-      ref="importModal"
+      id="import-madal"
+      ref="import-modal"
       hide-footer
     >
       <b-container>
@@ -28,10 +28,10 @@ export default {
   },
   methods: {
     show() {
-      this.$refs.importModal.show();
+      this.$refs['import-modal'].show();
     },
     hide() {
-      this.$refs.importModal.hide();
+      this.$refs['import-modal'].hide();
     },
     reset() {
       this.$store.dispatch('SET_BOOL_CHOOSING_IMPORT_ORDERS', false);

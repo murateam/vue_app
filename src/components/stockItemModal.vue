@@ -18,7 +18,6 @@
               <b-input id="input-factory"
               trim
               aria-describedby="input-live-help input-live-feedback"
-              :state="checkFactory"
               debounce="700"
               list="factories-list"
               v-model="currentStockItem.factory_item.factory_collection.factory.name"
@@ -33,7 +32,6 @@
               <label for="input-collection">Collection</label>
                 <b-input id="input-collection"
                 debounce="700"
-                :state="checkFactoryCollections"
                 list="factory-collections-list"
                 v-model="currentStockItem.factory_item.factory_collection.name"
                 placeholder="Collection"></b-input>
@@ -47,7 +45,6 @@
               <label for="input-catalog-num">Catalogue number</label>
                 <b-input id="input-catalog-num"
                 debounce="700"
-                :state="checkCatalogueNumber"
                 list="catalogue-number-list"
                 v-model="currentStockItem.factory_item.catalogue_number"
                 placeholder="Catalogue number"></b-input>

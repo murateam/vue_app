@@ -35,11 +35,13 @@
                     <form>
                       <b-row v-if="singleClientOrder.state == 'draft'" align-h="end" class="mt-2">
                         <b-col cols="4" v-if="singleClientOrder.public_num">
-                          <b-button
-                            v-if="author == 2"
-                            aria-controls="collapseChoiceOtherClient"
-                            @click="changeVisibleChoiceOtherClient"
-                          >Сменить заказчика</b-button>
+                          <div v-if="singleClientOrder.payment_status == 'waiting for payment'">
+                            <b-button
+                              v-if="author == 2"
+                              aria-controls="collapseChoiceOtherClient"
+                              @click="changeVisibleChoiceOtherClient"
+                            >Сменить заказчика</b-button>
+                          </div>
                         </b-col>
                       </b-row>
                       <b-collapse

@@ -13,12 +13,12 @@
       </b-row>
       <div v-if="isListExpanded == false">
         <b-row>
-          <b-col>
-          <stock-item-modal ref="stock-item-modal"></stock-item-modal>
-          <b-button
-            class="mt-3"
-            @click="showStockItemModal">Добавить позицию</b-button>
-            </b-col>
+          <b-col v-if="role == 2">
+            <stock-item-modal ref="stock-item-modal"></stock-item-modal>
+            <b-button
+              class="mt-3"
+              @click="showStockItemModal">Добавить позицию</b-button>
+          </b-col>
         </b-row>
         <b-row><b-col>
           <stock-table class="mt-3"></stock-table>
@@ -64,6 +64,9 @@ export default {
   //   this.$store.dispatch('GET_ALL_ITEMS');
   // },
   computed: {
+    role() {
+      return this.$store.getters.GET_AUTHOR;
+    },
     isListExpanded() {
       return this.$store.getters.GET_IS_LIST_EXPANDED;
     },

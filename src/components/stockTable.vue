@@ -3,7 +3,6 @@
     <stock-item ref="stock-item"></stock-item>
     <b-row>
       <b-col>
-        <!-- {{ stockItems }} -->
         <b-table
         small striped
         responsive
@@ -11,14 +10,6 @@
         :items="stockItems"
         select-mode="single"
         @row-selected="onRowSelected">
-        <!-- <template v-slot:cell(check)="{ rowSelected }">
-          <template v-if="rowSelected">
-            <span>&check;</span>
-          </template>
-          <template v-else>
-            <span>&nbsp;</span>
-          </template>
-        </template> -->
         <template v-slot:cell(index)="data">
           {{ data.index + 1}}
         </template>
@@ -26,9 +17,6 @@
           {{ data.item.client_order.public_num }}
         </template>
         <template v-slot:cell(factory)="data">
-          <!-- <template v-if="data.item.client_order.id === null">
-            {{ data.item.factory_item.factory_collection.factory.name }}
-          </template> -->
           <template v-if="data.item.incorrect_factory.length == 0">
             {{ data.item.factory_item.factory_collection.factory.name }}
           </template>
@@ -37,9 +25,6 @@
           </template>
         </template>
         <template v-slot:cell(collection)="data">
-          <!-- <template v-if="data.item.client_order.id === null">
-            {{ data.item.factory_item.factory_collection.name }}
-          </template> -->
           <template v-if="data.item.incorrect_factory.length == 0">
             {{ data.item.factory_item.factory_collection.name }}
           </template>
@@ -48,9 +33,6 @@
           </template>
         </template>
         <template v-slot:cell(catalogue_num)="data">
-          <!-- <template v-if="data.item.client_order.id === null">
-            {{ data.item.factory_item.catalogue_number }}
-          </template> -->
           <template v-if="data.item.incorrect_factory.length == 0">
             {{ data.item.factory_item.catalogue_number }}
           </template>
@@ -141,16 +123,6 @@ export default {
     };
   },
   methods: {
-    // factory(value) {
-    //   console.log(value);
-    //   let factory = '';
-    //   if (value.is_corrected === true) {
-    //     factory = value.factory_item.factory_collection.factory.name;
-    //   } else {
-    //     factory = value.incorrect_factory.splist('&')[0];
-    //   }
-    // return `${}`;
-    // },
     onRowSelected(items) {
       this.selected = items;
     },
@@ -164,7 +136,6 @@ export default {
     },
   },
   mounted() {
-    // this.$store.dispatch('GET_ALL_ITEMS');
   },
   computed: {
     stockItems() {

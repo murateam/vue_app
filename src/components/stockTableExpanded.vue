@@ -1,6 +1,5 @@
 <template>
   <b-container>
-      {{ isListUsedInImportOrder }}
     <b-row align-h="start">
       <b-col cols="2" v-if="boolChoosingStockItems">
         <b-button
@@ -35,11 +34,11 @@
         >Add to exist order</b-button>
       </b-col>
     </b-row>
-    {{ importOrder }}
     <b-row align-h="end">
       <b-col cols="2" class="bg-success text-light">{{ bankEurRate.RUB }}</b-col>
     </b-row>
     <b-row class="mt-3">
+      <!-- {{ stockItems }} -->
       <b-col>
         <b-table
         small striped
@@ -64,9 +63,6 @@
           {{ data.item.client_order.public_num }}
         </template>
         <template v-slot:cell(factory)="data">
-          <!-- <template v-if="data.item.client_order.id === null">
-            {{ data.item.factory_item.factory_collection.factory.name }}
-          </template> -->
           <template v-if="data.item.incorrect_factory.length == 0">
             {{ data.item.factory_item.factory_collection.factory.name }}
           </template>
@@ -75,9 +71,6 @@
           </template>
         </template>
         <template v-slot:cell(collection)="data">
-          <!-- <template v-if="data.item.client_order.id === null">
-            {{ data.item.factory_item.factory_collection.name }}
-          </template> -->
           <template v-if="data.item.incorrect_factory.length == 0">
             {{ data.item.factory_item.factory_collection.name }}
           </template>
@@ -86,9 +79,6 @@
           </template>
         </template>
         <template v-slot:cell(catalogue_num)="data">
-          <!-- <template v-if="data.item.client_order.id === null">
-            {{ data.item.factory_item.catalogue_number }}
-          </template> -->
           <template v-if="data.item.incorrect_factory.length == 0">
             {{ data.item.factory_item.catalogue_number }}
           </template>
@@ -121,7 +111,6 @@
         </b-table>
         <import-modal
         ref="import-modal"></import-modal>
-        {{ boolChoosingStockItems }}
       </b-col>
     </b-row>
   </b-container>
@@ -220,8 +209,13 @@ export default {
       this.$store.dispatch('SET_CURRENT_STOCK_ITEM_BY_INDEX', index);
       this.$store.dispatch('SET_IS_NEW_STOCK_ITEM', false);
     },
-    addItemsToNewOrder() {
+    async addItemsToNewOrder() {
+      await this.$store.dispatch('SAVE_NEW_IMPORT_ORDER');
+      await this.$store.dispatch('RESET_LIST_STOCK_ITEMS_FOR_IMPORT_ORDER');
+      await this.$store.dispatch('SET_LIST_STOCK_ITEMS_BEFORE_SAVE', this.selected);
+      await this.$store.dispatch('SET_IS_LIST_USED_IN_IMPORT_ORDER', true);
       this.$store.dispatch('ADD_ITEMS_TO_IMPORT_ORDER');
+      this.$router.push('./importOrder');
     },
     async addItems() {
       await this.$store.dispatch('SET_LIST_STOCK_ITEMS_BEFORE_SAVE', this.selected);
@@ -230,7 +224,7 @@ export default {
       // await this.$store.dispatch('SET_BOOL_CHOOSING_STOCK_ITEMS', false);
       // await this.$store.dispatch('SET_BOOL_CHOOSING_IMPORT_ORDERS', true);
       // await this.$store.dispatch('GET_LIST_IMPORT_ORDERS');
-      // this.$refs['import-modal'].show();
+      this.$refs['import-modal'].hide();
     },
     async addItemsToExistOrder() {
       await this.$store.dispatch('SET_LIST_STOCK_ITEMS_BEFORE_SAVE', this.selected);
@@ -255,7 +249,6 @@ export default {
   },
   computed: {
     stockItems() {
-      // return this.$store.getters.GET_LIST_STOCK_ITEMS_EXP;
       let listItems = [];
       if (this.isListUsedInImportOrder) {
         listItems = this.$store.getters.GET_LIST_STOCK_ITEMS_EXP_FOR_IMPORT_ORDER;
