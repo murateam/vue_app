@@ -4,6 +4,7 @@ import _ from 'lodash';
 
 const stockItemExpURL = 'http://127.0.0.1:5000/api/stock_items/import/';
 const listStockItemsForImportOrder = 'http://127.0.0.1:5000/api/stock_items/import_order/';
+const factoryItem = 'http://127.0.0.1:5000/api/factories/';
 
 const state = {
   emptyStockItemExp: {
@@ -165,7 +166,19 @@ const actions = {
       if (action === 'delete') {
         context.commit('MOVE_STOCK_ITEM_EXP_TO_WAITING_LIST', responseItem.data);
       } if (action === 'save') {
-        console.log(responseItem.data);
+        const savedItem = responseItem.data;
+        const responseFactoryItem = await axios.get(
+          `${factoryItem}items/${savedItem.factory_item}`,
+        );
+        const responseFactoryCollection = await axios.get(
+          `${factoryItem}collections/${responseFactoryItem.data.factory_collection}`,
+        );
+        const responseFactory = await axios.get(
+          factoryItem + responseFactoryCollection.data.factory,
+        );
+        savedItem.factory_item = responseFactoryItem.data;
+        savedItem.factory_item.factory_collection = responseFactoryCollection.data;
+        savedItem.factory_item.factory_collection.factory = responseFactory.data;
       }
     }
   },

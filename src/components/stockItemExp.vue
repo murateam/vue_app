@@ -258,10 +258,10 @@ export default {
       this.$store.dispatch('CHANGE_STOCK_ITEM');
     },
     saveItemExp() {
-      const item = this.currentStockItem;
+      const item = _.cloneDeep(this.currentStockItem);
       const factoryItemID = this.currentFactoryItem.id;
       item.factory_item = factoryItemID;
-      console.log(item);
+      item.client_order = item.client_order.id;
       const savingItem = [];
       savingItem.push('save');
       savingItem.push(item);
