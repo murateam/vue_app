@@ -36,6 +36,7 @@
     </b-row>
     <b-row align-h="end">
       <b-col cols="2" class="bg-success text-light">{{ bankEurRate.RUB }}</b-col>
+      {{ selected }}
     </b-row>
     <b-row class="mt-3">
       <!-- {{ stockItems }} -->

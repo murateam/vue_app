@@ -4,7 +4,7 @@ import _ from 'lodash';
 
 const stockItemExpURL = 'http://127.0.0.1:5000/api/stock_items/import/';
 const listStockItemsForImportOrder = 'http://127.0.0.1:5000/api/stock_items/import_order/';
-const factoryItem = 'http://127.0.0.1:5000/api/factories/';
+// const factoryItem = 'http://127.0.0.1:5000/api/factories/';
 
 const state = {
   emptyStockItemExp: {
@@ -89,6 +89,23 @@ const mutations = {
     state.listStockItemsExpForImportOrder.splice(objIndex, 1);
     state.listStockItemsExp.push(payload);
   },
+  CHANGE_STOCK_ITEM_EXP_IN_LIST: async (state, item) => {
+    // i think i need to do checking for two lists. list for import order and main imports list
+    let foundObj = {};
+    let arrBefore = [];
+    foundObj = _.find(this.listStockItemsExp, ['id', item.id]);
+    if (_.isObject(foundObj)) {
+      console.log('from waiting list');
+      arrBefore = await state.listStockItemsExp;
+    } else {
+      console.log('from import order list');
+      arrBefore = state.listStockItemsExpForImportOrder;
+    }
+    const arrTmp = [];
+    arrTmp.push(item);
+    const arrFinal = arrBefore.map((obj) => arrTmp.find((o) => o.id === obj.id) || obj);
+    state.listStockItemsExp = arrFinal;
+  },
 };
 const actions = {
   SET_IS_LIST_USED_IN_IMPORT_ORDER: (context, bool) => {
@@ -161,26 +178,32 @@ const actions = {
   },
   SAVE_STOCK_ITEM_EXP_VIA_ARRAY: async (context, item) => {
     const [action, savingItem] = await item;
+    if (action === 'save_correct') {
+      console.log(savingItem);
+    }
     const responseItem = await axios.put(stockItemExpURL + savingItem.id, savingItem);
     if (responseItem.status === 200) {
       if (action === 'delete') {
         context.commit('MOVE_STOCK_ITEM_EXP_TO_WAITING_LIST', responseItem.data);
-      } if (action === 'save') {
-        const savedItem = responseItem.data;
-        const responseFactoryItem = await axios.get(
-          `${factoryItem}items/${savedItem.factory_item}`,
-        );
-        const responseFactoryCollection = await axios.get(
-          `${factoryItem}collections/${responseFactoryItem.data.factory_collection}`,
-        );
-        const responseFactory = await axios.get(
-          factoryItem + responseFactoryCollection.data.factory,
-        );
-        savedItem.factory_item = responseFactoryItem.data;
-        savedItem.factory_item.factory_collection = responseFactoryCollection.data;
-        savedItem.factory_item.factory_collection.factory = responseFactory.data;
       }
     }
+    //  // else if (action === 'save_correct') {
+    //    // const savedItem = responseItem.data;
+    //    // const responseFactoryItem = await axios.get(
+    //    //   `${factoryItem}items/${savedItem.factory_item}`,
+    //    // );
+    //    // const responseFactoryCollection = await axios.get(
+    //    //   `${factoryItem}collections/${responseFactoryItem.data.factory_collection}`,
+    //    // );
+    //    // const responseFactory = await axios.get(
+    //    //   factoryItem + responseFactoryCollection.data.factory,
+    //    // );
+    //    // savedItem.factory_item = responseFactoryItem.data;
+    //    // savedItem.factory_item.factory_collection = responseFactoryCollection.data;
+    //    // savedItem.factory_item.factory_collection.factory = responseFactory.data;
+    //    // context.commit('CHANGE_STOCK_ITEM_EXP_IN_LIST', savedItem);
+    //  // }
+    // }
   },
   MOVE_STOCK_ITEM_EXP_TO_IMPORT_ORDER_LIST: (context, item) => {
     context.commit('MOVE_STOCK_ITEM_EXP_TO_IMPORT_ORDER_LIST', item);

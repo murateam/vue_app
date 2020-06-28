@@ -20,7 +20,10 @@
                 <h4>Item</h4>
               </b-row>
                 {{ currentStockItem }}
-                {{ listNameFactories }}
+                <!-- {{ listNameFactories }} -->
+                <div> {{ currentFactoryItem }}</div>
+                <div>{{ currentFactoryColleciton }}</div>
+                <div>{{ currentFactory }}</div>
               <b-row align-h="end" class="mt-3">
                 <b-col cols="4">
                   <h5>Client Order: {{ currentStockItem.client_order.public_num }}</h5>
@@ -259,13 +262,30 @@ export default {
     },
     saveItemExp() {
       const item = _.cloneDeep(this.currentStockItem);
-      const factoryItemID = this.currentFactoryItem.id;
-      item.factory_item = factoryItemID;
-      item.client_order = item.client_order.id;
+      // const factoryItemID = this.currentFactoryItem.id;
+      // item.factory_item = factoryItemID;
+      // item.client_order = item.client_order.id;
+      // item.is_correct = true;
+      item.factory_item = {
+        id: this.currentFactoryItem.id,
+        factory_collection: {
+          id: this.currentFactoryItem.id,
+          name: this.currentFactoryItem.name,
+          factory: this.currentFactory,
+          // {
+          //   id: null,
+          //   name: null,
+          // },
+          is_made: true,
+        },
+        catalogue_number: this.currentFactoryItem.catalogue_number,
+      };
       const savingItem = [];
-      savingItem.push('save');
+      savingItem.push('save_correct');
       savingItem.push(item);
+      console.log(savingItem);
       this.$store.dispatch('SAVE_STOCK_ITEM_EXP_VIA_ARRAY', savingItem);
+      this.$router.go(-1);
     },
     cencel() {
       // this.$store.dispatch('SET_EMPTY_STOCK_ITEM');
@@ -390,6 +410,12 @@ export default {
     },
     currentFactoryItem() {
       return this.$store.getters.GET_CURRENT_FACTORY_ITEM;
+    },
+    currentFactoryColleciton() {
+      return this.$store.getters.GET_CURRENT_COLLECTION;
+    },
+    currentFactory() {
+      return this.$store.getters.GET_CURRENT_FACTORY;
     },
   },
 };
