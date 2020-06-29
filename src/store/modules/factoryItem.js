@@ -81,7 +81,7 @@ const mutations = {
       state.listNumberFactoryItems.push(payload);
     }
   },
-  CHANGE_FACTORY_ITEM_IN_LIST: async (state, payload) => {
+  CHANGE_FACTORY_ITEM_IN_LIST: (state, payload) => {
     let arrBefore = [];
     if (state.typeFactoryItem === 'factory') {
       arrBefore = state.listNameFactories;
@@ -152,6 +152,7 @@ const actions = {
   },
   SAVE_FACTORY_ITEM: async (context) => {
     const currentTypeFactoryItem = await context.getters.GET_TYPE_FACTORY_ITEM;
+    // console.log(currentTypeFactoryItem);
     const currentFactory = await context.getters.GET_CURRENT_FACTORY;
     const currentCollection = await context.getters.GET_CURRENT_COLLECTION;
     const currentFactoryItem = await context.getters.GET_CURRENT_FACTORY_ITEM;
@@ -164,6 +165,7 @@ const actions = {
         factoryResponse = await axios.put(factoriesURL + currentFactory.id, currentFactory);
         await context.commit('CHANGE_FACTORY_ITEM_IN_LIST', factoryResponse.data);
       }
+      // console.log(factoryResponse.data);
       // add to current stock item expanded (will have made it later)
     } else if (currentTypeFactoryItem === 'collection') {
       let collectionResponse = {};
@@ -175,20 +177,19 @@ const actions = {
         collectionResponse = await axios.put(
           collectionURL + currentCollection.id, currentCollection,
         );
-        context.commit('CHANGE_FACTORY_ITEM_IN_LIST', collectionResponse.data);
+        await context.commit('CHANGE_FACTORY_ITEM_IN_LIST', collectionResponse.data);
       }
     } else if (currentTypeFactoryItem === 'catalogue-number') {
       let factoryItemResponse = {};
       if (currentFactoryItem.id == null) {
         currentFactoryItem.factory_collection = currentCollection.id;
-        console.log('POST factory item');
         factoryItemResponse = await axios.post(factoryItemsURL, currentFactoryItem);
         await context.commit('ADD_FACTORY_ITEM_TO_LIST', factoryItemResponse.data);
       } else {
         factoryItemResponse = await axios.put(
           factoryItemsURL + currentFactoryItem.id, currentFactoryItem,
         );
-        context.commit('CHANGE_FACTORY_ITEM_IN_LIST', factoryItemResponse.data);
+        await context.commit('CHANGE_FACTORY_ITEM_IN_LIST', factoryItemResponse.data);
       }
     }
   },

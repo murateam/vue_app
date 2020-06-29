@@ -161,10 +161,11 @@ export default {
       this.$refs['factory-item-modal'].hide();
     },
     resetModal() {
-      this.$store.dispatch('SET_TYPE_FACTORY_ITEM', '');
+      // this.$store.dispatch('SET_TYPE_FACTORY_ITEM', '');
     },
     saveFactoryItem() {
       this.$store.dispatch('SAVE_FACTORY_ITEM');
+      this.hide();
     },
   },
   computed: {

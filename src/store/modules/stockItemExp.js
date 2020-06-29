@@ -188,6 +188,9 @@ const actions = {
   },
   SAVE_STOCK_ITEM_EXP_VIA_ARRAY: async (context, item) => {
     const [action, savingItem] = await item;
+    const clientOrderID = savingItem.client_order;
+    savingItem.client_order = savingItem.client_order.id;
+    // const that = this;
     if (action === 'delete') {
       const responseItem = await axios.put(stockItemExpURL + savingItem.id, savingItem);
       context.commit('MOVE_STOCK_ITEM_EXP_TO_WAITING_LIST', responseItem.data);
@@ -203,6 +206,7 @@ const actions = {
       const responseFactory = await axios.get(
         factoryItem + responseFactoryCollection.data.factory,
       );
+      savedItem.client_order = clientOrderID;
       savedItem.factory_item = responseFactoryItem.data;
       savedItem.factory_item.factory_collection = responseFactoryCollection.data;
       savedItem.factory_item.factory_collection.factory = responseFactory.data;
