@@ -33,6 +33,9 @@ export default {
     hide() {
       this.$refs['import-modal'].hide();
     },
+    toggle() {
+      this.$refs['import-modal'].toggle();
+    },
     reset() {
       this.$store.dispatch('SET_BOOL_CHOOSING_IMPORT_ORDERS', false);
       this.$store.dispatch('SET_BOOL_CHOOSING_STOCK_ITEMS', false);

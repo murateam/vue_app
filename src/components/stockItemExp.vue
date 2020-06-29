@@ -263,27 +263,27 @@ export default {
     saveItemExp() {
       const item = _.cloneDeep(this.currentStockItem);
       // const factoryItemID = this.currentFactoryItem.id;
-      // item.factory_item = factoryItemID;
-      // item.client_order = item.client_order.id;
-      // item.is_correct = true;
-      item.factory_item = {
-        id: this.currentFactoryItem.id,
-        factory_collection: {
-          id: this.currentFactoryItem.id,
-          name: this.currentFactoryItem.name,
-          factory: this.currentFactory,
-          // {
-          //   id: null,
-          //   name: null,
-          // },
-          is_made: true,
-        },
-        catalogue_number: this.currentFactoryItem.catalogue_number,
-      };
+      item.factory_item = this.currentFactoryItem.id;
+      item.client_order = item.client_order.id;
+      item.is_correct = true;
+      // item.factory_item = {
+      //   id: this.currentFactoryItem.id,
+      //   factory_collection: {
+      //     id: this.currentFactoryItem.id,
+      //     name: this.currentFactoryItem.name,
+      //     factory: this.currentFactory,
+      //     // {
+      //     //   id: null,
+      //     //   name: null,
+      //     // },
+      //     is_made: true,
+      //   },
+      //   catalogue_number: this.currentFactoryItem.catalogue_number,
+      // };
       const savingItem = [];
       savingItem.push('save_correct');
       savingItem.push(item);
-      console.log(savingItem);
+      // console.log(savingItem);
       this.$store.dispatch('SAVE_STOCK_ITEM_EXP_VIA_ARRAY', savingItem);
       this.$router.go(-1);
     },

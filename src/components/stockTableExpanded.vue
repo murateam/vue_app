@@ -3,6 +3,7 @@
     <b-row align-h="start">
       <b-col cols="2" v-if="boolChoosingStockItems">
         <b-button
+        id="addItems"
         :disabled="canAdd()"
           @click="addItems"
         >Add</b-button>
@@ -36,7 +37,7 @@
     </b-row>
     <b-row align-h="end">
       <b-col cols="2" class="bg-success text-light">{{ bankEurRate.RUB }}</b-col>
-      {{ selected }}
+      <!-- {{ selected }} -->
     </b-row>
     <b-row class="mt-3">
       <!-- {{ stockItems }} -->
@@ -225,6 +226,9 @@ export default {
       // await this.$store.dispatch('SET_BOOL_CHOOSING_STOCK_ITEMS', false);
       // await this.$store.dispatch('SET_BOOL_CHOOSING_IMPORT_ORDERS', true);
       // await this.$store.dispatch('GET_LIST_IMPORT_ORDERS');
+      //
+      // next hide method of modal doesn't work!!!
+      // it's different reference modal and not 'import-modal'!!!
       this.$refs['import-modal'].hide();
     },
     async addItemsToExistOrder() {
@@ -232,7 +236,7 @@ export default {
       await this.$store.dispatch('SET_BOOL_CHOOSING_STOCK_ITEMS', false);
       await this.$store.dispatch('SET_BOOL_CHOOSING_IMPORT_ORDERS', true);
       await this.$store.dispatch('GET_LIST_IMPORT_ORDERS');
-      this.$refs['import-modal'].show();
+      await this.$refs['import-modal'].show();
     },
     async deleteStockItemFromImportOrder() {
     /* eslint no-param-reassign: ["error", { "props": false }] */
