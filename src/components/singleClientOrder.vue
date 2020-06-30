@@ -222,10 +222,6 @@
                     variant="primary">Сохранить</b-button>
                   </b-col>
                 </b-row>
-                <!-- {{ eurRate }} -->
-                <!-- {{ singleClientOrder }} -->
-                <!-- {{ listItems }} -->
-                <!-- {{listDelete}} -->
                 <div v-if="author == 2">
                   <b-row align-h="center" class="mt-3">
                     <b-col cols="4"><h4>Позиции:</h4></b-col>

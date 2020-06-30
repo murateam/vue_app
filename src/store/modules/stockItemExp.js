@@ -90,23 +90,12 @@ const mutations = {
     state.listStockItemsExp.push(payload);
   },
   CHANGE_STOCK_ITEM_EXP_IN_LIST: async (state, item) => {
-    // i think i need to do checking for two lists. list for import order and main imports list
-    // let foundObj = {};
     let arrBefore = [];
-    // let searchArr = [];
     if (item.import_order === null) {
       arrBefore = state.listStockItemsExp;
     } else {
       arrBefore = state.listStockItemsExpForImportOrder;
     }
-    // foundObj = _.find(searchArr, ['id', item.id]);
-    // if (_.isObject(foundObj)) {
-    //   console.log('from waiting list');
-    //   arrBefore = await state.listStockItemsExp;
-    // } else {
-    //   console.log('from import order list');
-    //   arrBefore = state.listStockItemsExpForImportOrder;
-    // }
     const arrTmp = [];
     arrTmp.push(item);
     const arrFinal = arrBefore.map((obj) => arrTmp.find((o) => o.id === obj.id) || obj);

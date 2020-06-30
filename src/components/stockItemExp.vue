@@ -19,174 +19,249 @@
               <b-row align-h="center">
                 <h4>Item</h4>
               </b-row>
-                <!-- {{ currentStockItem }} -->
-                <!-- {{ listNameFactories }} -->
-                <!-- <div> {{ currentFactoryItem }}</div>
-                <div>{{ currentFactoryColleciton }}</div>
-                <div>{{ currentFactory }}</div>
-                <div>{{ listCatalogueNumbers }}</div> -->
               <b-row align-h="end" class="mt-3">
                 <b-col cols="4">
                   <h5>Client Order: {{ currentStockItem.client_order.public_num }}</h5>
                 </b-col>
               </b-row>
-              <b-row class='mt-3'>
-                <!-- FACTORY -->
-                <b-col>
-                  <label for="input-factory">Factory</label>
-                  <b-row no-gutters>
-                    <b-col sm md="auto">
-                      <b-button variant="outline-success" disabled pill
-                        v-if="checkFactory"
-                      >&check;</b-button>
-                      <b-button
-                        @click="editFactory"
-                        v-if="checkFactory"
-                        variant="outline-dark" pill
-                      >...</b-button>
-                      <b-button
-                        @click="addNewFactory"
-                        v-else
-                        variant="danger"
-                      >New</b-button>
-                    </b-col>
-                    <b-col sm>
-                      <b-popover
-                        placement="top"
-                        ref="popForFactory"
-                        target="input-factory"
-                        v-if="popForFactory"
-                        :show.sync="popForFactory">
-                        <strong>Enter me correctly, first!</strong>
-                      </b-popover>
-                      <b-input id="input-factory"
-                      debounce="700"
-                      list="factories-list"
-                      v-model="currentStockItem.factory_item.factory_collection.factory.name"
-                      placeholder="Factory"></b-input>
-                      <datalist id="factories-list">
-                        <option
-                          v-for="factory in listNameFactories" :key="factory.name"
-                        >{{ factory.name }}</option>
-                      </datalist>
-                    </b-col>
-                  </b-row>
+              <b-row align-h="start" no-gutters><b-col cols="6">
+              <b-card class="mt-3">
+                <!-- STOCK ITEM CARD -->
+                    <b-row>
+                      <!-- FACTORY -->
+                      <b-col cols="12">
+                        <label for="input-factory">Factory</label>
+                        <b-row no-gutters>
+                          <b-col sm md="auto" align-self="center">
+                            <b-button
+                              @click="editFactory"
+                              variant="outline-primary"
+                              v-if="checkFactory"
+                            >
+                              <b-icon icon="tools"></b-icon> Edit
+                            </b-button>
+                            <b-button
+                              @click="addNewFactory"
+                              v-else
+                              variant="outline-danger"
+                            >
+                              <b-icon icon="plus-circle-fill"
+                                font-scale="1.5" aria-hidden="true"
+                              ></b-icon> New
+                            </b-button>
+                          </b-col>
+                          <b-col sm>
+                            <b-popover
+                              placement="top"
+                              ref="popForFactory"
+                              target="input-factory"
+                              v-if="popForFactory"
+                              :show.sync="popForFactory">
+                              <strong>Enter me correctly, first!</strong>
+                            </b-popover>
+                            <b-input id="input-factory"
+                            debounce="700"
+                            list="factories-list"
+                            v-model="currentStockItem.factory_item.factory_collection.factory.name"
+                            placeholder="Factory"></b-input>
+                            <datalist id="factories-list">
+                              <option
+                                v-for="factory in listNameFactories" :key="factory.name"
+                              >{{ factory.name }}</option>
+                            </datalist>
+                          </b-col>
+                          <b-col md="auto" align-self="center">
+                            <b-iconstack font-scale="2.2" v-if="checkFactory">
+                              <b-icon stacked icon="square"></b-icon>
+                              <b-icon
+                              stacked icon="check" variant="success"
+                              ></b-icon>
+                            </b-iconstack>
+                            <b-iconstack font-scale="2.2" v-else>
+                              <b-icon stacked icon="square"></b-icon>
+                              <b-icon
+                              stacked icon="x" variant="danger"
+                              ></b-icon>
+                            </b-iconstack>
+                          </b-col>
+                        </b-row>
+                      </b-col>
+                    </b-row>
+                    <b-row class="mt-3">
+                      <b-col cols="12">
+                        <!-- COLLECTION -->
+                        <label for="input-collection">Collection</label>
+                        <b-row no-gutters>
+                          <b-col sm md="auto">
+                            <b-button
+                              @click="editCollection"
+                              variant="outline-primary"
+                              v-if="checkFactoryCollections"
+                            >
+                              <b-icon icon="tools"></b-icon> Edit
+                            </b-button>
+                            <b-button
+                              @click="addNewFactoryCollection"
+                              v-else
+                              variant="outline-danger"
+                            >
+                              <b-icon icon="plus-circle-fill"
+                                font-scale="1.5" aria-hidden="true"
+                              ></b-icon> New
+                            </b-button>
+                          </b-col>
+                          <b-col sm>
+                            <b-popover
+                              placement="top"
+                              ref="popForCollection"
+                              target="input-collection"
+                              v-if="popForCollection"
+                              :show.sync="popForCollection">
+                              <strong>Enter me correctly, first!</strong>
+                            </b-popover>
+                            <b-input id="input-collection"
+                            debounce="700"
+                            list="factory-collections-list"
+                            v-model="currentStockItem.factory_item.factory_collection.name"
+                            placeholder="Collection"></b-input>
+                            <datalist id="factory-collections-list">
+                              <option
+                                v-for="collection in listNameFactoryCollections"
+                                :key="collection.name"
+                              >{{ collection.name }}</option>
+                            </datalist>
+                          </b-col>
+                          <b-col md="auto" align-self="center">
+                            <b-iconstack font-scale="2.2" v-if="checkFactoryCollections">
+                              <b-icon stacked icon="square"></b-icon>
+                              <b-icon
+                              stacked icon="check" variant="success"
+                              ></b-icon>
+                            </b-iconstack>
+                            <b-iconstack font-scale="2.2" v-else>
+                              <b-icon stacked icon="square"></b-icon>
+                              <b-icon
+                              stacked icon="x" variant="danger"
+                              ></b-icon>
+                            </b-iconstack>
+                          </b-col>
+                        </b-row>
+                      </b-col>
+                    </b-row>
+                    <b-row class="mt-3">
+                      <b-col cols="12">
+                        <!-- CATALOGUE-NUMBER -->
+                        <label for="input-catalog-num">Catalogue Number</label>
+                        <b-row no-gutters>
+                          <b-col sm md="auto">
+                            <b-button
+                              @click="editFactoryItem"
+                              variant="outline-primary"
+                              v-if="checkCatalogueNumber"
+                            >
+                              <b-icon icon="tools"></b-icon> Edit
+                            </b-button>
+                            <b-button
+                              @click="addNewCatalogueNumber"
+                              v-else
+                              variant="outline-danger"
+                            >
+                              <b-icon icon="plus-circle-fill"
+                                font-scale="1.5" aria-hidden="true"
+                              ></b-icon> New
+                            </b-button>
+                          </b-col>
+                          <b-col sm>
+                            <b-input id="input-catalog-num"
+                            debounce="700"
+                            list="catalogue-number-list"
+                            v-model="currentStockItem.factory_item.catalogue_number"
+                            placeholder="Catalogue number"></b-input>
+                            <datalist id="catalogue-number-list">
+                              <option
+                                v-for="catalogueNumber in listCatalogueNumbers"
+                                :key="catalogueNumber.catalogue_number"
+                              > {{catalogueNumber.catalogue_number}} </option>
+                            </datalist>
+                          </b-col>
+                          <b-col md="auto" align-self="center">
+                            <b-iconstack font-scale="2.2" v-if="checkCatalogueNumber">
+                              <b-icon stacked icon="square"></b-icon>
+                              <b-icon
+                              stacked icon="check" variant="success"
+                              ></b-icon>
+                            </b-iconstack>
+                            <b-iconstack font-scale="2.2" v-else>
+                              <b-icon stacked icon="square"></b-icon>
+                              <b-icon
+                              stacked icon="x" variant="danger"
+                              ></b-icon>
+                            </b-iconstack>
+                          </b-col>
+                        </b-row>
+                      </b-col>
+                    </b-row>
+                <!-- END STOCK ITEM CARD -->
+              </b-card>
+              </b-col></b-row>
+              <b-row class="mt-3" align-h="end">
+                <b-col md="auto">
+                  <b-row><b-col><label>Factor</label></b-col></b-row>
+                  <b-row><b-col class="mt-1">
+                    <h5 class="bg-secondary text-light">{{ currentStockItem.factor }}
+                    </h5>
+                  </b-col></b-row>
                 </b-col>
-                <b-col>
-                  <!-- COLLECTION -->
-                  <label for="input-collection">Collection</label>
-                  <b-row no-gutters>
-                    <b-col sm md="auto">
-                      <b-button
-                        v-if="checkFactoryCollections" pill
-                        variant="outline-success" disabled>&check;</b-button>
-                      <b-button
-                        @click="editCollection"
-                        v-if="checkFactoryCollections"
-                        variant="outline-dark" pill
-                      >...</b-button>
-                      <b-button
-                        @click="addNewFactoryCollection"
-                        v-else
-                        variant="danger"
-                      >New</b-button>
-                    </b-col>
-                    <b-col sm>
-                      <b-popover
-                        placement="top"
-                        ref="popForCollection"
-                        target="input-collection"
-                        v-if="popForCollection"
-                        :show.sync="popForCollection">
-                        <strong>Enter me correctly, first!</strong>
-                      </b-popover>
-                      <b-input id="input-collection"
-                      debounce="700"
-                      list="factory-collections-list"
-                      v-model="currentStockItem.factory_item.factory_collection.name"
-                      placeholder="Collection"></b-input>
-                      <datalist id="factory-collections-list">
-                        <option
-                          v-for="collection in listNameFactoryCollections" :key="collection.name"
-                        >{{ collection.name }}</option>
-                      </datalist>
-                    </b-col>
-                  </b-row>
-                </b-col>
-                <b-col>
-                  <!-- CATALOGUE-NUMBER -->
-                  <label for="input-catalog-num">Catalogue Number</label>
-                  <b-row no-gutters>
-                    <b-col sm md="auto">
-                      <b-button
-                        v-if="checkCatalogueNumber" pill
-                        variant="outline-success" disabled>&check;</b-button>
-                      <b-button
-                        @click="editFactoryItem"
-                        v-if="checkCatalogueNumber"
-                        variant="outline-dark" pill
-                      >...</b-button>
-                      <b-button
-                        @click="addNewCatalogueNumber"
-                        v-else
-                        variant="danger">New</b-button>
-                    </b-col>
-                    <b-col sm>
-                      <b-input id="input-catalog-num"
-                      debounce="700"
-                      list="catalogue-number-list"
-                      v-model="currentStockItem.factory_item.catalogue_number"
-                      placeholder="Catalogue number"></b-input>
-                      <datalist id="catalogue-number-list">
-                        <option
-                          v-for="catalogueNumber in listCatalogueNumbers"
-                          :key="catalogueNumber.catalogue_number"
-                        > {{catalogueNumber.catalogue_number}} </option>
-                      </datalist>
+                <b-col md="auto">
+                  <b-row><b-col><label>Factory price</label></b-col></b-row>
+                  <b-row>
+                    <b-col align-self="center">
+                      <b-input></b-input>
                     </b-col>
                   </b-row>
                 </b-col>
               </b-row>
-              <b-row align-h="end" class="mt-3">
-                <b-col cols="3">
-                    <b-form-group
-                        id="form-passport-group"
-                        label="Amount (unit)"
-                        label-for="form-passport-input"
-                    >
-                        <b-row align-h="around">
-                            <b-col>
-                              <h5>{{ currentStockItem.items_amount }}</h5>
-                                <!-- <b-input placeholder="Amount"
-                                v-model="currentStockItem.items_amount"
-                                type="number"></b-input> -->
-                            </b-col>
-                        </b-row>
-                    </b-form-group>
-                </b-col>
-                <b-col cols="3">
-                    <b-form-group
-                        id="form-passport-group"
-                        label="Price for client(EUR)"
-                        label-for="form-passport-input"
-                    >
-                        <b-row align-h="around">
-                            <b-col>
-                              <h5>{{ currentStockItem.current_price_eur }}</h5>
-                                <!-- <b-input placeholder="Price(EUR)"
-                                v-model="currentStockItem.current_price_eur"
-                                type="number"></b-input> -->
-                            </b-col>
-                        </b-row>
-                    </b-form-group>
-                </b-col>
-              </b-row>
+              <b-card class="mt-3">
+                <!-- CARD CLIENT PRICE -->
+                <b-row align-h="start">
+                  <b-col cols="3">
+                      <b-form-group
+                          id="form-passport-group"
+                          label="Amount (unit)"
+                          label-for="form-passport-input"
+                      >
+                          <b-row align-h="around">
+                              <b-col cols="4">
+                                <h5 class="bg-secondary text-light">
+                                  {{ currentStockItem.items_amount }}
+                                </h5>
+                              </b-col>
+                          </b-row>
+                      </b-form-group>
+                  </b-col>
+                  <b-col cols="3">
+                      <b-form-group
+                          id="form-client-price-group"
+                          label="Price for client(EUR)"
+                          label-for="form-client-price-input"
+                      >
+                          <b-row align-h="around">
+                              <b-col cols="4">
+                                <h5 class="bg-secondary text-light">
+                                  {{ currentStockItem.current_price_eur }}
+                                </h5>
+                              </b-col>
+                          </b-row>
+                      </b-form-group>
+                  </b-col>
+                </b-row>
+              <!-- CARD -->
+              </b-card>
               <b-row class="mt-3 mb-5" align-h="end">
                 <b-col cols="2">
                   <b-button variant="danger">Cancel</b-button>
                 </b-col>
                 <b-col cols="2">
-                  {{ currentFactoryItem }}
                   <b-button
                     :disabled="currentFactoryItem.id == null"
                     @click="saveItemExp"

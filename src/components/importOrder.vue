@@ -4,7 +4,7 @@
       <b-col cols="2">
         <router-link
         class="btn btn-dark"
-        to="/importTab">Назад</router-link>
+        to="/importTab">Back</router-link>
       </b-col>
     </b-row>
     {{ singleImportOrder }}
@@ -14,13 +14,13 @@
     <b-row align-h="center" class="mt-4">
       <b-col cols="5">
         <h3 v-if="singleImportOrder.import_number != null">
-        Заказ: {{singleImportOrder.import_number}} </h3>
+        Order: {{singleImportOrder.import_number}} </h3>
         <h3 v-else>Новый заказ</h3>
       </b-col>
     </b-row>
     <b-row align-h="end">
       <b-col cols="4" v-if="singleImportOrder.id != null">
-        <p>Создан: </p>
+        <p>Created: {{singleImportOrder.created}}</p>
       </b-col>
     </b-row>
     <b-row>
@@ -160,29 +160,29 @@
       </b-col>
         <b-col cols="2" align-self="center">
           <b-button
-          variant="danger">Отмена</b-button>
+          variant="danger">Cencel</b-button>
         </b-col>
         <b-col cols="2" align-self="center">
           <b-button
-          variant="primary">Сохранить</b-button>
+          variant="primary">Save</b-button>
         </b-col>
     </b-row>
     <b-row class="mt-3">
-      <b-col cols="2">Дополнительно:</b-col>
+      <b-col cols="2" align-self="center">Comment:</b-col>
       <b-col>
         <b-input id="input-comment"
         v-model="singleImportOrder.comment"
         placeholder=""></b-input>
       </b-col>
     </b-row>
-    <b-row class="mt-3" align-h="start">
+    <b-row class="mt-4" align-h="start">
       <b-col cols="3">
         <b-button
           @click="addStockItems"
         >Add Stock Items</b-button>
       </b-col>
     </b-row>
-    <b-row>
+    <b-row class="mt-4">
       <b-col>
         <import-modal ref="import-modal"></import-modal>
       </b-col>
