@@ -155,12 +155,16 @@ const actions = {
   SET_LIST_STOCK_ITEMS_BEFORE_SAVE: (context, items) => {
     context.commit('SET_LIST_STOCK_ITEMS_BEFORE_SAVE', items);
   },
-  // CALC_AND_SAVE_ITEM: async (context, item) => {
-  //   // need to calculate factor and current price RUB
-  //   const currentBankEurRate = context.getters.GET_BANK_EUR_RATE.RUB;
-  //   console.log(currentBankEurRate);
-  //   console.log(item);
-  // },
+  CALC_FACTOR_STOCK_ITEM: async (context) => {
+    // calculate factor
+    const currentStockItem = await context.getters.GET_CURRENT_STOCK_ITEM_EXP;
+    // const currentBankEurRate = context.getters.GET_BANK_EUR_RATE.RUB;
+    const factor = currentStockItem.current_price_eur / currentStockItem.factory_price_eur;
+    console.log((factor.toFixed(2)));
+    currentStockItem.factor = factor.toFixed(2);
+    // console.log(currentBankEurRate);
+    // context.commit('SET_SINGLE_STOCK_ITEM_EXP', currentStockItem);
+  },
   ADD_ITEMS_TO_IMPORT_ORDER: async (context) => {
     /* eslint no-param-reassign: ["error", { "props": false }] */
     const currentImportOrder = await context.getters.GET_SINGLE_IMPORT_ORDER;

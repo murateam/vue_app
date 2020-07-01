@@ -24,9 +24,11 @@
                   <h5>Client Order: {{ currentStockItem.client_order.public_num }}</h5>
                 </b-col>
               </b-row>
-              <b-row align-h="start" no-gutters><b-col cols="6">
-              <b-card class="mt-3">
-                <!-- STOCK ITEM CARD -->
+              {{ currentStockItem }}
+              <b-row align-h="between">
+                <b-col cols="6">
+                  <b-card class="mt-3">
+                    <!-- STOCK ITEM CARD -->
                     <b-row>
                       <!-- FACTORY -->
                       <b-col cols="12">
@@ -201,62 +203,81 @@
                         </b-row>
                       </b-col>
                     </b-row>
-                <!-- END STOCK ITEM CARD -->
-              </b-card>
-              </b-col></b-row>
-              <b-row class="mt-3" align-h="end">
-                <b-col md="auto">
-                  <b-row><b-col><label>Factor</label></b-col></b-row>
-                  <b-row><b-col class="mt-1">
-                    <h5 class="bg-secondary text-light">{{ currentStockItem.factor }}
-                    </h5>
-                  </b-col></b-row>
+                    <b-row class="mt-5" align-h="start">
+                      <b-col md="auto">
+                        <h5>Description:</h5>
+                      </b-col>
+                      <b-col md="auto">{{currentFactoryItem.description_de}}</b-col>
+                    </b-row>
+                    <!-- END STOCK ITEM CARD -->
+                  </b-card>
                 </b-col>
-                <b-col md="auto">
-                  <b-row><b-col><label>Factory price</label></b-col></b-row>
+                <b-col cols="4">
                   <b-row>
-                    <b-col align-self="center">
-                      <b-input></b-input>
+                    <b-col>
+                      <b-card class="mt-3">
+                        <!-- CARD CLIENT PRICE -->
+                        <b-row align-h="between">
+                          <b-col md="auto">
+                            <b-form-group
+                                id="form-passport-group"
+                                label="Amount (unit)"
+                                label-for="form-passport-input"
+                            >
+                                <b-row align-h="around">
+                                    <b-col cols="4">
+                                      <h5 class="bg-secondary text-light">
+                                        {{ currentStockItem.items_amount }}
+                                      </h5>
+                                    </b-col>
+                                </b-row>
+                            </b-form-group>
+                          </b-col>
+                          <b-col md="auto">
+                            <b-form-group
+                                id="form-client-price-group"
+                                label="Price for client(EUR)"
+                                label-for="form-client-price-input"
+                            >
+                                <b-row align-h="around">
+                                    <b-col cols="4">
+                                      <h5 class="bg-secondary text-light">
+                                        {{ currentStockItem.current_price_eur }}
+                                      </h5>
+                                    </b-col>
+                                </b-row>
+                            </b-form-group>
+                          </b-col>
+                        </b-row>
+                      <!-- END CARD CLIENT PRICE -->
+                      </b-card>
                     </b-col>
                   </b-row>
+                    <b-row class="mt-3" align-h="end" align-v="end">
+                      <b-col md="auto" align-self="end">
+                        <b-row><b-col><label>Factor</label></b-col></b-row>
+                        <b-row><b-col class="mt-1">
+                          <h5 class="bg-secondary text-light">{{ currentStockItem.factor }}
+                          </h5>
+                        </b-col></b-row>
+                      </b-col>
+                      <b-col md="auto">
+                        <b-row><b-col><label>Factory price</label></b-col></b-row>
+                        <b-row>
+                          <b-col align-self="center">
+                            <b-input
+                              v-model.number="currentStockItem.factory_price_eur"
+                              debounce="700"
+                            ></b-input>
+                            <!-- Crutch for call computed method for calc factor -->
+                              <div v-if="watchForStockItemFactoryPrice"></div>
+                            <!--  -->
+                          </b-col>
+                        </b-row>
+                      </b-col>
+                    </b-row>
                 </b-col>
               </b-row>
-              <b-card class="mt-3">
-                <!-- CARD CLIENT PRICE -->
-                <b-row align-h="start">
-                  <b-col cols="3">
-                      <b-form-group
-                          id="form-passport-group"
-                          label="Amount (unit)"
-                          label-for="form-passport-input"
-                      >
-                          <b-row align-h="around">
-                              <b-col cols="4">
-                                <h5 class="bg-secondary text-light">
-                                  {{ currentStockItem.items_amount }}
-                                </h5>
-                              </b-col>
-                          </b-row>
-                      </b-form-group>
-                  </b-col>
-                  <b-col cols="3">
-                      <b-form-group
-                          id="form-client-price-group"
-                          label="Price for client(EUR)"
-                          label-for="form-client-price-input"
-                      >
-                          <b-row align-h="around">
-                              <b-col cols="4">
-                                <h5 class="bg-secondary text-light">
-                                  {{ currentStockItem.current_price_eur }}
-                                </h5>
-                              </b-col>
-                          </b-row>
-                      </b-form-group>
-                  </b-col>
-                </b-row>
-              <!-- CARD -->
-              </b-card>
               <b-row class="mt-3 mb-5" align-h="end">
                 <b-col cols="2">
                   <b-button variant="danger">Cancel</b-button>
@@ -427,6 +448,10 @@ export default {
       await this.$store.dispatch('GET_SINGLE_FACTORY_ITEM');
       this.$refs['factory-item-modal'].show();
     },
+    calcAndSaveFactor() {
+      const stockItem = this.currentStockItem;
+      this.$store.dispatch('CALC_FACTOR_STOCK_ITEM', stockItem);
+    },
   },
   computed: {
     role() {
@@ -463,6 +488,11 @@ export default {
       return this.checkObjectByType(
         this.currentStockItem.factory_item.catalogue_number,
         'catalogueNumber',
+      );
+    },
+    watchForStockItemFactoryPrice() {
+      return this.calcAndSaveFactor(
+        this.currentStockItem.factory_price_eur,
       );
     },
     typeFactoryItem() {
