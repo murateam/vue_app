@@ -30,6 +30,7 @@ const state = {
   listImportOrders: [],
   singleImportOrder: {},
   choosingImportOrderThroughModal: false,
+  averageFactor: 0,
 };
 const getters = {
   GET_EMPTY_IMPORT_ORDER: (state) => state.empryImportOrder,
@@ -85,6 +86,10 @@ const actions = {
       const importOrderResponse = await axios.put(importOrderURL + importOrder.id, importOrder);
       console.log(importOrderResponse);
     }
+  },
+  CALC_AVARAGE_FACTOR: () => {
+  },
+  CHEKER_FOR_STATUS_IMPORT_ORDER: () => {
   },
 };
 

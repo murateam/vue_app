@@ -218,6 +218,7 @@ export default {
     },
     async saveExistImportOrder() {
       this.$store.dispatch('SAVE_EXIST_IMPORT_ORDER');
+      this.$router.go(-1);
     },
   },
   created() {
