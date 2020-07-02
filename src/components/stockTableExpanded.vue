@@ -166,6 +166,10 @@ export default {
           label: 'Цена',
         },
         {
+          key: 'factor',
+          label: 'Factor',
+        },
+        {
           key: 'state',
           label: 'Состояние',
         },

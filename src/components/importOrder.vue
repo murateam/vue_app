@@ -164,6 +164,7 @@
         </b-col>
         <b-col cols="2" align-self="center">
           <b-button
+          @click="saveExistImportOrder"
           variant="primary">Save</b-button>
         </b-col>
     </b-row>
@@ -214,6 +215,9 @@ export default {
       await this.$store.dispatch('SET_IS_LIST_EXPANDED', true);
       await this.$store.dispatch('GET_STOCK_ITEMS_EXP');
       this.$refs['import-modal'].show();
+    },
+    async saveExistImportOrder() {
+      this.$store.dispatch('SAVE_EXIST_IMPORT_ORDER');
     },
   },
   created() {

@@ -163,9 +163,10 @@ const actions = {
         await context.commit('ADD_FACTORY_ITEM_TO_LIST', factoryResponse.data);
       } else {
         factoryResponse = await axios.put(factoriesURL + currentFactory.id, currentFactory);
+        const currentStockItemExp = context.getters.GET_CURRENT_STOCK_ITEM_EXP;
+        currentStockItemExp.factory_item.factory_collection.factory = factoryResponse.data;
         await context.commit('CHANGE_FACTORY_ITEM_IN_LIST', factoryResponse.data);
       }
-      // console.log(factoryResponse.data);
       // add to current stock item expanded (will have made it later)
     } else if (currentTypeFactoryItem === 'collection') {
       let collectionResponse = {};
@@ -177,6 +178,9 @@ const actions = {
         collectionResponse = await axios.put(
           collectionURL + currentCollection.id, currentCollection,
         );
+        const stockItemExp = context.getters.GET_CURRENT_STOCK_ITEM_EXP;
+        stockItemExp.factory_item.factory_collection.name = collectionResponse.data.name;
+        stockItemExp.factory_item.factory_collection.is_made = collectionResponse.data.is_made;
         await context.commit('CHANGE_FACTORY_ITEM_IN_LIST', collectionResponse.data);
       }
     } else if (currentTypeFactoryItem === 'catalogue-number') {
@@ -189,6 +193,9 @@ const actions = {
         factoryItemResponse = await axios.put(
           factoryItemsURL + currentFactoryItem.id, currentFactoryItem,
         );
+        const stockItemExp = context.getters.GET_CURRENT_STOCK_ITEM_EXP;
+        stockItemExp.factory_item.catalogue_number = factoryItemResponse.data.catalogue_number;
+        stockItemExp.factory_item.description_de = factoryItemResponse.data.description_de;
         await context.commit('CHANGE_FACTORY_ITEM_IN_LIST', factoryItemResponse.data);
       }
     }

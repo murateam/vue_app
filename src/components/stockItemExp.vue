@@ -207,7 +207,7 @@
                       <b-col md="auto">
                         <h5>Description:</h5>
                       </b-col>
-                      <b-col md="auto">{{currentFactoryItem.description_de}}</b-col>
+                      <b-col md="auto">{{ currentStockItem.factory_item.description_de }}</b-col>
                     </b-row>
                     <!-- END STOCK ITEM CARD -->
                   </b-card>
@@ -266,7 +266,7 @@
                         <b-row>
                           <b-col align-self="center">
                             <b-input
-                              v-model.number="currentStockItem.factory_price_eur"
+                              v-model.number="tmpFactoryPrice"
                               debounce="700"
                             ></b-input>
                             <!-- Crutch for call computed method for calc factor -->
@@ -280,7 +280,9 @@
               </b-row>
               <b-row class="mt-3 mb-5" align-h="end">
                 <b-col cols="2">
-                  <b-button variant="danger">Cancel</b-button>
+                  <b-button
+                    @click="back"
+                    variant="danger">Cancel</b-button>
                 </b-col>
                 <b-col cols="2">
                   <b-button
@@ -313,9 +315,11 @@ export default {
       time: 1,
       timerFactory: null,
       timerCollection: null,
+      tmpFactoryPrice: 0,
     };
   },
   mounted() {
+    this.tmpFactoryPrice = this.currentStockItem.factory_price_eur;
   },
   created() {
     this.$store.dispatch('SET_EMPTY_STOCK_ITEM');
@@ -366,12 +370,11 @@ export default {
       savingItem.push('save_correct');
       savingItem.push(item);
       this.$store.dispatch('SAVE_STOCK_ITEM_EXP_VIA_ARRAY', savingItem);
+      this.$store.dispatch('GET_LIST_STOCK_ITEMS_EXP_FOR_IMPORT_ORDER', this.currentImportOrder);
       this.$router.go(-1);
     },
-    cencel() {
-      // this.$store.dispatch('SET_EMPTY_STOCK_ITEM');
-    },
     back() {
+      this.$store.dispatch('GET_LIST_STOCK_ITEMS_EXP_FOR_IMPORT_ORDER', this.currentImportOrder);
       this.$router.go(-1);
     },
     checkObjectByType(obj, objType) {
@@ -449,8 +452,7 @@ export default {
       this.$refs['factory-item-modal'].show();
     },
     calcAndSaveFactor() {
-      const stockItem = this.currentStockItem;
-      this.$store.dispatch('CALC_FACTOR_STOCK_ITEM', stockItem);
+      this.$store.dispatch('CALC_FACTOR_STOCK_ITEM');
     },
   },
   computed: {
@@ -459,6 +461,9 @@ export default {
     },
     currentStockItem() {
       return this.$store.getters.GET_CURRENT_STOCK_ITEM_EXP;
+    },
+    currentImportOrder() {
+      return this.$store.getters.GET_SINGLE_IMPORT_ORDER;
     },
     isNewStockItem() {
       return null;
@@ -506,6 +511,12 @@ export default {
     },
     currentFactory() {
       return this.$store.getters.GET_CURRENT_FACTORY;
+    },
+  },
+  watch: {
+    tmpFactoryPrice() {
+      this.currentStockItem.factory_price_eur = this.tmpFactoryPrice;
+      this.calcAndSaveFactor();
     },
   },
 };

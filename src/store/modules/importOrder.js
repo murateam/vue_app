@@ -2,7 +2,7 @@
 import axios from 'axios';
 import _ from 'lodash';
 
-const listImportOrderURL = 'http://127.0.0.1:5000/api/import_orders/';
+const importOrderURL = 'http://127.0.0.1:5000/api/import_orders/';
 const saveNewImportOrderURL = 'http://127.0.0.1:5000/api/import_orders/save_new/';
 
 const state = {
@@ -60,7 +60,7 @@ const actions = {
     context.commit('SET_SINGLE_IMPORT_ORDER', emptyImportOrder);
   },
   GET_LIST_IMPORT_ORDERS: async (context) => {
-    const response = await axios.get(listImportOrderURL);
+    const response = await axios.get(importOrderURL);
     context.commit('SET_LIST_IMPORT_ORDERS', response.data);
   },
   SET_SINGLE_IMPORT_ORDER: (context, item) => {
@@ -74,6 +74,17 @@ const actions = {
     await context.dispatch('GET_LIST_IMPORT_ORDERS');
     await context.commit('SET_SINGLE_IMPORT_ORDER', newImportOrder.data);
     await context.commit('ADD_IMPORT_ORDER_TO_LIST', newImportOrder.data);
+  },
+  SAVE_EXIST_IMPORT_ORDER: async (context) => {
+    const importOrder = await context.getters.GET_SINGLE_IMPORT_ORDER;
+    if (importOrder.id != null) {
+      importOrder.AB_file = null;
+      importOrder.TTN = null;
+      importOrder.VAITEK_payment = null;
+      importOrder.bill = null;
+      const importOrderResponse = await axios.put(importOrderURL + importOrder.id, importOrder);
+      console.log(importOrderResponse);
+    }
   },
 };
 
