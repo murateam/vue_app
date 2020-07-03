@@ -176,6 +176,15 @@
         placeholder=""></b-input>
       </b-col>
     </b-row>
+    <b-row align-h="end" class="mt-3">
+      <b-col md="auto">Avarage factor:</b-col>
+      <b-col cols="1" v-if="averageFactor < 2.5">
+        <h5 class="bg-danger text-light">{{ averageFactor }}</h5>
+      </b-col>
+      <b-col cols="1" v-if="averageFactor >= 2.5">
+        <h5 class="bg-success text-light">{{ averageFactor }}</h5>
+      </b-col>
+    </b-row>
     <b-row class="mt-4" align-h="start">
       <b-col cols="3">
         <b-button
@@ -220,6 +229,9 @@ export default {
       this.$store.dispatch('SAVE_EXIST_IMPORT_ORDER');
       this.$router.go(-1);
     },
+    checkStatus() {
+      this.$store.dispatch('CHECK_STATUS_IMPORT_ORDER');
+    },
   },
   created() {
     const importOrder = this.$store.getters.GET_SINGLE_IMPORT_ORDER;
@@ -230,6 +242,18 @@ export default {
   computed: {
     singleImportOrder() {
       return this.$store.getters.GET_SINGLE_IMPORT_ORDER;
+    },
+    averageFactor() {
+      return this.$store.getters.GET_AVERAGE_FACTOR;
+    },
+    listStockItemsForImportOrder() {
+      return this.$store.getters.GET_LIST_STOCK_ITEMS_EXP_FOR_IMPORT_ORDER;
+    },
+  },
+  watch: {
+    listStockItemsForImportOrder() {
+      this.$store.dispatch('CALC_AVARAGE_FACTOR_FOR_IMPORT_ORDER');
+      this.checkStatus();
     },
   },
 };

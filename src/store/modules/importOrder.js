@@ -37,6 +37,7 @@ const getters = {
   GET_LIST_IMPORT_ORDERS: (state) => state.listImportOrders,
   GET_SINGLE_IMPORT_ORDER: (state) => state.singleImportOrder,
   GET_BOOL_CHOOSING_IMPORT_ORDERS: (state) => state.choosingImportOrderThroughModal,
+  GET_AVERAGE_FACTOR: (state) => state.averageFactor,
 };
 const mutations = {
   SET_BOOL_CHOOSING_IMPORT_ORDERS: (state, payload) => {
@@ -50,6 +51,16 @@ const mutations = {
   },
   ADD_IMPORT_ORDER_TO_LIST: (state, payload) => {
     state.listImportOrders.push(payload);
+  },
+  SET_AVERAGE_FACTOR: (state, payload) => {
+    state.averageFactor = payload;
+  },
+  CHANGE_IMPORT_ORDER_IN_LIST: async (state, item) => {
+    const arrBefore = state.listImportOrders;
+    const arrTmp = [];
+    arrTmp.push(item);
+    const arrFinal = arrBefore.map((obj) => arrTmp.find((o) => o.id === obj.id) || obj);
+    state.listImportOrders = arrFinal;
   },
 };
 const actions = {
@@ -84,12 +95,33 @@ const actions = {
       importOrder.VAITEK_payment = null;
       importOrder.bill = null;
       const importOrderResponse = await axios.put(importOrderURL + importOrder.id, importOrder);
-      console.log(importOrderResponse);
+      context.commit('CHANGE_IMPORT_ORDER_IN_LIST', importOrderResponse.data);
     }
   },
-  CALC_AVARAGE_FACTOR: () => {
+  CALC_AVARAGE_FACTOR_FOR_IMPORT_ORDER: (context) => {
+    const listStockItems = context.getters.GET_LIST_STOCK_ITEMS_EXP_FOR_IMPORT_ORDER;
+    const sum = listStockItems.reduce((accum, item) => accum + item.factor, 0);
+    const average = sum / listStockItems.length;
+    context.commit('SET_AVERAGE_FACTOR', average.toFixed(2));
   },
-  CHEKER_FOR_STATUS_IMPORT_ORDER: () => {
+  CHECK_STATUS_IMPORT_ORDER: async (context) => {
+    const currentImportOrder = await context.getters.GET_SINGLE_IMPORT_ORDER;
+    const listStockItems = await context.getters.GET_LIST_STOCK_ITEMS_EXP_FOR_IMPORT_ORDER;
+    const checkItemsFactor = (items) => {
+      const listLength = items.length;
+      let result = true;
+      for (let i = 0; i < listLength; i += 1) {
+        if (items[i].factor < 2.5) {
+          result = false;
+        }
+      }
+      return result;
+    };
+    if (currentImportOrder.status === 'processing') {
+      console.log('TEST');
+    }
+    console.log(currentImportOrder.status);
+    console.log(checkItemsFactor(listStockItems));
   },
 };
 

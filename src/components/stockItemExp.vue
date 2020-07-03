@@ -286,7 +286,7 @@
                 </b-col>
                 <b-col cols="2">
                   <b-button
-                    :disabled="currentFactoryItem.id == null"
+                    :disabled="currentFactoryItem.id==null || currentStockItem.factor=='Infinity'"
                     @click="saveItemExp"
                     variant="primary"
                   >Save</b-button>
@@ -370,7 +370,7 @@ export default {
       savingItem.push('save_correct');
       savingItem.push(item);
       this.$store.dispatch('SAVE_STOCK_ITEM_EXP_VIA_ARRAY', savingItem);
-      this.$store.dispatch('GET_LIST_STOCK_ITEMS_EXP_FOR_IMPORT_ORDER', this.currentImportOrder);
+      // this.$store.dispatch('GET_LIST_STOCK_ITEMS_EXP_FOR_IMPORT_ORDER', this.currentImportOrder);
       this.$router.go(-1);
     },
     back() {
