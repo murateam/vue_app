@@ -99,13 +99,13 @@
           </b-row>
           <b-row class="mt-3" align-h="end">
             <b-col cols="2">
-              <b-button variant="danger" @click="cencel">Отменить</b-button>
+              <b-button variant="danger" @click="cencel">Cencel</b-button>
             </b-col>
             <b-col cols="2" v-if="isNewStockItem">
-              <b-button variant="primary" @click="addItem">Добавить</b-button>
+              <b-button variant="primary" @click="addItem">Add</b-button>
             </b-col>
             <b-col cols="2" v-else>
-              <b-button variant="primary" @click="saveItem">Сохранить</b-button>
+              <b-button variant="primary" @click="saveItem">Save</b-button>
             </b-col>
           </b-row>
         </b-container>

@@ -3,20 +3,23 @@
     <b-row align-h="start">
       <b-col cols="2" v-if="boolChoosingStockItems">
         <b-button
-        id="addItems"
-        :disabled="canAdd()"
+          id="addItems"
+          :disabled="canAdd()"
           @click="addItems"
         >Add</b-button>
       </b-col>
-      <b-col cols="2">
+      <b-col cols="2"
+        v-if="importOrder.status == 'processing'"
+      >
         <b-button
-        :disabled="canEdit()"
+          :disabled="canEdit()"
           @click="editStockItem"
         >Edit item</b-button>
       </b-col>
       <b-col cols="2" v-if="isListUsedInImportOrder">
         <b-button
-        :disabled="canAdd()"
+          v-if="importOrder.status == 'processing'"
+          :disabled="canAdd()"
           @click="deleteStockItemFromImportOrder"
         >Delete item</b-button>
       </b-col>
@@ -119,6 +122,7 @@
 </template>
 
 <script>
+import _ from 'lodash';
 import importModal from './importModalForItemsOrOrders.vue';
 
 export default {
@@ -152,18 +156,21 @@ export default {
         },
         {
           key: 'catalogue_num',
-          label: 'Номер в каталоге',
+          label: 'Catalogue num',
         },
         {
           key: 'is_correct',
         },
         {
           key: 'amount',
-          label: 'Колличество',
+          label: 'Amount',
         },
         {
           key: 'price',
-          label: 'Цена',
+          label: 'Price',
+        },
+        {
+          key: 'Total price',
         },
         {
           key: 'factor',
@@ -171,7 +178,7 @@ export default {
         },
         {
           key: 'state',
-          label: 'Состояние',
+          label: 'Current state',
         },
         {
           key: 'check',
@@ -183,6 +190,12 @@ export default {
         },
       ],
     };
+  },
+  created() {
+    const importOrder = this.$store.getters.GET_SINGLE_IMPORT_ORDER;
+    if (_.isEmpty(importOrder)) {
+      this.$store.dispatch('RESET_SINGLE_IMPORT_ORDER');
+    }
   },
   methods: {
     canEdit() {
@@ -227,9 +240,6 @@ export default {
       await this.$store.dispatch('SET_LIST_STOCK_ITEMS_BEFORE_SAVE', this.selected);
       await this.$store.dispatch('SET_BOOL_CHOOSING_STOCK_ITEMS', true);
       this.$store.dispatch('ADD_ITEMS_TO_IMPORT_ORDER');
-      // await this.$store.dispatch('SET_BOOL_CHOOSING_STOCK_ITEMS', false);
-      // await this.$store.dispatch('SET_BOOL_CHOOSING_IMPORT_ORDERS', true);
-      // await this.$store.dispatch('GET_LIST_IMPORT_ORDERS');
       //
       // next hide method of modal doesn't work!!!
       // it's different reference modal and not 'import-modal'!!!

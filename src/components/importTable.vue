@@ -96,6 +96,9 @@ export default {
         {
           key: 'container_num',
         },
+        {
+          key: 'status',
+        },
       ],
       selected: [],
     };

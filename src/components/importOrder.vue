@@ -185,16 +185,23 @@
         <h5 class="bg-success text-light">{{ averageFactor }}</h5>
       </b-col>
     </b-row>
+    {{ allowStatus }}
     <b-row class="mt-4" align-h="start">
-      <b-col cols="3">
+      <b-col cols="3" v-if="singleImportOrder.status == 'processing'">
         <b-button
           @click="addStockItems"
         >Add Stock Items</b-button>
+      </b-col>
+      <b-col md="auto" v-if="allowStatus == 'order to factory'">
+        <b-button
+        @click="requestToFactory"
+        variant="success">Send to factory</b-button>
       </b-col>
     </b-row>
     <b-row class="mt-4">
       <b-col>
         <import-modal ref="import-modal"></import-modal>
+        <factory-request ref="factory-request"></factory-request>
       </b-col>
     </b-row>
     <b-row>
@@ -209,12 +216,14 @@
 import _ from 'lodash';
 import importModal from './importModalForItemsOrOrders.vue';
 import stockTableExpanded from './stockTableExpanded.vue';
+import factoryRequest from './factoryRequestModel.vue';
 
 export default {
   name: 'importOrder',
   components: {
     importModal,
     stockTableExpanded,
+    factoryRequest,
   },
   methods: {
     async addStockItems() {
@@ -226,11 +235,25 @@ export default {
       this.$refs['import-modal'].show();
     },
     async saveExistImportOrder() {
-      this.$store.dispatch('SAVE_EXIST_IMPORT_ORDER');
+      this.$store.dispatch('SAVE_EXIST_IMPORT_ORDER', 'processing');
       this.$router.go(-1);
     },
     checkStatus() {
       this.$store.dispatch('CHECK_STATUS_IMPORT_ORDER');
+    },
+    requestToFactory() {
+      this.$refs['factory-request'].show();
+      const listLength = this.listStockItemsForImportOrder.length;
+      for (let i = 0; i < listLength; i += 1) {
+        const item = _.cloneDeep(this.listStockItemsForImportOrder[i]);
+        item.stock_choices = 'in order';
+        item.factory_item = item.factory_item.id;
+        const savingItem = [];
+        savingItem.push('save_correct');
+        savingItem.push(item);
+        this.$store.dispatch('SAVE_STOCK_ITEM_EXP_VIA_ARRAY', savingItem);
+      }
+      this.$store.dispatch('SAVE_EXIST_IMPORT_ORDER', 'order to factory');
     },
   },
   created() {
@@ -248,6 +271,9 @@ export default {
     },
     listStockItemsForImportOrder() {
       return this.$store.getters.GET_LIST_STOCK_ITEMS_EXP_FOR_IMPORT_ORDER;
+    },
+    allowStatus() {
+      return this.$store.getters.GET_ALLOWED_STATUS;
     },
   },
   watch: {

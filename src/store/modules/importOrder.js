@@ -31,6 +31,7 @@ const state = {
   singleImportOrder: {},
   choosingImportOrderThroughModal: false,
   averageFactor: 0,
+  allowedStatus: '',
 };
 const getters = {
   GET_EMPTY_IMPORT_ORDER: (state) => state.empryImportOrder,
@@ -38,6 +39,7 @@ const getters = {
   GET_SINGLE_IMPORT_ORDER: (state) => state.singleImportOrder,
   GET_BOOL_CHOOSING_IMPORT_ORDERS: (state) => state.choosingImportOrderThroughModal,
   GET_AVERAGE_FACTOR: (state) => state.averageFactor,
+  GET_ALLOWED_STATUS: (state) => state.allowedStatus,
 };
 const mutations = {
   SET_BOOL_CHOOSING_IMPORT_ORDERS: (state, payload) => {
@@ -61,6 +63,9 @@ const mutations = {
     arrTmp.push(item);
     const arrFinal = arrBefore.map((obj) => arrTmp.find((o) => o.id === obj.id) || obj);
     state.listImportOrders = arrFinal;
+  },
+  SET_ALLOWED_STATUS: (state, payload) => {
+    state.allowedStatus = payload;
   },
 };
 const actions = {
@@ -87,9 +92,10 @@ const actions = {
     await context.commit('SET_SINGLE_IMPORT_ORDER', newImportOrder.data);
     await context.commit('ADD_IMPORT_ORDER_TO_LIST', newImportOrder.data);
   },
-  SAVE_EXIST_IMPORT_ORDER: async (context) => {
+  SAVE_EXIST_IMPORT_ORDER: async (context, status) => {
     const importOrder = await context.getters.GET_SINGLE_IMPORT_ORDER;
     if (importOrder.id != null) {
+      importOrder.status = status;
       importOrder.AB_file = null;
       importOrder.TTN = null;
       importOrder.VAITEK_payment = null;
@@ -105,6 +111,7 @@ const actions = {
     context.commit('SET_AVERAGE_FACTOR', average.toFixed(2));
   },
   CHECK_STATUS_IMPORT_ORDER: async (context) => {
+    await context.commit('SET_ALLOWED_STATUS', 'processing');
     const currentImportOrder = await context.getters.GET_SINGLE_IMPORT_ORDER;
     const listStockItems = await context.getters.GET_LIST_STOCK_ITEMS_EXP_FOR_IMPORT_ORDER;
     const checkItemsFactor = (items) => {
@@ -117,11 +124,12 @@ const actions = {
       }
       return result;
     };
-    if (currentImportOrder.status === 'processing') {
-      console.log('TEST');
+    if (
+      currentImportOrder.status === 'processing'
+      && listStockItems.length !== 0
+      && checkItemsFactor(listStockItems)) {
+      await context.commit('SET_ALLOWED_STATUS', 'order to factory');
     }
-    console.log(currentImportOrder.status);
-    console.log(checkItemsFactor(listStockItems));
   },
 };
 

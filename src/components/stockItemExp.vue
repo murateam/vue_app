@@ -374,7 +374,9 @@ export default {
       this.$router.go(-1);
     },
     back() {
-      this.$store.dispatch('GET_LIST_STOCK_ITEMS_EXP_FOR_IMPORT_ORDER', this.currentImportOrder);
+      if (this.currentImportOrder.id !== null) {
+        this.$store.dispatch('GET_LIST_STOCK_ITEMS_EXP_FOR_IMPORT_ORDER', this.currentImportOrder);
+      }
       this.$router.go(-1);
     },
     checkObjectByType(obj, objType) {

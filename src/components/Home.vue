@@ -1,39 +1,119 @@
 <template>
     <b-container>
-        <h3 class="mt-3">Главная страница</h3>
-        <b-row align-h="start" class="mt-3">
-            <b-col cols="3">
-              <b-button variant="success"
-              @click="manageTab"
-              >Клиентские договоры</b-button>
-                <!-- <router-link
-                class="btn btn-success"
-                to="manageTab">Менеджер</router-link> -->
-            </b-col>
-            <b-col cols="3">
-              <b-button @click="accountantTab">Оплата по договору</b-button>
-            </b-col>
-            <b-col cols="3">
-                <b-button
-                  @click="listStockAll">Склад
-                </b-button>
-            </b-col>
-            <b-col>
-              <b-button
-                @click="importOrdersTab"
-                cols="3">Заказы импорт</b-button>
-            </b-col>
-        </b-row>
-        <b-row class="mt-4">
-          <b-col cols="3"></b-col>
-          <b-col cols="3"></b-col>
-          <b-col cols="3"></b-col>
-          <b-col cols="3">
-            <b-button
-              @click="stockTableExpanded"
-            >Позиции импорт</b-button>
-          </b-col>
-        </b-row>
+        <h3 class="mt-5 mb-5">Main page</h3>
+        <!-- <b-card-group>
+          <b-row align-h="start" class="mt-3">
+              <b-col cols="3">
+                  <b-card
+                    img-src="https://picsum.photos/600/300/?image=25"
+                    img-alt="image"
+                    img-top
+                  >
+                    <b-button
+                      variant="success"
+                      @click="manageTab"
+                    >Clients orders
+                    </b-button>
+                </b-card>
+              </b-col>
+              <b-col cols="3">
+                <b-card
+                  img-src="https://picsum.photos/600/300/?image=25"
+                  img-alt="image"
+                  img-top
+                >
+                  <b-button @click="accountantTab">Payments for orders</b-button>
+                </b-card>
+              </b-col>
+              <b-col cols="3">
+                <b-card
+                  img-src="https://picsum.photos/600/300/?image=25"
+                  img-alt="image"
+                  img-top
+                >
+                  <b-button
+                    @click="listStockAll">Warehouse
+                  </b-button>
+                </b-card>
+              </b-col>
+              <b-col>
+                <b-card
+                    img-src="https://picsum.photos/600/300/?image=25"
+                    img-alt="image"
+                    img-top
+                  >
+                  <b-button
+                    @click="importOrdersTab"
+                    cols="3">Import Orders
+                  </b-button>
+                  <b-button
+                    @click="stockTableExpanded"
+                  >Products for import</b-button>
+                </b-card>
+              </b-col>
+          </b-row>
+        </b-card-group> -->
+        <b-card-group deck>
+                  <b-card
+                    :img-src="require('../assets/01.svg')"
+                    img-alt="image"
+                    img-top
+                  >
+                    <b-list-group flush>
+                      <b-list-group-item>
+                        <b-button
+                          variant="success"
+                          @click="manageTab"
+                        >Clients orders
+                        </b-button>
+                      </b-list-group-item>
+                    </b-list-group>
+                </b-card>
+                <b-card
+                  :img-src="require('../assets/02.svg')"
+                  img-alt="image"
+                  img-top
+                >
+                  <b-list-group flush>
+                    <b-list-group-item>
+                      <b-button @click="accountantTab">Payments for orders</b-button>
+                    </b-list-group-item>
+                  </b-list-group>
+                </b-card>
+                <b-card
+                  :img-src="require('../assets/04.svg')"
+                  img-alt="image"
+                  img-top
+                >
+                  <b-list-group flush>
+                    <b-list-group-item>
+                      <b-button
+                        @click="listStockAll">Warehouse
+                      </b-button>
+                    </b-list-group-item>
+                  </b-list-group>
+                </b-card>
+                <b-card
+                    :img-src="require('../assets/03.svg')"
+                    img-alt="image"
+                    img-top
+                >
+                  <b-list-group flush>
+                    <b-list-group-item>
+                      <b-button
+                        @click="importOrdersTab"
+                        cols="3">Import Orders
+                      </b-button>
+                    </b-list-group-item>
+                    <b-list-group-item>
+                      <b-button
+                        class="mt-3"
+                        @click="stockTableExpanded"
+                      >Products for import</b-button>
+                    </b-list-group-item>
+                  </b-list-group>
+                </b-card>
+        </b-card-group>
     </b-container>
 </template>
 
