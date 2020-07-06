@@ -4,6 +4,10 @@
     hide-footer
   >
     <b-container>
+      <b-img
+        fluid
+        src="https://picsum.photos/seed/picsum/200/300"
+      ></b-img>
         {{singleStockItemExp}}
     </b-container>
   </b-modal>
