@@ -5,26 +5,26 @@
     ref="designer-modal">
         <b-container>
             <b-row align-h="center">
-                <b-col cols="4"><h3>Дизайнер</h3></b-col>
+                <b-col cols="4"><h3>Designer</h3></b-col>
             </b-row>
             <b-row align-h="center">
-              <b-col cols="11">
+              <b-col cols="12">
                 <b-form-group
                     id="form-designer-group"
-                    label="Имя"
+                    label="Name:"
                     label-for="form-designer-input"
                 >
-                  <b-input placeholder="Имя"
+                  <b-input placeholder="Name"
                   type="text"
                   v-model="singleClientOrder.designer"></b-input>
                 </b-form-group>
               </b-col>
             </b-row>
             <b-row align-h="center">
-              <b-col cols="11">
+              <b-col cols="12">
                 <b-form-group
                     id="form-designer-group"
-                    label="Вознаграждение (RUB)"
+                    label="Reward (RUB):"
                     label-for="form-designer-input"
                 >
                   <b-input placeholder="Reward"
@@ -34,10 +34,10 @@
               </b-col>
             </b-row>
             <b-row align-h="end" class="mt-3">
-                <b-col cols="3">
+                <b-col md="auto">
                   <b-button variant="danger" @click="cencel">Cancel</b-button>
                 </b-col>
-                <b-col cols="4">
+                <b-col md="auto">
                   <b-button @click="saveDesigner" variant="primary">Save</b-button>
                 </b-col>
             </b-row>

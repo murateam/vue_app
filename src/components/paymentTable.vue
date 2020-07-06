@@ -41,20 +41,20 @@ export default {
       payment_fields: [
         {
           key: 'index',
-          label: 'Номер',
+          label: 'Number',
         },
         {
           key: 'payment_date',
-          label: 'Дата платежа',
+          label: 'Payment date',
           formatter: 'dateFilter',
         },
         {
           key: 'payment_value',
-          label: 'Сумма',
+          label: 'Payment amount',
         },
         {
           key: 'comment',
-          label: 'Дополнительно',
+          label: 'Comment',
         },
         {
           key: 'check',
@@ -69,7 +69,7 @@ export default {
   },
   methods: {
     dateFilter(value) {
-      return moment(String(value)).format('DD/MM/YYYY');
+      return moment(String(value)).format('YY-MM-DD');
     },
     async editPayment(index) {
       await this.$store.dispatch('SET_CURRENT_PAYMENT_BY_INDEX', index);

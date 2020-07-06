@@ -5,7 +5,7 @@
       <b-col cols="2">
         <router-link
         class="btn btn-dark"
-        to="/">На главную</router-link>
+        to="/">Home</router-link>
       </b-col>
     </b-row>
       <div class="mt-3">
@@ -15,19 +15,18 @@
               @click="newClientOrder"
               type="button"
               id="order-add"
-              class="btn btn-secondary btn-sm align=left d-block">Создать заказ</button>
+              class="btn btn-secondary btn-sm align=left d-block">Create order</button>
             <button
               @click="newClient"
               type="button"
               id="clien-add"
-              class="btn btn-success btn-sm align=left d-block">Добавить заказчика</button>
+              class="btn btn-success btn-sm align=left d-block">New customer</button>
           </b-button-group>
         </div>
         <div v-else>
-          <h4>Добавить платежи</h4>
+          <h4>Payments table</h4>
         </div>
 
-        {{ role }}
 
         <alert-messages ref="alert-message"></alert-messages>
 
@@ -41,9 +40,6 @@
           selectable
           select-mode="single"
           @row-selected="onRowSelected">
-          <!-- <template v-slot:cell(price)="data">
-            {{ data }}
-          </template> -->
           <template v-slot:cell(author)="data">
             {{ data.item.author.username }}
           </template>
@@ -54,13 +50,13 @@
             <template v-else>
               <div
                 v-if="data.item.payment_status == 'waiting for payment'">
-                Ждем оплаты</div>
+                Waiting for payment</div>
               <div v-else>
                 <b-button
                   size="sm"
                   class="btn btn-success"
                   @click="sendToImport(data.item)"
-                >В импорт
+                >to Import
                 </b-button>
               </div>
             </template>
@@ -88,60 +84,60 @@ export default {
       fields: [
         {
           key: 'public_num',
-          label: 'Номер договора',
+          label: 'Public number',
         },
         {
           key: 'client',
-          label: 'Заказчик',
+          label: 'Client',
           formatter: 'nameClientShort',
         },
         {
           key: 'state',
-          label: 'Состояние',
+          label: 'State',
           formatter: 'stateFilter',
         },
         {
           key: 'price',
-          label: 'Цена',
+          label: 'Price',
         },
         {
           key: 'total_payment',
-          label: 'Оплачено',
+          label: 'Total payment',
         },
         {
           key: 'created',
-          label: 'Создан',
+          label: 'Created',
           formatter: 'dateFilter',
         },
         {
           key: 'import',
-          label: 'Импорт',
+          label: 'Import',
         },
         {
           key: 'designer',
-          label: 'Дизайнер',
+          label: 'Designer',
         },
         {
           key: 'show_details',
-          label: 'Детали заказа',
+          label: 'Order details',
         },
         {
           key: 'docs',
-          label: 'Документы',
+          label: 'Docs',
         },
       ],
     };
   },
   methods: {
     dateFilter(value) {
-      return moment(String(value)).format('DD/MM/YYYY');
+      return moment(String(value)).format('YY-MM-DD');
     },
     stateFilter(value) {
       let state = '';
       if (value === 'draft') {
-        state = 'Черновик';
+        state = 'Draft';
       } else {
-        state = 'Опубликован';
+        state = 'Published';
       }
       return state;
     },
@@ -150,7 +146,7 @@ export default {
       this.$store.dispatch('TO_IMPORT', item);
     },
     nameClientShort(value) {
-      return `${value.last_name} ${value.first_name.charAt(0)}. ${value.middle_name.charAt(0)}.`;
+      return `${value.last_name} ${value.first_name.charAt(0)}.`;
     },
     onRowSelected(items) {
       this.selected = items;

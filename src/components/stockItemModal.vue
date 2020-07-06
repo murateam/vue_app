@@ -8,10 +8,11 @@
         <b-container>
           <b-row align-h="center">
             <b-form-group
-            label="Товар"></b-form-group>
+              label="Product"
+              label-size="lg"
+              label-class="font-weight-bold pt-0"
+            ></b-form-group>
           </b-row>
-            {{ currentStockItem }}
-            {{ isNewStockItem }}
           <b-row>
             <b-col>
               <label for="input-factory">Factory</label>
@@ -27,6 +28,7 @@
                   v-for="factory in listNameFactories" :key="factory.name"
                 >{{ factory.name }}</option>
               </datalist>
+              <div v-if="checkFactory"></div>
             </b-col>
             <b-col>
               <label for="input-collection">Collection</label>
@@ -40,6 +42,7 @@
                     v-for="collection in listNameFactoryCollections" :key="collection.name"
                   >{{ collection.name }}</option>
                 </datalist>
+                <div v-if="checkFactoryCollections">1</div>
             </b-col>
             <b-col>
               <label for="input-catalog-num">Catalogue number</label>
@@ -60,12 +63,12 @@
             <b-col cols="3">
                 <b-form-group
                     id="form-passport-group"
-                    label="Колличество (ед.)"
+                    label="Amount (unit)"
                     label-for="form-passport-input"
                 >
                     <b-row align-h="around">
                         <b-col>
-                            <b-input placeholder="Колличество"
+                            <b-input placeholder="Amount"
                             type="number"
                             v-model.number="currentStockItem.items_amount"></b-input>
                         </b-col>
@@ -75,12 +78,12 @@
             <b-col cols="3">
                 <b-form-group
                     id="form-passport-group"
-                    label="Цена (EUR)"
+                    label="Price (EUR)"
                     label-for="form-passport-input"
                 >
                     <b-row align-h="around">
                         <b-col>
-                            <b-input placeholder="Цена"
+                            <b-input placeholder="Price"
                             type="number"
                             v-model.number="currentStockItem.current_price_eur"></b-input>
                         </b-col>
@@ -88,7 +91,7 @@
                 </b-form-group>
             </b-col>
           </b-row>
-          <b-row align-h="start" no-gutters>
+          <b-row align-h="start" class="mt-3">
             <b-col md="auto" align-self="center"><h6>Comment:</h6></b-col>
             <b-col>
               <b-input

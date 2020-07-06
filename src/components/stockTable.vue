@@ -1,6 +1,7 @@
 <template>
   <b-container>
     <stock-item ref="stock-item"></stock-item>
+    <wirehouse-modal ref="wirehouse-modal"></wirehouse-modal>
     <b-row>
       <b-col>
         <b-table
@@ -46,14 +47,27 @@
         <template v-slot:cell(price)="data">
           {{ data.item.current_price_eur }}
         </template>
+        <template v-slot:cell(total_price)="data">
+          {{ data.item.items_amount * data.item.current_price_eur }}
+        </template>
         <template v-slot:cell(state)="data">
           {{ data.item.stock_choices }}
         </template>
-        <template v-slot:cell(check)="row" v-if="role == 2">
-          <b-button
-          size="sm"
-          v-if="row.item.stock_choices == 'cancel'"
-          variant="outline-dark" @click="editItem(row.index)">...</b-button>
+        <template v-slot:cell(check)="row">
+          <template v-if="role == 2">
+            <b-button
+            size="sm"
+            v-if="row.item.stock_choices == 'cancel'"
+            variant="outline-dark" @click="editItem(row.index)">...</b-button>
+          </template>
+          <template v-if="role == 4">
+            <b-button
+              @click="moreDetails(row.item.id)"
+              size="sm">
+              more
+              <b-icon icon="three-dots"></b-icon>
+            </b-button>
+          </template>
         </template>
         <template v-slot:cell(delete)="row" v-if="role == 2">
           <b-button
@@ -70,10 +84,12 @@
 
 <script>
 import stockItem from './stockItemModal.vue';
+import wirehouseModal from './wirehouseStockItemDetails.vue';
 
 export default {
   components: {
     stockItem,
+    wirehouseModal,
   },
   data() {
     return {
@@ -81,35 +97,39 @@ export default {
       fields: [
         {
           key: 'index',
-          label: 'Номер',
+          label: 'Number',
         },
         {
           key: 'client_order',
-          label: 'Договор клиента',
+          label: 'Client Order',
         },
         {
           key: 'factory',
-          label: 'Фабрика',
+          label: 'Factory',
         },
         {
           key: 'collection',
-          label: 'Коллекция',
+          label: 'Collection',
         },
         {
           key: 'catalogue_num',
-          label: 'Номер в каталоге',
+          label: 'Catalogue number',
         },
         {
           key: 'amount',
-          label: 'Колличество',
+          label: 'Amount',
         },
         {
           key: 'price',
-          label: 'Цена',
+          label: 'Price per unit',
+        },
+        {
+          key: 'total_price',
+          label: 'Total price',
         },
         {
           key: 'state',
-          label: 'Состояние',
+          label: 'State',
         },
         {
           key: 'check',
@@ -131,11 +151,13 @@ export default {
       this.$store.dispatch('SET_IS_NEW_STOCK_ITEM', false);
       this.$refs['stock-item'].show();
     },
+    async moreDetails(id) {
+      this.$store.dispatch('GET_STOCK_ITEM_EXP_BY_ID', id);
+      this.$refs['wirehouse-modal'].show();
+    },
     deleteItem(index) {
       this.$store.dispatch('MOVE_ITEM_TO_DELETE_LIST', index);
     },
-  },
-  mounted() {
   },
   computed: {
     stockItems() {

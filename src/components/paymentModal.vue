@@ -19,17 +19,11 @@
           </b-row>
           <b-row align-h="end" v-if="singlePayment.id != null">
               <b-col cols="3">
-                <h6>Создан: {{ dateCut(singlePayment.created) }}</h6>
+                <h6>Created: {{dateFilter(singlePayment.created)}}</h6>
               </b-col>
           </b-row>
           <b-row class="mt-3" align-h="end">
             <b-col></b-col>
-            <!-- <b-col>
-              <label for="input-client-order">Клиентский договор</label>
-              <b-input id="input-client-order"
-              v-model="singlePayment.clientOrder"
-              placeholder="Клиентский договор"></b-input>
-            </b-col> -->
             <b-col cols="3">
               <label for="input-payment-date">Дата платежа</label>
               <b-input id="input-payment-date"
@@ -105,10 +99,7 @@ export default {
       this.hide();
     },
     dateFilter(value) {
-      return moment(String(value)).format('YYYY-MM-DD');
-    },
-    dateCut(value) {
-      return moment(String(value)).format('DD-MM-YYYY');
+      return moment(String(value)).format('YY-MM-DD');
     },
   },
   created() {
@@ -120,11 +111,6 @@ export default {
     },
     singleClientOrder() {
       return this.$store.getters.GET_SINGLE_CLIENT_ORDER;
-    },
-  },
-  watch: {
-    singlePayment() {
-      this.paymentDate = this.dateFilter(this.singlePayment.payment_date);
     },
   },
 };

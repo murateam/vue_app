@@ -121,8 +121,12 @@ const actions = {
     context.commit('SET_LIST_STOCK_ITEMS_EXP_FOR_IMPORT_ORDER', []);
   },
   GET_STOCK_ITEMS_EXP: async (context) => {
-    const stockItemExp = await axios.get(stockItemExpURL);
-    context.commit('SET_LIST_STOCK_ITEMS_EXP', stockItemExp.data);
+    const listStockItemsExp = await axios.get(stockItemExpURL);
+    context.commit('SET_LIST_STOCK_ITEMS_EXP', listStockItemsExp.data);
+  },
+  GET_STOCK_ITEM_EXP_BY_ID: async (context, id) => {
+    const singleStockItemExp = await axios.get(stockItemExpURL + id);
+    await context.commit('SET_SINGLE_STOCK_ITEM', singleStockItemExp.data);
   },
   GET_LIST_STOCK_ITEMS_EXP_FOR_IMPORT_ORDER: async (context, importOrder) => {
     const listStockItemsResponse = await axios.get(listStockItemsForImportOrder + importOrder.id);

@@ -19,20 +19,10 @@
                     label-for="form-birthday-input"
                 >
                 <b-row v-if="ifClientExist" align-h="start">
-                        <b-col cols="3"><h5>{{singleClient.last_name}}</h5></b-col>
                         <b-col cols="3"><h5>{{singleClient.first_name}}</h5></b-col>
-                        <b-col cols="3"><h5>{{singleClient.middle_name}}</h5></b-col>
+                        <b-col cols="3"><h5>{{singleClient.last_name}}</h5></b-col>
                 </b-row>
                 <b-row v-else align-h="start">
-                    <b-col>
-                        <label class="sr-only"
-                        for="inline-form-input-last-name">Last Name</label>
-                        <b-input
-                        id="inline-form-input-last-name"
-                        class="md-2 mr-sm-2 mb-sm-0"
-                        placeholder="Last Name"
-                        v-model="singleClient.last_name"></b-input>
-                    </b-col>
                     <b-col>
                         <label class="sr-only"
                         for="inline-form-input-first-name">First Name</label>
@@ -44,12 +34,12 @@
                     </b-col>
                     <b-col>
                         <label class="sr-only"
-                        for="inline-form-input-middle-name">Middle Name</label>
+                        for="inline-form-input-last-name">Last Name</label>
                         <b-input
-                        id="inline-form-input-middle-name"
+                        id="inline-form-input-last-name"
                         class="md-2 mr-sm-2 mb-sm-0"
-                        placeholder="Middle name"
-                        v-model="singleClient.middle_name"></b-input>
+                        placeholder="Last Name"
+                        v-model="singleClient.last_name"></b-input>
                     </b-col>
                 </b-row>
                 </b-form-group>
@@ -64,14 +54,16 @@
                     </b-row>
                     <b-row v-else>
                         <b-col cols="3">
-                            <b-form-input type='date'
+                            <b-form-input
+                            required
+                            type='date'
                             v-model="singleClient.birth_date"></b-form-input>
                         </b-col>
                     </b-row>
                 </b-form-group>
                 <b-form-group
                     id="form-passport-group"
-                    label="Паспорт"
+                    label="Passport"
                     label-for="form-passport-input"
                 >
                     <b-row align-h="around">
@@ -108,7 +100,7 @@
                 <b-card bg-variant="light" class="mt-5">
                     <b-form-group
                         label-cols-lg="3"
-                        label="Address"
+                        label="Address:"
                         label-size="lg"
                         label-class="font-weight-bold pt-0"
                         class="md-0"

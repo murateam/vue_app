@@ -7,20 +7,19 @@
                 <b-col cols="2">
                   <router-link
                   class="btn btn-dark"
-                  to="manageTab">Назад</router-link>
+                  to="manageTab">Back</router-link>
                 </b-col>
               </b-row>
-              {{ singleClientOrder }}
               <b-row align-h="center" class="mt-4">
                 <b-col cols="5">
                   <h3 v-if="singleClientOrder.public_num">
-                    Заказ № {{singleClientOrder.public_num}}</h3>
-                  <h3 v-else>Новый заказ</h3>
+                    Order # {{singleClientOrder.public_num}}</h3>
+                  <h3 v-else>New order</h3>
                 </b-col>
               </b-row>
               <b-row align-h="end" v-if="singleClientOrder.created">
                 <b-col cols="4">
-                  <p>Создан: {{dateFilter(singleClientOrder.created)}}</p>
+                  <p>Created: {{dateFilter(singleClientOrder.created)}}</p>
                 </b-col>
               </b-row>
               <b-row>
@@ -28,7 +27,7 @@
                   <b-card>
                   <b-row>
                     <b-col>
-                      <h5>Заказчик</h5>
+                      <h5>Customer</h5>
                     </b-col>
                   </b-row>
                   <template>
@@ -40,7 +39,7 @@
                               v-if="author == 2"
                               aria-controls="collapseChoiceOtherClient"
                               @click="changeVisibleChoiceOtherClient"
-                            >Сменить заказчика</b-button>
+                            >Change customer</b-button>
                           </div>
                         </b-col>
                       </b-row>
@@ -51,24 +50,24 @@
                       >
                         <label for="input-with-list"></label>
                         <b-row align-h="start">
-                          <b-col cols="3">
+                          <b-col md="auto">
                             <b-button
                             @click="checkClient"
-                            variant="success">Найти</b-button>
+                            variant="success">Find</b-button>
                           </b-col>
-                          <b-col cols="5">
+                          <b-col md="auto">
                               <label class="sr-only"
                               for="inline-form-input-name"
-                              >ФИО</label>
+                              >Full Name</label>
                               <b-input
                               id="inline-form-input-name"
                               class="md-2 mr-sm-2 mb-sm-0"
-                              placeholder="Фамилия Имя Отчество"
+                              placeholder="Full name"
                               v-model="checkClientName.name"></b-input>
                           </b-col>
                           <!-- <b-col cols="3">
                             <b-button
-                            variant="primary">Внести нового</b-button>
+                            variant="primary">New Client</b-button>
                           </b-col> -->
                         </b-row>
                       </b-collapse>
@@ -79,7 +78,7 @@
                       class="mt-3">
                         <b-card class="mt-2">
                           <b-row class="mb-1">
-                            <b-col sm="3" class ="text-sm-right"><b>Клиент:</b></b-col>
+                            <b-col sm="3" class ="text-sm-right"><b>Client:</b></b-col>
                             <b-col>
                               {{ singleClient.last_name }}
                               {{ singleClient.first_name }}
@@ -87,13 +86,13 @@
                             </b-col>
                           </b-row>
                           <b-row class="mb-1">
-                            <b-col sm=3 class="text-sm-right"><b>Дата рождения:</b></b-col>
+                            <b-col sm=3 class="text-sm-right"><b>Birth date:</b></b-col>
                             <b-col>{{ singleClient.birth_date }}
                             </b-col>
                           </b-row>
                           <b-row class=mb-1>
                             <b-col sm="3" class = "text-sm-right">
-                              <b>Паспорт: </b>
+                              <b>ID: </b>
                             </b-col>
                             <b-col>
                               {{ separateClientDetails.passportSeries }}
@@ -105,7 +104,7 @@
                             <b-col sm="3" class = "text-sm-right">
                             </b-col>
                             <b-col></b-col>
-                            <b-col><b>Телефон: </b></b-col>
+                            <b-col><b>Phone: </b></b-col>
                             <b-col>{{ singleClient.phone}}</b-col>
                           </b-row>
                           <b-row class=mb-1>
@@ -117,7 +116,7 @@
                           </b-row>
                           <b-row class=mb-1>
                             <b-col sm="3" class = "text-sm-right">
-                              <b>Адресс: </b>
+                              <b>Address: </b>
                             </b-col>
                             <b-col>
                               {{ separateClientDetails.addressCountry }}
@@ -132,7 +131,7 @@
                             <b-button
                             v-if="author == 2"
                             @click="editClient"
-                            >Редактировать</b-button>
+                            >Edit</b-button>
                           </b-col>
                         </b-row>
                       </b-collapse>
@@ -146,39 +145,34 @@
                       <b-col v-if="author == 2">
                         <b-button
                         v-if="singleClientOrder.state == 'draft'"
-                        @click="setDesigner">Дизайнер</b-button>
-                        <h5 v-else>Дизайнер</h5>
+                        @click="setDesigner">Designer</b-button>
+                        <h5 v-else>Designer</h5>
                       </b-col>
-                      <b-col v-else><h5>Дизайнер</h5></b-col>
+                      <b-col v-else><h5>Designer</h5></b-col>
                     </b-row>
-                    <b-row class="mt-3" align-h="end">
-                      <b-col cols="3">Имя:</b-col>
-                      <b-col cols="7">
+                    <b-row class="mt-3" align-h="center">
+                      <b-col md="auto">Name:</b-col>
+                      <b-col md="auto">
                         <h5>{{singleClientOrder.designer}}</h5>
                       </b-col>
                     </b-row>
-                    <b-row class="mt-2">
-                      <b-col cols="7">Вознаграждение:</b-col>
-                      <b-col>
+                    <b-row class="mt-2" align-h="center">
+                      <b-col md="auto">Reward:</b-col>
+                      <b-col md="auto">
                         <h6>{{singleClientOrder.d_percent}} RUB</h6>
-                        <!-- <b-form-input
-                            placeholder="Вознаграждение"
-                            type=number
-                            v-model=singleClientOrder.d_percent
-                        ></b-form-input> -->
                       </b-col>
                     </b-row>
                   </b-card>
                   <b-card class="mt-3">
                     <b-row>
-                      <b-col>Курс:</b-col>
+                      <b-col>Rate:</b-col>
                       <b-col cols="6">
                         <div class="bg-secondary text-light">
                           {{eurRate.current_rate}} RUB/EUR</div>
                       </b-col>
                     </b-row>
                     <b-row align-h="between" class="mt-4">
-                          <b-col cols="6">Общая стоимость:</b-col>
+                          <b-col cols="6">Total price:</b-col>
                           <b-col cols="6">
                             <div class="bg-secondary text-light">
                               {{singleClientOrder.price}} RUB
@@ -186,7 +180,7 @@
                           </b-col>
                     </b-row>
                     <b-row align-h="between" class="mt-4">
-                          <b-col cols="6">Оплачено:</b-col>
+                          <b-col cols="6">Payment:</b-col>
                           <b-col cols="6">
                             <div class="bg-secondary text-light">
                               {{singleClientOrder.total_payment}} RUB</div>
@@ -197,7 +191,7 @@
               </b-row>
                 <b-form-group
                     id="form-description-group"
-                    label="Дополнительно:"
+                    label="Comment:"
                     label-for="form-description-input"
                     class="mt-5"
                 >
@@ -205,33 +199,33 @@
                       v-if="author == 2"
                       id="form-description-input"
                       type="text"
-                      placeholder="Коментарий к заказа"
+                      placeholder="Comment to order"
                       v-model=singleClientOrder.comment
                       ></b-form-input>
-                    <div v-else><h5>{{ singleClientOrder.comment }}</h5></div>
+                    <div v-else class="mb-3"><h5>{{ singleClientOrder.comment }}</h5></div>
                 </b-form-group>
                 <b-row align-h="end" class="mt-3" v-if="author == 2">
                   <b-col cols="2">
                     <b-button
                     @click="cancelSaveClientOrder"
-                    variant="danger">Отмена</b-button>
+                    variant="danger">Cencel</b-button>
                   </b-col>
                   <b-col cols="2">
                     <b-button
                     @click="saveClientOrder"
-                    variant="primary">Сохранить</b-button>
+                    variant="primary">Save</b-button>
                   </b-col>
                 </b-row>
                 <div v-if="author == 2">
                   <b-row align-h="center" class="mt-3">
-                    <b-col cols="4"><h4>Позиции:</h4></b-col>
+                    <b-col cols="4"><h4>Positions:</h4></b-col>
                   </b-row>
                   <b-row align-h="start">
                     <b-col cols="3">
                       <b-button
                       v-if="singleClientOrder.state == 'draft'"
                       @click="addStockItem"
-                      >Добавить позицию</b-button>
+                      >Add position</b-button>
                     </b-col>
                   </b-row>
                   <b-row class="mt-4">
@@ -241,14 +235,15 @@
                   </b-row>
                 </div>
                 <div v-if="author == 3">
+                <hr>
                   <b-row align-h="center" class="mt-3">
-                    <b-col cols="4"><h4>Платежи:</h4></b-col>
+                    <b-col cols="4"><h4>Payments:</h4></b-col>
                   </b-row>
                   <b-row align-h="start">
                     <b-col cols="3">
                       <b-button
                       @click="addPayment"
-                      >Добавить платеж</b-button>
+                      >Add payment</b-button>
                     </b-col>
                   </b-row>
                   <b-row align-h="center" class="mt-3">
@@ -291,7 +286,7 @@ export default {
   },
   methods: {
     dateFilter(value) {
-      return moment(String(value)).format('DD/MM/YYYY');
+      return moment(String(value)).format('YY-MM-DD');
     },
     checkClient() {
       this.$store.dispatch('RESET_CURRENT_CLIENT');

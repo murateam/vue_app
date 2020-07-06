@@ -5,10 +5,7 @@
           <b-button
             class="btn btn-dark"
             @click="backHome"
-          >На главную</b-button>
-          <!-- <router-link
-          class="btn btn-dark"
-          to="/">На главную</router-link> -->
+          >Home</b-button>
         </b-col>
       </b-row>
       <div v-if="isListExpanded == false">
@@ -17,7 +14,7 @@
             <stock-item-modal ref="stock-item-modal"></stock-item-modal>
             <b-button
               class="mt-3"
-              @click="showStockItemModal">Добавить позицию</b-button>
+              @click="showStockItemModal">Add product</b-button>
           </b-col>
         </b-row>
         <b-row><b-col>
@@ -31,7 +28,6 @@
           </b-col>
         </b-row>
       </div>
-      <!-- {{ isListExpanded }} -->
     </b-container>
 </template>
 
@@ -60,9 +56,6 @@ export default {
       this.$refs['stock-item-modal'].show();
     },
   },
-  // mounted() {
-  //   this.$store.dispatch('GET_ALL_ITEMS');
-  // },
   computed: {
     role() {
       return this.$store.getters.GET_AUTHOR;
