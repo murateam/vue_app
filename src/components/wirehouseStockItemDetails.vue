@@ -4,11 +4,15 @@
     hide-footer
   >
     <b-container>
-      <b-img
-        fluid
-        src="https://picsum.photos/seed/picsum/200/300"
-      ></b-img>
-        {{singleStockItemExp}}
+      <b-row>
+        <b-col md="auto">
+          <h5 class="mt-5 mb-5">
+            There is could be some information resources
+            (photos, booklets, etc.) for this item beside
+            a data getting from the DB
+          </h5>
+        </b-col>
+      </b-row>
     </b-container>
   </b-modal>
 </template>

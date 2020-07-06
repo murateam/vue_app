@@ -62,9 +62,9 @@
           </template>
           <template v-if="role == 4">
             <b-button
+              variant="outline"
               @click="moreDetails(row.item.id)"
               size="sm">
-              more
               <b-icon icon="three-dots"></b-icon>
             </b-button>
           </template>
