@@ -1,15 +1,22 @@
 <template>
   <b-container>
-    <b-row class="mt-3" align-h="start">
+    <b-row>
+      <b-col>
+        <navbar>
+        </navbar>
+      </b-col>
+    </b-row>
+    <!-- <b-row class="mt-3" align-h="start">
       <b-col cols="2">
         <router-link
         class="btn btn-dark"
         to="/importTab">Back</router-link>
       </b-col>
-    </b-row>
-    {{ singleImportOrder }}
-    <b-row>
-      <b-col>ImportOrder</b-col>
+    </b-row> -->
+
+    <!-- {{ singleImportOrder }} -->
+    <b-row class="mt-3">
+      <b-col><h5>ImportOrder</h5></b-col>
     </b-row>
     <b-row align-h="center" class="mt-4">
       <b-col cols="5">
@@ -217,6 +224,7 @@ import _ from 'lodash';
 import importModal from './importModalForItemsOrOrders.vue';
 import stockTableExpanded from './stockTableExpanded.vue';
 import factoryRequest from './factoryRequestModel.vue';
+import navbar from './myPage/navbar.vue';
 
 export default {
   name: 'importOrder',
@@ -224,6 +232,7 @@ export default {
     importModal,
     stockTableExpanded,
     factoryRequest,
+    navbar,
   },
   methods: {
     async addStockItems() {

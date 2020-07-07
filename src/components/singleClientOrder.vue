@@ -3,13 +3,19 @@
       <client-modal
       ref="client-modal"></client-modal>
             <b-container>
-              <b-row class="mt-3" align-h="start">
+              <b-row>
+                <b-col>
+                  <navbar>
+                  </navbar>
+                </b-col>
+              </b-row>
+              <!-- <b-row class="mt-3" align-h="start">
                 <b-col cols="2">
                   <router-link
                   class="btn btn-dark"
                   to="/manageTab">Back</router-link>
                 </b-col>
-              </b-row>
+              </b-row> -->
               <b-row align-h="center" class="mt-4">
                 <b-col cols="5">
                   <h3 v-if="singleClientOrder.public_num">
@@ -265,6 +271,7 @@ import stockItemModal from './stockItemModal.vue';
 import designerModal from './designerModal.vue';
 import paymentModal from './paymentModal.vue';
 import paymentTable from './paymentTable.vue';
+import navbar from './myPage/navbar.vue';
 
 export default {
   components: {
@@ -274,6 +281,7 @@ export default {
     designerModal,
     paymentModal,
     paymentTable,
+    navbar,
   },
   data() {
     return {

@@ -1,14 +1,20 @@
 <template>
     <b-navbar toggleable="lg" type="dark" variant="dark">
-        <b-navbar-brand href="/">Home</b-navbar-brand>
+        <b-navbar-brand
+          href="/"
+        >Home</b-navbar-brand>
 
         <!-- <b-navbar-toggle target="nav-collapse"></b-navbar-toggle> -->
 
         <b-navbar-nav>
+            <b-nav-item>
+              About project
+            </b-nav-item>
             <b-nav-item
                 v-if="role != 0"
                 @click="goDemoProject"
             >Demo Project</b-nav-item>
+            <b-nav-item>Git project</b-nav-item>
             <b-nav-item>
                 Contacts
             </b-nav-item>

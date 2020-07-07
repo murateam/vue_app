@@ -1,13 +1,19 @@
 <template>
-    <b-container fluid>
-      <b-row align-h="start" class="mt-3">
+    <b-container>
+      <b-row>
+        <b-col>
+          <navbar>
+          </navbar>
+        </b-col>
+      </b-row>
+      <!-- <b-row align-h="start" class="mt-3">
         <b-col cols="2">
           <b-button
             class="btn btn-dark"
             @click="backHome"
           >Home</b-button>
         </b-col>
-      </b-row>
+      </b-row> -->
       <div v-if="isListExpanded == false">
         <b-row>
           <b-col v-if="role == 2">
@@ -35,6 +41,7 @@
 import stockTable from './stockTable.vue';
 import stockItemModal from './stockItemModal.vue';
 import stockTableExpanded from './stockTableExpanded.vue';
+import navbar from './myPage/navbar.vue';
 
 export default {
   name: 'stockList',
@@ -42,6 +49,7 @@ export default {
     stockTable,
     stockItemModal,
     stockTableExpanded,
+    navbar,
   },
   data() {
     return {

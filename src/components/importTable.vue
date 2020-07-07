@@ -1,6 +1,12 @@
 <template>
     <b-container>
-        <b-row align-h="start" class="mt-3"
+      <b-row>
+        <b-col>
+          <navbar>
+          </navbar>
+        </b-col>
+      </b-row>
+        <!-- <b-row align-h="start" class="mt-3"
           v-if="boolChoosingImportOrders == false"
         >
             <b-col cols="2">
@@ -8,8 +14,8 @@
                 class="btn btn-dark"
                 to="/mainDemoProject">Home</router-link>
             </b-col>
-        </b-row>
-        <b-row align-h="center"
+        </b-row> -->
+        <b-row align-h="center" class="mt-3"
           v-if="boolChoosingImportOrders == false"
         >
             <b-col cols="3">
@@ -45,9 +51,11 @@
 
 <script>
 import moment from 'moment';
+import navbar from './myPage/navbar.vue';
 
 export default {
   components: {
+    navbar,
   },
   name: 'importTab',
   data() {

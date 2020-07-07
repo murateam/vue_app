@@ -1,13 +1,19 @@
 <template>
   <b-container>
+    <b-row>
+      <b-col>
+        <navbar>
+        </navbar>
+      </b-col>
+    </b-row>
     <client-modal ref="client-modal"></client-modal>
-    <b-row align-h="start" class="mt-3">
+    <!-- <b-row align-h="start" class="mt-3">
       <b-col cols="2">
         <router-link
         class="btn btn-dark"
         to="/mainDemoProject">Home</router-link>
       </b-col>
-    </b-row>
+    </b-row> -->
       <div class="mt-3">
         <div v-if="role == 2">
           <b-button-group class="">
@@ -70,12 +76,14 @@
 import moment from 'moment';
 import alertMessages from './alertMessages.vue';
 import clientModal from './clientModal.vue';
+import navbar from './myPage/navbar.vue';
 
 export default {
   name: 'manageTab',
   components: {
     alertMessages,
     clientModal,
+    navbar,
   },
   data() {
     return {

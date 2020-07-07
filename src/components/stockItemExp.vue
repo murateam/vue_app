@@ -2,15 +2,19 @@
     <div>
         <b-form>
           <b-container>
-            <b-row align-h="start" class="mt-3">
+            <b-row><b-col>
+            <navbar>
+            </navbar>
+            </b-col></b-row>
+            <!-- <b-row align-h="start" class="mt-3">
               <b-col cols="2">
                 <b-button
                   class="btn btn-dark"
                   @click="back"
                 >Back</b-button>
               </b-col>
-            </b-row>
-            <div v-if="role == 4">
+            </b-row> -->
+            <div v-if="role == 4" class="mt-3">
                 <h3>Expanded</h3>
               <b-row align-h="center">
                 <h4>Item</h4>
@@ -299,10 +303,12 @@
 <script>
 import _ from 'lodash';
 import factoryItemModal from './factoryItemModal.vue';
+import navbar from './myPage/navbar.vue';
 
 export default {
   components: {
     factoryItemModal,
+    navbar,
   },
   data() {
     return {

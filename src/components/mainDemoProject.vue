@@ -1,8 +1,12 @@
 <template>
   <div>
-    <navbar>
-    </navbar>
     <b-container>
+      <b-row>
+        <b-col>
+          <navbar>
+          </navbar>
+        </b-col>
+      </b-row>
         <h3 class="mt-5 mb-5">Demo project</h3>
         <b-card-group deck>
                   <b-card
