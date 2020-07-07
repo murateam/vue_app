@@ -1,12 +1,13 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
-import Home from '../components/Home.vue';
+import mainDemoProject from '../components/mainDemoProject.vue';
 import manageTab from '../components/manageTab.vue';
 import singleClientOrder from '../components/singleClientOrder.vue';
 import stockList from '../components/stockList.vue';
 import importTab from '../components/importTable.vue';
 import importOrder from '../components/importOrder.vue';
 import stockItemExpanded from '../components/stockItemExp.vue';
+import main from '../components/myPage/main.vue';
 
 
 Vue.use(VueRouter);
@@ -14,8 +15,13 @@ Vue.use(VueRouter);
 const routes = [
   {
     path: '/',
-    name: 'Home',
-    component: Home,
+    name: 'main',
+    component: main,
+  },
+  {
+    path: '/mainDemoProject',
+    name: 'mainDemoProject',
+    component: mainDemoProject,
   },
   {
     path: '/manageTab',

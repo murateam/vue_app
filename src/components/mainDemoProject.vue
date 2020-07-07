@@ -1,58 +1,9 @@
 <template>
+  <div>
+    <navbar>
+    </navbar>
     <b-container>
-        <h3 class="mt-5 mb-5">Main page</h3>
-        <!-- <b-card-group>
-          <b-row align-h="start" class="mt-3">
-              <b-col cols="3">
-                  <b-card
-                    img-src="https://picsum.photos/600/300/?image=25"
-                    img-alt="image"
-                    img-top
-                  >
-                    <b-button
-                      variant="success"
-                      @click="manageTab"
-                    >Clients orders
-                    </b-button>
-                </b-card>
-              </b-col>
-              <b-col cols="3">
-                <b-card
-                  img-src="https://picsum.photos/600/300/?image=25"
-                  img-alt="image"
-                  img-top
-                >
-                  <b-button @click="accountantTab">Payments for orders</b-button>
-                </b-card>
-              </b-col>
-              <b-col cols="3">
-                <b-card
-                  img-src="https://picsum.photos/600/300/?image=25"
-                  img-alt="image"
-                  img-top
-                >
-                  <b-button
-                    @click="listStockAll">Warehouse
-                  </b-button>
-                </b-card>
-              </b-col>
-              <b-col>
-                <b-card
-                    img-src="https://picsum.photos/600/300/?image=25"
-                    img-alt="image"
-                    img-top
-                  >
-                  <b-button
-                    @click="importOrdersTab"
-                    cols="3">Import Orders
-                  </b-button>
-                  <b-button
-                    @click="stockTableExpanded"
-                  >Products for import</b-button>
-                </b-card>
-              </b-col>
-          </b-row>
-        </b-card-group> -->
+        <h3 class="mt-5 mb-5">Demo project</h3>
         <b-card-group deck>
                   <b-card
                     :img-src="require('../assets/01.svg')"
@@ -115,11 +66,17 @@
                 </b-card>
         </b-card-group>
     </b-container>
+  </div>
 </template>
 
 <script>
+import navbar from './myPage/navbar.vue';
+
 export default {
   name: 'Home',
+  components: {
+    navbar,
+  },
   methods: {
     async manageTab() {
       await this.$store.dispatch('SET_AUTHOR', 'seller');

@@ -2,12 +2,13 @@
 
 const state = {
   choicesRole: {
+    anonymous: 0,
     supervisor: 1,
     seller: 2,
     accountant: 3,
     import: 4,
   },
-  author: 0,
+  author: -1,
 };
 const getters = {
   GET_AUTHOR: (state) => state.author,

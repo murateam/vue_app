@@ -7,7 +7,7 @@
                 <b-col cols="2">
                   <router-link
                   class="btn btn-dark"
-                  to="manageTab">Back</router-link>
+                  to="/manageTab">Back</router-link>
                 </b-col>
               </b-row>
               <b-row align-h="center" class="mt-4">

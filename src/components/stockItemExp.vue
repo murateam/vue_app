@@ -4,10 +4,6 @@
           <b-container>
             <b-row align-h="start" class="mt-3">
               <b-col cols="2">
-                <!-- <b-button
-                  class="btn btn-dark"
-                  @click="backToStockTableExp"
-                >Back</b-button> -->
                 <b-button
                   class="btn btn-dark"
                   @click="back"

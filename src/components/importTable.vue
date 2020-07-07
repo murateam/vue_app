@@ -6,7 +6,7 @@
             <b-col cols="2">
                 <router-link
                 class="btn btn-dark"
-                to="/">Home</router-link>
+                to="/mainDemoProject">Home</router-link>
             </b-col>
         </b-row>
         <b-row align-h="center"

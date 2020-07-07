@@ -15,7 +15,7 @@
       <b-col cols="5">
         <h3 v-if="singleImportOrder.import_number != null">
         Order: {{singleImportOrder.import_number}} </h3>
-        <h3 v-else>Новый заказ</h3>
+        <h3 v-else>New order</h3>
       </b-col>
     </b-row>
     <b-row align-h="end">
@@ -61,7 +61,7 @@
             </b-col>
           </b-row>
           <b-row>
-            <b-col cols="4" align-self="center">Платежка:</b-col>
+            <b-col cols="4" align-self="center">Payment:</b-col>
             <b-col>
               <b-input class="mt-2" id="input-VAITEK-payment"
               v-model="singleImportOrder.VAITEK_payment"
@@ -72,7 +72,7 @@
       </b-col>
       <b-col>
         <b-card>
-          <label for="input-factory-docs">Фабрика</label>
+          <label for="input-factory-docs">Factory</label>
           <b-row>
             <b-col cols="3" align-self="center">KW:</b-col>
             <b-col>
@@ -111,10 +111,10 @@
     <b-row>
       <b-col>
         <b-card class="mt-3">
-          <label for="input-delivery">Данные по доставке:</label>
+          <label for="input-delivery">Delivery information:</label>
           <b-row>
             <b-col>
-              <b-row><b-col>Колличество мест</b-col></b-row>
+              <b-row><b-col>Amount places:</b-col></b-row>
               <b-row class="mt-2">
                 <b-col>
                   <b-input id="input-amount-place"
@@ -124,7 +124,7 @@
               </b-row>
             </b-col>
             <b-col>
-              <b-row><b-col>Объем</b-col></b-row>
+              <b-row><b-col>Volume:</b-col></b-row>
               <b-row class="mt-2">
                 <b-col>
                   <b-input id="input-volume"
@@ -135,7 +135,7 @@
             </b-col>
             <b-col>
               <b-row>
-                <b-col>Вес</b-col>
+                <b-col>Weight:</b-col>
               </b-row>
               <b-row class="mt-2">
                 <b-col>
@@ -147,7 +147,7 @@
             </b-col>
             <b-col>
               <b-row>
-                <b-col>Номер контейнера</b-col>
+                <b-col>Container number:</b-col>
               </b-row>
               <b-row class="mt-2"><b-col>
                 <b-input id="input-container-num"
@@ -185,7 +185,7 @@
         <h5 class="bg-success text-light">{{ averageFactor }}</h5>
       </b-col>
     </b-row>
-    {{ allowStatus }}
+    <!-- {{ allowStatus }} -->
     <b-row class="mt-4" align-h="start">
       <b-col cols="3" v-if="singleImportOrder.status == 'processing'">
         <b-button

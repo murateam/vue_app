@@ -50,7 +50,7 @@ export default {
   methods: {
     backHome() {
       this.$store.dispatch('SET_IS_LIST_EXPANDED', false);
-      this.$router.push('/');
+      this.$router.push('/mainDemoProject');
     },
     showStockItemModal() {
       this.$refs['stock-item-modal'].show();

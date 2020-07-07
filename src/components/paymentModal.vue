@@ -6,7 +6,7 @@
     size='lg'>
       <b-form>
         <b-container>
-          {{ singlePayment }}
+          <!-- {{ singlePayment }} -->
           <b-row align-h="center">
             <b-form-group
             label-size="lg"
