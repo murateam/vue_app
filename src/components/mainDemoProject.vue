@@ -84,6 +84,7 @@ export default {
   methods: {
     async manageTab() {
       await this.$store.dispatch('SET_AUTHOR', 'seller');
+      this.$store.dispatch('DEPTH_INCREASE');
       this.$router.push('/manageTab');
     },
     async listStockAll() {
