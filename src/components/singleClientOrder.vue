@@ -300,11 +300,6 @@ export default {
       this.$store.dispatch('RESET_CURRENT_CLIENT');
       const requestData = this.checkClientName;
       this.$store.dispatch('CHECK_CLIENT', requestData);
-      // this.clientCollapseVisible = true;
-      // axios.post(clientCheckURL, requestData).then((response) => {
-      //   this.Client = response.data;
-      //   this.clientOrder.client = response.data.id;
-      // }).then(() => { this.clientCollapseVisible = true; });
     },
     saveClientOrder() {
       if (this.singleClientOrder.id === null) {
@@ -317,7 +312,6 @@ export default {
           comment: this.singleClientOrder.comment,
         };
         this.$store.dispatch('SAVE_CLIENT_ORDER', requestData);
-        this.$router.push('./manageTab');
       } else {
         const requestData = {
           id: this.singleClientOrder.id,
@@ -330,14 +324,12 @@ export default {
           comment: this.singleClientOrder.comment,
         };
         this.$store.dispatch('SAVE_CLIENT_ORDER', requestData);
-        this.$router.push('./manageTab');
       }
-      this.$store.dispatch('DEPTH_DECREASE');
+      this.$router.push('./manageTab');
     },
     cancelSaveClientOrder() {
       this.resetAllState();
       this.$router.push('/manageTab');
-      this.$store.dispatch('DEPTH_DECREASE');
     },
     resetAllState() {
       this.$store.dispatch('RESET_CURRENT_CLIENT');

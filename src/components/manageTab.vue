@@ -158,7 +158,6 @@ export default {
     },
     onRowSelected(items) {
       this.selected = items;
-      // this.editClientOrder();
       if (this.role === 2) {
         this.editClientOrder();
       } else if (this.role === 3) {
@@ -168,24 +167,18 @@ export default {
     newClient() {
       this.$store.dispatch('RESET_CURRENT_CLIENT');
       this.$refs['client-modal'].show();
-      // "$bvModal.show('client-modal')";
     },
     newClientOrder() {
       this.$store.dispatch('SET_CAN_CHANGE_CLIENT', true);
-      // this.$store.dispatch('RESET_CLIENT_ORDER');
       this.$store.dispatch('RESET_CURRENT_CLIENT');
       this.$store.dispatch('RESET_LIST_ITEMS');
       this.$router.push('./singleClientOrder');
-      // this.$refs['single-client-order-modal'].show();
-      // $bvModal.show('single-client-order-modal');
     },
     editClientOrder() {
       this.$store.dispatch('SET_CAN_CHANGE_CLIENT', false);
       if (this.selected.length > 0) {
         this.$store.dispatch('CALCULATE_PRICE_FOR_CLIENT_ORDER', this.selected);
         this.$router.push('./singleClientOrder');
-        // this.$store.dispatch('DEPTH_INCREASE');
-        this.$store.dispatch('SET_CAME_FROM', '/manageTab');
       }
       this.$refs.manageTable.clearSelected();
     },
