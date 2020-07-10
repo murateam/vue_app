@@ -326,10 +326,12 @@ export default {
         this.$store.dispatch('SAVE_CLIENT_ORDER', requestData);
       }
       this.$router.push('./manageTab');
+      this.$store.dispatch('SET_CURRENT_STEP', '/manageTab');
     },
     cancelSaveClientOrder() {
       this.resetAllState();
       this.$router.push('/manageTab');
+      this.$store.dispatch('SET_CURRENT_STEP', '/manageTab');
     },
     resetAllState() {
       this.$store.dispatch('RESET_CURRENT_CLIENT');

@@ -178,7 +178,8 @@ export default {
       this.$store.dispatch('SET_CAN_CHANGE_CLIENT', false);
       if (this.selected.length > 0) {
         this.$store.dispatch('CALCULATE_PRICE_FOR_CLIENT_ORDER', this.selected);
-        this.$router.push('./singleClientOrder');
+        this.$router.push('/singleClientOrder');
+        this.$store.dispatch('SET_CURRENT_STEP', '/singleClientOrder');
       }
       this.$refs.manageTable.clearSelected();
     },

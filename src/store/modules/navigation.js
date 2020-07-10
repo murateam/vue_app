@@ -1,27 +1,57 @@
 /* eslint no-shadow: ["error", { "allow": ["state"] }] */
+
+// ///////// scenarios for routes /////////////////
+//   / mainDemoProject -> manageTab -> singleClientOrder (clinetOrder) \
+//   |                                                                 |
+// 1<  mainDemoProject -> manageTab -> singleClientOrder (payment)      > 1
+//   |                                                                 |
+//   \ mainDemoProject -> stockList (warehouse)                        /
+
+
+//   / mainDemoProject -> importTab      -> importOrder -> stockItemExp > 2
+//   |
+// 2<                  -> stocklist(all) -> importOrder -> stockItemExp > 3
+//   |
+//   \                 -> stockItemExp                                  > 4
+// ////////// End ///////////
+function firstRoute(currentURL) {
+  let whereGo = '';
+  if (currentURL === '/mainDemoProject') {
+    whereGo = '/';
+  } else if (currentURL === '/manageTab') {
+    whereGo = '/mainDemoProject';
+  } else if (currentURL === '/singleClientOrder') {
+    whereGo = '/manageTab';
+  }
+  return whereGo;
+}
+
 const state = {
   currentStep: '/',
+  route: 1, // scenarios for routes
 };
 const getters = {
   GET_CURRENT_STEP: (state) => state.currentStep,
   GET_BACK_STEP: (state) => {
-    let whereGo = '';
-    if (state.cameFrom === 'mainDemoProject') {
-      whereGo = '/';
-    } else if (state.cameFrom === '/manageTab') {
-      whereGo = 'mainDemoProject';
-    } else if (state.cameFrom === '/singleClientOrder') {
-      whereGo = '/manageTab';
+    let url = '';
+    if (state.route === 1) {
+      url = firstRoute(state.currentStep);
     }
-    return whereGo;
+    return url;
   },
 };
 const mutations = {
+  SET_NAV_ROUTE: (state, payload) => {
+    state.route = payload;
+  },
   SET_CURRENT_STEP: (state, payload) => {
-    state.cameFrom = payload;
+    state.currentStep = payload;
   },
 };
 const actions = {
+  SET_NAV_ROUTE: (context, route) => {
+    context.commit('SET_NAV_ROUTE', route);
+  },
   SET_CURRENT_STEP: (context, adr) => {
     context.commit('SET_CURRENT_STEP', adr);
   },

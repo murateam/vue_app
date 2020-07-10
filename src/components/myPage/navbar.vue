@@ -10,6 +10,7 @@
           <b-nav-item href="/">Home</b-nav-item>
           <b-nav-item>
             <b-button
+              v-if="currentStep != '/'"
               @click="back"
               size="sm"
               variant="outline-primary"
@@ -37,6 +38,7 @@
                 Contacts
             </b-nav-item>
             <b-nav-item>{{currentStep}}</b-nav-item>
+            <b-nav-item>{{backStep}}</b-nav-item>
         </b-navbar-nav>
 
         <!-- <b-collapse id="nav-collapse" is-nav>
@@ -48,6 +50,8 @@
 </template>
 
 <script>
+import _ from 'lodash';
+
 export default {
   methods: {
     goDemoProject() {
@@ -55,7 +59,10 @@ export default {
       this.$router.push('/mainDemoProject');
       this.$store.dispatch('SET_CURRENT_STEP', '/mainDemoProject');
     },
-    back() {
+    async back() {
+      const back = await _.clone(this.backStep);
+      this.$router.push(back);
+      this.$store.dispatch('SET_CURRENT_STEP', back);
     },
   },
   computed: {

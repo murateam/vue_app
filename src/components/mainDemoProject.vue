@@ -85,6 +85,7 @@ export default {
     async manageTab() {
       await this.$store.dispatch('SET_AUTHOR', 'seller');
       this.$router.push('/manageTab');
+      this.$store.dispatch('SET_CURRENT_STEP', '/manageTab');
     },
     async listStockAll() {
       await this.$store.dispatch('SET_IS_LIST_EXPANDED', false);
