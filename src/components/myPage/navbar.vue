@@ -24,6 +24,7 @@
               About project
             </b-nav-item>
             <b-nav-item
+              v-if="currentStep != '/mainDemoProject'"
               @click="goDemoProject"
             >Project</b-nav-item>
             <!-- Git project, separately front and back -->
@@ -59,6 +60,7 @@ export default {
       this.$router.push('/mainDemoProject');
       this.$store.dispatch('SET_CURRENT_STEP', '/mainDemoProject');
     },
+    changeStockListContent() {},
     async back() {
       const back = await _.clone(this.backStep);
       this.$router.push(back);

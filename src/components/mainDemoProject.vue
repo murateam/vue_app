@@ -86,16 +86,21 @@ export default {
       await this.$store.dispatch('SET_AUTHOR', 'seller');
       this.$router.push('/manageTab');
       this.$store.dispatch('SET_CURRENT_STEP', '/manageTab');
+      this.$store.dispatch('SET_NAV_ROUTE', 1);
     },
     async listStockAll() {
       await this.$store.dispatch('SET_IS_LIST_EXPANDED', false);
       await this.$store.dispatch('SET_AUTHOR', 'import');
       this.$store.dispatch('GET_ALL_STOCK_ITEMS');
       this.$router.push('/stockList');
+      this.$store.dispatch('SET_CURRENT_STEP', '/stockList');
+      this.$store.dispatch('SET_NAV_ROUTE', 1);
     },
     async accountantTab() {
       await this.$store.dispatch('SET_AUTHOR', 'accountant');
       this.$router.push('/manageTab');
+      this.$store.dispatch('SET_CURRENT_STEP', '/manageTab');
+      this.$store.dispatch('SET_NAV_ROUTE', 1);
     },
     async importOrdersTab() {
       await this.$store.dispatch('SET_AUTHOR', 'import');
@@ -103,6 +108,8 @@ export default {
       this.$store.dispatch('SET_BOOL_CHOOSING_IMPORT_ORDERS', false);
       this.$store.dispatch('SET_BOOL_CHOOSING_STOCK_ITEMS', false);
       this.$router.push('/importTab');
+      this.$store.dispatch('SET_CURRENT_STEP', '/importTab');
+      this.$store.dispatch('SET_NAV_ROUTE', 2);
     },
     async stockTableExpanded() {
       await this.$store.dispatch('SET_AUTHOR', 'import');
@@ -110,6 +117,8 @@ export default {
       this.$store.dispatch('SET_IS_LIST_USED_IN_IMPORT_ORDER', false);
       this.$store.dispatch('GET_STOCK_ITEMS_EXP');
       this.$router.push('/stockList');
+      this.$store.dispatch('SET_CURRENT_STEP', '/stockList');
+      this.$store.dispatch('SET_NAV_ROUTE', 3);
     },
   },
   mounted() {

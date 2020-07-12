@@ -2,7 +2,9 @@
     <b-container>
       <b-row>
         <b-col>
-          <navbar>
+          <navbar
+            v-if="boolChoosingImportOrders == false"
+          >
           </navbar>
         </b-col>
       </b-row>
@@ -27,7 +29,6 @@
                 >Create order</button>
               </b-col>
         </b-row>
-        <!-- {{ listImportOrders }} -->
         <b-row class="mt-3">
             <b-col>
                 <b-table
@@ -117,7 +118,8 @@ export default {
     },
     async addImportOrder() {
       await this.$store.dispatch('SAVE_NEW_IMPORT_ORDER');
-      this.$router.push('./importOrder');
+      this.$router.push('/importOrder');
+      this.$store.dispatch('SET_CURRENT_STEP', '/importOrder');
     },
     editImportOrder() {
       if (this.selected.length > 0) {
@@ -125,6 +127,7 @@ export default {
         this.$store.dispatch('SET_IS_LIST_USED_IN_IMPORT_ORDER', true);
         this.$store.dispatch('GET_LIST_STOCK_ITEMS_EXP_FOR_IMPORT_ORDER', this.selected[0]);
         this.$router.push('./importOrder');
+        this.$store.dispatch('SET_CURRENT_STEP', '/importOrder');
       }
       this.$refs.importOrdersTab.clearSelected();
       this.$store.dispatch('SET_BOOL_CHOOSING_IMPORT_ORDERS', false);
@@ -135,6 +138,8 @@ export default {
         this.$store.dispatch('ADD_ITEMS_TO_IMPORT_ORDER');
         this.$store.dispatch('SET_IS_LIST_USED_IN_IMPORT_ORDER', true);
         this.$router.push('./importOrder');
+        this.$store.dispatch('SET_CURRENT_STEP', '/importOrder');
+        this.$store.dispatch('SET_NAV_ROUTE', 3);
       }
       this.$refs.importOrdersTab.clearSelected();
       this.$store.dispatch('SET_BOOL_CHOOSING_IMPORT_ORDERS', false);

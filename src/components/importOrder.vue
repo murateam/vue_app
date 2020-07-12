@@ -167,6 +167,7 @@
       </b-col>
         <b-col cols="2" align-self="center">
           <b-button
+          @click="cencel"
           variant="danger">Cencel</b-button>
         </b-col>
         <b-col cols="2" align-self="center">
@@ -245,7 +246,13 @@ export default {
     },
     async saveExistImportOrder() {
       this.$store.dispatch('SAVE_EXIST_IMPORT_ORDER', 'processing');
-      this.$router.go(-1);
+      // this.$router.go(-1);
+      this.$router.push(this.backStep);
+      this.$store.dispatch('SET_CURRENT_STEP', this.backStep);
+    },
+    cencel() {
+      this.$router.push(this.backStep);
+      this.$store.dispatch('SET_CURRENT_STEP', this.backStep);
     },
     checkStatus() {
       this.$store.dispatch('CHECK_STATUS_IMPORT_ORDER');
@@ -272,6 +279,9 @@ export default {
     }
   },
   computed: {
+    backStep() {
+      return this.$store.getters.GET_BACK_STEP;
+    },
     singleImportOrder() {
       return this.$store.getters.GET_SINGLE_IMPORT_ORDER;
     },

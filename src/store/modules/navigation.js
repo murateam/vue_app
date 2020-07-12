@@ -12,7 +12,7 @@
 //   |
 // 2<                  -> stocklist(all) -> importOrder -> stockItemExp > 3
 //   |
-//   \                 -> stockItemExp                                  > 4
+//   \                                   -> stockItemExp                > 4
 // ////////// End ///////////
 function firstRoute(currentURL) {
   let whereGo = '';
@@ -22,6 +22,28 @@ function firstRoute(currentURL) {
     whereGo = '/mainDemoProject';
   } else if (currentURL === '/singleClientOrder') {
     whereGo = '/manageTab';
+  } else if (currentURL === '/stockList') {
+    whereGo = '/mainDemoProject';
+  }
+  return whereGo;
+}
+
+function secondRoute(currentURL, route) {
+  let whereGo = '';
+  if (currentURL === '/importTab') {
+    whereGo = '/mainDemoProject';
+  } else if (currentURL === '/stockList') {
+    whereGo = '/mainDemoProject';
+  } else if (currentURL === '/importOrder' && route === 2) {
+    whereGo = '/importTab';
+  } else if (currentURL === '/importOrder' && route === 3) {
+    whereGo = '/stockList'; // all
+  } else if (currentURL === '/stockItemExp' && route === 2) {
+    whereGo = '/importOrder';
+  } else if (currentURL === '/stockItemExp' && route === 3) {
+    whereGo = '/importOrder';
+  } else if (currentURL === '/stockItemExp' && route === 4) {
+    whereGo = '/stockList'; // all
   }
   return whereGo;
 }
@@ -36,6 +58,8 @@ const getters = {
     let url = '';
     if (state.route === 1) {
       url = firstRoute(state.currentStep);
+    } else {
+      url = secondRoute(state.currentStep, state.route);
     }
     return url;
   },

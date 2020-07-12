@@ -188,6 +188,7 @@ export default {
       if (this.selected.length > 0) {
         this.$store.dispatch('CALCULATE_PRICE_FOR_CLIENT_ORDER', this.selected);
         this.$router.push('./singleClientOrder');
+        this.$store.dispatch('SET_CURRENT_STEP', '/singleClientOrder');
       }
     },
   },

@@ -220,6 +220,8 @@ export default {
       await this.$store.dispatch('SET_SINGLE_STOCK_ITEM_EXP', this.selected[0]);
       this.$store.dispatch('GET_LIST_NAME_FACTORIES');
       this.$router.push('/stockItemExp');
+      this.$store.dispatch('SET_CURRENT_STEP', '/stockItemExp');
+      this.$store.dispatch('SET_NAV_ROUTE', 4);
     },
     onRowSelected(items) {
       this.selected = items;

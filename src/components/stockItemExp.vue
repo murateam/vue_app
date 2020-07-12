@@ -357,38 +357,33 @@ export default {
         this.timerCollection = setInterval(this.collectionDecrement, 1000);
       }
     },
-    addItem() {
-      this.$store.dispatch('ADD_ITEM_TO_LIST_STOCK_ITEMS');
-    },
-    saveItem() {
-      this.$store.dispatch('CHANGE_STOCK_ITEM');
-    },
+    // addItem() {
+    //   this.$store.dispatch('ADD_ITEM_TO_LIST_STOCK_ITEMS');
+    // },
     saveItemExp() {
       const item = _.cloneDeep(this.currentStockItem);
       item.factory_item = this.currentFactoryItem.id;
-      // item.client_order = item.client_order.id;
       item.is_correct = true;
       const savingItem = [];
       savingItem.push('save_correct');
       savingItem.push(item);
       this.$store.dispatch('SAVE_STOCK_ITEM_EXP_VIA_ARRAY', savingItem);
-      // this.$store.dispatch('GET_LIST_STOCK_ITEMS_EXP_FOR_IMPORT_ORDER', this.currentImportOrder);
-      this.$router.go(-1);
+      this.$router.push(this.backStep);
+      this.$store.dispatch('SET_CURRENT_STEP', this.backStep);
     },
     back() {
       if (this.currentImportOrder.id !== null) {
         this.$store.dispatch('GET_LIST_STOCK_ITEMS_EXP_FOR_IMPORT_ORDER', this.currentImportOrder);
       }
-      this.$router.go(-1);
+      this.$router.push(this.backStep);
+      this.$store.dispatch('SET_CURRENT_STEP', this.backStep);
     },
     checkObjectByType(obj, objType) {
       let foundObj = {};
       if (objType === 'factory') {
         foundObj = _.find(this.listNameFactories, ['name', obj]);
-        // this.$store.dispatch('RESET_LIST_COLLECTIONS_AND_NUMBERS');
       } else if (objType === 'collections') {
         foundObj = _.find(this.listNameFactoryCollections, ['name', obj]);
-        // this.$store.dispatch('SET_CURRENT_FACTORY_ITEM', foundObj);
       } else {
         foundObj = _.find(this.listCatalogueNumbers, ['catalogue_number', obj]);
       }
@@ -462,6 +457,9 @@ export default {
   computed: {
     role() {
       return this.$store.getters.GET_AUTHOR;
+    },
+    backStep() {
+      return this.$store.getters.GET_BACK_STEP;
     },
     currentStockItem() {
       return this.$store.getters.GET_CURRENT_STOCK_ITEM_EXP;
