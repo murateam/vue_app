@@ -9,7 +9,7 @@ import importOrder from '../components/importOrder.vue';
 import stockItemExpanded from '../components/stockItemExp.vue';
 import main from '../components/myPage/main.vue';
 import aboutProject from '../components/myPage/aboutProject.vue';
-import contacts from '../components/myPage/contacts.vue';
+import contact from '../components/myPage/contact.vue';
 
 
 Vue.use(VueRouter);
@@ -26,9 +26,9 @@ const routes = [
     component: aboutProject,
   },
   {
-    path: '/contacts',
-    name: 'contacts',
-    component: contacts,
+    path: '/contact',
+    name: 'contact',
+    component: contact,
   },
   {
     path: '/mainDemoProject',

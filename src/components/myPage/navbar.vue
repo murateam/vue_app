@@ -31,9 +31,9 @@
             </b-nav-item-dropdown>
 
             <b-nav-item
-              @click="contacts"
+              @click="contact"
             >
-              Contacts
+              Contact
             </b-nav-item>
         </b-navbar-nav>
     </b-navbar>
@@ -48,9 +48,9 @@ export default {
       this.$router.push('/aboutProject');
       this.$store.dispatch('SET_CURRENT_STEP', '/aboutProject');
     },
-    contacts() {
-      this.$router.push('/contacts');
-      this.$store.dispatch('SET_CURRENT_STEP', '/contacts');
+    contact() {
+      this.$router.push('/contact');
+      this.$store.dispatch('SET_CURRENT_STEP', '/contact');
     },
     toDemoProject() {
       this.$store.dispatch('SET_AUTHOR', 'anonymous');
