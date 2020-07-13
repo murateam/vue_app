@@ -5,7 +5,7 @@
 //   |                                                                 |
 // 1<  mainDemoProject -> manageTab -> singleClientOrder (payment)      > 1
 //   |                                                                 |
-//   \ mainDemoProject -> stockList (warehouse)                        /
+//   \ mainDemoProject -> stockList(all) (warehouse)                   /
 
 
 //   / mainDemoProject -> importTab      -> importOrder -> stockItemExp > 2
@@ -24,13 +24,17 @@ function firstRoute(currentURL) {
     whereGo = '/manageTab';
   } else if (currentURL === '/stockList') {
     whereGo = '/mainDemoProject';
+  } else {
+    whereGo = '/';
   }
   return whereGo;
 }
 
 function secondRoute(currentURL, route) {
   let whereGo = '';
-  if (currentURL === '/importTab') {
+  if (currentURL === '/mainDemoProject') {
+    whereGo = '/';
+  } else if (currentURL === '/importTab') {
     whereGo = '/mainDemoProject';
   } else if (currentURL === '/stockList') {
     whereGo = '/mainDemoProject';

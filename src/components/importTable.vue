@@ -135,8 +135,8 @@ export default {
     async addStockItemsToImportOrder() {
       if (this.selected.length > 0) {
         await this.$store.dispatch('SET_SINGLE_IMPORT_ORDER', this.selected[0]);
-        this.$store.dispatch('ADD_ITEMS_TO_IMPORT_ORDER');
-        this.$store.dispatch('SET_IS_LIST_USED_IN_IMPORT_ORDER', true);
+        await this.$store.dispatch('ADD_ITEMS_TO_IMPORT_ORDER');
+        await this.$store.dispatch('SET_IS_LIST_USED_IN_IMPORT_ORDER', true);
         this.$router.push('./importOrder');
         this.$store.dispatch('SET_CURRENT_STEP', '/importOrder');
         this.$store.dispatch('SET_NAV_ROUTE', 3);

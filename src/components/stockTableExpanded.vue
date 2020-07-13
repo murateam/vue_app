@@ -221,7 +221,9 @@ export default {
       this.$store.dispatch('GET_LIST_NAME_FACTORIES');
       this.$router.push('/stockItemExp');
       this.$store.dispatch('SET_CURRENT_STEP', '/stockItemExp');
-      this.$store.dispatch('SET_NAV_ROUTE', 4);
+      if (this.isListUsedInImportOrder === false) {
+        this.$store.dispatch('SET_NAV_ROUTE', 4);
+      }
     },
     onRowSelected(items) {
       this.selected = items;

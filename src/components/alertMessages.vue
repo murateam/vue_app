@@ -2,7 +2,6 @@
     <b-container>
         <b-row>
             <b-col>
-                <!-- {{ alertMessCountDown }} -->
                 <b-alert
                     class="position-fixed fixed-top m-0 rounded-0"
                     :show="successMessCountDown"

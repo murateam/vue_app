@@ -246,13 +246,20 @@ export default {
     },
     async saveExistImportOrder() {
       this.$store.dispatch('SAVE_EXIST_IMPORT_ORDER', 'processing');
-      // this.$router.go(-1);
       this.$router.push(this.backStep);
       this.$store.dispatch('SET_CURRENT_STEP', this.backStep);
+      this.$store.dispatch('SET_IS_LIST_USED_IN_IMPORT_ORDER', false);
+      // if (this.backStep === '/stockList' && this.getIsListItemsExpUseInImportOrder === true) {
+      //   this.$store.dispatch('SET_IS_LIST_USED_IN_IMPORT_ORDER', false);
+      // }
     },
     cencel() {
       this.$router.push(this.backStep);
       this.$store.dispatch('SET_CURRENT_STEP', this.backStep);
+      this.$store.dispatch('SET_IS_LIST_USED_IN_IMPORT_ORDER', false);
+      // if (this.backStep === '/stockList' && this.getIsListItemsExpUseInImportOrder === true) {
+      //   this.$store.dispatch('SET_IS_LIST_USED_IN_IMPORT_ORDER', false);
+      // }
     },
     checkStatus() {
       this.$store.dispatch('CHECK_STATUS_IMPORT_ORDER');
@@ -290,6 +297,9 @@ export default {
     },
     listStockItemsForImportOrder() {
       return this.$store.getters.GET_LIST_STOCK_ITEMS_EXP_FOR_IMPORT_ORDER;
+    },
+    getIsListItemsExpUseInImportOrder() {
+      return this.$store.getters.GET_IS_LIST_USED_IN_IMPORT_ORDER;
     },
     allowStatus() {
       return this.$store.getters.GET_ALLOWED_STATUS;
