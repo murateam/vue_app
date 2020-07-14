@@ -29,11 +29,16 @@
                 During the work in 3D i faced several times with programming.
                 For example the game engine "Unreal Engine" give us a possibility
                 without knowledge in C++ implement some logic in depending on requireds
-                with the help of "blueprints".
+                with the help of "blueprints"...
                 As deeper i sank into 3d as often I faced with programming.
-                I've faced with different tools written by enthusiasts or professionals
+                I've met with different tools written by enthusiasts or professionals
                 for programs like Houdini or Autodesk Maya written in Python language.
-                At one point in time 
+                At one point in time the idea struck me what i must know the programming.
+                I can't develop further without these knowledges. If I stay here in 3d
+                or somewhere else.
+                Therefore i decided that i must to learn some programming language.
+                But the simple learning of language doesn't make sense. I need a practiacal
+                application for training in programming.
               </p>
               <p>
                 This web app is a result of my learning on a Full Stack Web Developer cource.
