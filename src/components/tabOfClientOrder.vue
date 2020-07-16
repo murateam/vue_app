@@ -62,7 +62,7 @@
                   size="sm"
                   class="btn btn-success"
                   @click="sendToImport(data.item)"
-                >to Import
+                >to Order
                 </b-button>
               </div>
             </template>

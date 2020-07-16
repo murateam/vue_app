@@ -238,7 +238,7 @@ export default {
       await this.$store.dispatch('SET_LIST_STOCK_ITEMS_BEFORE_SAVE', this.selected);
       await this.$store.dispatch('SET_IS_LIST_USED_IN_IMPORT_ORDER', true);
       this.$store.dispatch('ADD_ITEMS_TO_IMPORT_ORDER');
-      this.$router.push('./importOrder');
+      this.$router.push('./factoryOrder');
     },
     async addItems() {
       await this.$store.dispatch('SET_LIST_STOCK_ITEMS_BEFORE_SAVE', this.selected);

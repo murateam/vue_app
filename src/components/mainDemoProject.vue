@@ -56,15 +56,15 @@
                   <b-list-group flush>
                     <b-list-group-item>
                       <b-button
-                        @click="importOrdersTab"
-                        cols="3">Import Orders
+                        @click="factoryOrderTable"
+                        cols="3">Factory Orders
                       </b-button>
                     </b-list-group-item>
                     <b-list-group-item>
                       <b-button
                         class="mt-3"
                         @click="stockTableExpanded"
-                      >Products for import</b-button>
+                      >Products for order</b-button>
                     </b-list-group-item>
                   </b-list-group>
                 </b-card>
@@ -84,8 +84,8 @@ export default {
   methods: {
     async manageTab() {
       await this.$store.dispatch('SET_AUTHOR', 'seller');
-      this.$router.push('/manageTab');
-      this.$store.dispatch('SET_CURRENT_STEP', '/manageTab');
+      this.$router.push('/tabOfClientOrder');
+      this.$store.dispatch('SET_CURRENT_STEP', '/tabOfClientOrder');
       this.$store.dispatch('SET_NAV_ROUTE', 1);
     },
     async listStockAll() {
@@ -98,17 +98,17 @@ export default {
     },
     async accountantTab() {
       await this.$store.dispatch('SET_AUTHOR', 'accountant');
-      this.$router.push('/manageTab');
-      this.$store.dispatch('SET_CURRENT_STEP', '/manageTab');
+      this.$router.push('/tabOfClientOrder');
+      this.$store.dispatch('SET_CURRENT_STEP', '/tabOfClientOrder');
       this.$store.dispatch('SET_NAV_ROUTE', 1);
     },
-    async importOrdersTab() {
+    async factoryOrderTable() {
       await this.$store.dispatch('SET_AUTHOR', 'import');
       await this.$store.dispatch('GET_LIST_IMPORT_ORDERS');
       this.$store.dispatch('SET_BOOL_CHOOSING_IMPORT_ORDERS', false);
       this.$store.dispatch('SET_BOOL_CHOOSING_STOCK_ITEMS', false);
-      this.$router.push('/importTab');
-      this.$store.dispatch('SET_CURRENT_STEP', '/importTab');
+      this.$router.push('/factoryOrderTable');
+      this.$store.dispatch('SET_CURRENT_STEP', '/factoryOrderTable');
       this.$store.dispatch('SET_NAV_ROUTE', 2);
     },
     async stockTableExpanded() {

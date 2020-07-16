@@ -17,13 +17,13 @@
 </template>
 
 <script>
-import importTable from './importTable.vue';
+import factoryOrderTable from './factoryOrderTable.vue';
 // import stockTableExpanded from './stockTableExpanded.vue';
 
 export default {
   name: 'importModal',
   components: {
-    'import-table': importTable,
+    'import-table': factoryOrderTable,
     stockTableExpanded: () => import('./stockTableExpanded.vue'),
   },
   methods: {

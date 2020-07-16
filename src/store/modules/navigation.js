@@ -18,10 +18,10 @@ function firstRoute(currentURL) {
   let whereGo = '';
   if (currentURL === '/mainDemoProject') {
     whereGo = '/';
-  } else if (currentURL === '/manageTab') {
+  } else if (currentURL === '/tabOfClientOrder') {
     whereGo = '/mainDemoProject';
   } else if (currentURL === '/singleClientOrder') {
-    whereGo = '/manageTab';
+    whereGo = '/tabOfClientOrder';
   } else if (currentURL === '/stockList') {
     whereGo = '/mainDemoProject';
   } else {
@@ -34,18 +34,18 @@ function secondRoute(currentURL, route) {
   let whereGo = '';
   if (currentURL === '/mainDemoProject') {
     whereGo = '/';
-  } else if (currentURL === '/importTab') {
+  } else if (currentURL === '/factoryOrderTable') {
     whereGo = '/mainDemoProject';
   } else if (currentURL === '/stockList') {
     whereGo = '/mainDemoProject';
-  } else if (currentURL === '/importOrder' && route === 2) {
-    whereGo = '/importTab';
-  } else if (currentURL === '/importOrder' && route === 3) {
+  } else if (currentURL === '/factoryOrder' && route === 2) {
+    whereGo = '/factoryOrderTable';
+  } else if (currentURL === '/factoryOrder' && route === 3) {
     whereGo = '/stockList'; // all
   } else if (currentURL === '/stockItemExp' && route === 2) {
-    whereGo = '/importOrder';
+    whereGo = '/factoryOrder';
   } else if (currentURL === '/stockItemExp' && route === 3) {
-    whereGo = '/importOrder';
+    whereGo = '/factoryOrder';
   } else if (currentURL === '/stockItemExp' && route === 4) {
     whereGo = '/stockList'; // all
   }

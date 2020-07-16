@@ -1,11 +1,11 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 import mainDemoProject from '../components/mainDemoProject.vue';
-import manageTab from '../components/manageTab.vue';
+import tabOfClientOrder from '../components/tabOfClientOrder.vue';
 import singleClientOrder from '../components/singleClientOrder.vue';
 import stockList from '../components/stockList.vue';
-import importTab from '../components/importTable.vue';
-import importOrder from '../components/importOrder.vue';
+import factoryOrderTab from '../components/factoryOrderTable.vue';
+import factoryOrder from '../components/factoryOrder.vue';
 import stockItemExpanded from '../components/stockItemExp.vue';
 import main from '../components/myPage/main.vue';
 import aboutProject from '../components/myPage/aboutProject.vue';
@@ -36,9 +36,9 @@ const routes = [
     component: mainDemoProject,
   },
   {
-    path: '/manageTab',
-    name: 'manageTab',
-    component: manageTab,
+    path: '/tabOfClientOrder',
+    name: 'tabOfClientOrder',
+    component: tabOfClientOrder,
   },
   {
     path: '/singleClientOrder',
@@ -51,14 +51,14 @@ const routes = [
     component: stockList,
   },
   {
-    path: '/importTab',
-    name: 'importTab',
-    component: importTab,
+    path: '/factoryOrderTable',
+    name: 'factoryOrderTable',
+    component: factoryOrderTab,
   },
   {
-    path: '/importOrder',
-    name: 'importOrder',
-    component: importOrder,
+    path: '/factoryOrder',
+    name: 'factoryOrder',
+    component: factoryOrder,
   },
   {
     path: '/stockItemExp',

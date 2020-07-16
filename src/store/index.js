@@ -7,7 +7,7 @@ import client from './modules/client';
 import clientOrder from './modules/clientOrder';
 import stockItem from './modules/stockItem';
 import payment from './modules/payment';
-import importOrder from './modules/importOrder';
+import factoryOrder from './modules/factoryOrder';
 import factoryItem from './modules/factoryItem';
 import stockItemExp from './modules/stockItemExp';
 import navigations from './modules/navigation';
@@ -27,7 +27,7 @@ export default new Vuex.Store({
     clientOrder,
     stockItem,
     payment,
-    importOrder,
+    factoryOrder,
     factoryItem,
     stockItemExp,
     navigations,
