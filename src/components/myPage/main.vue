@@ -9,7 +9,7 @@
             <b-col cols="8">
               <h4>
                 <p class="font-weight-bold">
-                  Welcome to my app!
+                  Hi there and welcome to my app!
                 </p>
               </h4>
               <h5>
@@ -89,6 +89,7 @@
                   </ul>
                 </li>
                 <li>html/css/js</li>
+                <li>Bottle</li>
                 <li>SQL</li>
                 <li>Clouds (Heroku, Git), decorators and context</li>
                 <li>Django (accounts, registration, tags and advanced features)</li>

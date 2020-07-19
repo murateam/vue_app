@@ -1,39 +1,39 @@
 <template>
   <b-container>
-        <b-row>
-            <b-col>
-                <navbar></navbar>
-            </b-col>
-        </b-row>
-        <b-row class="mt-3">
-            <b-col>
-                <h4>About Project</h4>
-            </b-col>
-        </b-row>
-        <b-row>
-            <b-col>
-                Here is some information about the project
-            </b-col>
-        </b-row>
-        <b-row align-h="center">
-            <b-col cols="8">
-                <p>
-                    It's started since imaginary requirements for the future project
-                    These requirements I made up what would i have a plan
-                </p>
-                <p>
-                    This application created for multi brand store it is when one store
-                    is selling a goods of different manufacturers.
-                    The application allow to create client order with set of products of
-                    different manufacturers.
-                    And it allow to processing orders depending on requires.
-                </p>
-                <p>
-                    For example i took a store of selling furnitures.
-                    In the application implemented following features:
-                </p>
-            </b-col>
-        </b-row>
+    <b-row>
+      <b-col>
+        <navbar></navbar>
+      </b-col>
+    </b-row>
+    <b-row class="mt-3">
+      <b-col>
+        <h4>About Project</h4>
+      </b-col>
+    </b-row>
+    <b-row>
+      <b-col>
+        Here is some information about the project
+      </b-col>
+    </b-row>
+    <b-row align-h="center">
+      <b-col cols="8">
+        <p>
+          It's started since imaginary requirements for the future project
+          These requirements I made up what would i have a plan
+        </p>
+        <p>
+          This application created for multi brand store it is when one store
+          is selling a goods of different manufacturers.
+          The application allow to create client order with set of products of
+          different manufacturers.
+          And it allow to processing orders depending on requires.
+        </p>
+        <p>
+          For example i took a store of selling furnitures.
+          In the application implemented following features:
+        </p>
+      </b-col>
+    </b-row>
     <b-row align-h="center">
             <b-col cols="8">
                 <ul align="start">
@@ -170,6 +170,25 @@
                     </li>
                 </ul>
             </b-col>
+    </b-row>
+    <b-row>
+      <b-col class="font-weight-bold">
+        <h5>
+          Thank you for your attention!
+        </h5>
+        <p class="mt-3">
+          This is a demo project. It isn't ready for production.
+        </p>
+        <p>
+          Many things aren't done
+        </p>
+        <p>
+          This project has many not best but working solutions.
+        </p>
+        <p>
+          I don't stop my study and the quality of my code will be growing
+        </p>
+      </b-col>
     </b-row>
   </b-container>
 </template>
