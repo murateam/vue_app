@@ -21,7 +21,7 @@
           </b-row>
           <b-row align-h="center">
             <b-col cols="8">
-              <b-embed type="video" aspect="4by3" controls>
+              <b-embed type="video" controls>
                 <source src="http://127.0.0.1:5000/media/bm_01.mp4" type="video/mp4">
               </b-embed>
             </b-col>
