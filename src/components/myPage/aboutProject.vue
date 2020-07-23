@@ -12,24 +12,24 @@
     </b-row>
     <b-row>
       <b-col>
-        Here is some information about the project
+        Here is some information about the project.
       </b-col>
     </b-row>
     <b-row align-h="center">
       <b-col cols="8">
         <p>
-          It's started since imaginary requirements for the future project
-          These requirements I made up what would i have a plan
+          It has begun since imaginary requirements to a future project.
+          These requirements I made up what would i have a plan.
         </p>
         <p>
-          This application created for multi brand store it is when one store
+          This application created for a store which
           is selling a goods of different manufacturers.
           The application allow to create client order with set of products of
           different manufacturers.
           And it allow to processing orders depending on requires.
         </p>
         <p>
-          For example i took a store of selling furnitures.
+          For example I took a store of selling furnitures.
           In the application implemented following features:
         </p>
       </b-col>
@@ -41,42 +41,42 @@
                         <h6 class="font-weight-bold"> Seller:</h6>
                         <ul>
                             <li>
-                                An input form for client:
+                                Input form for client:
                                 <ul>
                                     <li>
-                                        To create a new client
+                                        Create a new client;
                                     </li>
                                     <li>
-                                        To edit the existing client
+                                        Edit the existing client;
                                     </li>
                                 </ul>
                             </li>
                             <li>
-                                An input form for clinet order - it represents
-                                is a draft / calculator, allows to fast calculate
+                                Input form for clinet order - it's a image of
+                                a draft / calculator allows to fast calculate
                                 the coast of the order. If the client paid more then
                                 half of a total coast the ability of edit turns off
                                 and one option stayed to send the order to the processing:
                                 <ul>
                                     <li>
-                                        To create a new client order
+                                        Create a new client order;
                                     </li>
                                     <li>
-                                        To edit the existing client order
+                                        Edit the existing client order;
                                     </li>
                                     <li>
-                                        The client order connected to the client
+                                        The client order connected to the client;
                                     </li>
                                     <li>
-                                        The client can make use of a designer for developing
-                                        a design his flat or something else.
+                                        The client can make use a designer for developing
+                                        a design of his flat or something else.
                                         The form of the client order must contain fields for
                                         the designer name and the designer salary.
                                     </li>
                                 </ul>
                             </li>
                             <li>
-                                A product form:
+                                Product form:
                                 <ul>
                                     <li>
                                         There is adding the product to client order -
@@ -103,7 +103,7 @@
                         possibility to edit):
                         <ul>
                             <li>
-                                A form allow to create and connect a payment to the client order
+                                A form allow to create and connect a payment to the client order;
                             </li>
                         </ul>
                     </li>
@@ -112,7 +112,7 @@
                         <ul>
                             <li>
                                 At the moment there is no some logic. It made just for showing
-                                all the products.
+                                all products in DB.
                             </li>
                         </ul>
                     </li>
@@ -145,48 +145,53 @@
                                         <p>
                                             The product considered correct if all
                                             three fields factory, factory collection
-                                            and catalogue number are in data base
+                                            and catalogue number are into data base;
                                         </p>
                                         <p>
                                             So if you want to save the correct stock
                                             item you need filled all three fields
                                             (factory, collection and item) and fill
-                                            in the field for factory price
+                                            in the field for factory price;
                                         </p>
                                     </li>
                                 </ul>
                             </li>
                             <li>
-                                If the factor is more bigger than defining meaning the
-                                background becomes green (for the sale to be profitable
+                                If the factor is more bigger than defining meaning it's
+                                background becomes a green (for the sale to be profitable
                                 we need to take into account all expenses) If the
-                                factor green all the expenses is account
+                                factor green all the expenses is counted;
                             </li>
                             <li>
-                                If all the items correct and their factors are green the
-                                factory order can be send to the factory
+                                If all items correct and their factors are green the
+                                factory order can be send to the factory;
                             </li>
                         </ul>
                     </li>
                 </ul>
             </b-col>
     </b-row>
+    <b-row align-h="center">
+      <b-col md="auto">
+        <h5 class="font-weight-bold">At this place the logic sequence is end!</h5>
+      </b-col>
+    </b-row>
     <b-row>
       <b-col class="font-weight-bold">
         <h5>
           Thank you for your attention!
         </h5>
-        <p class="mt-3">
+        <p class="mt-5">
           This is a demo project. It isn't ready for production.
         </p>
         <p>
-          Many things aren't done
+          Many things're not done
         </p>
         <p>
           This project has many not best but working solutions.
         </p>
         <p>
-          I don't stop my study and the quality of my code will be growing
+          I don't stop my study and the quality of my code will be growing!
         </p>
       </b-col>
     </b-row>
