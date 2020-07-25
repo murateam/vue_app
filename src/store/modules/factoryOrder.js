@@ -2,8 +2,9 @@
 import axios from 'axios';
 import _ from 'lodash';
 
-const importOrderURL = 'http://127.0.0.1:5000/api/import_orders/';
-const saveNewImportOrderURL = 'http://127.0.0.1:5000/api/import_orders/save_new/';
+const backendURL = process.env.VUE_APP_BACKEND_URL;
+const importOrderURL = 'api/import_orders/';
+const saveNewImportOrderURL = 'api/import_orders/save_new/';
 
 const state = {
   empryImportOrder: {
@@ -77,7 +78,7 @@ const actions = {
     context.commit('SET_SINGLE_IMPORT_ORDER', emptyImportOrder);
   },
   GET_LIST_IMPORT_ORDERS: async (context) => {
-    const response = await axios.get(importOrderURL);
+    const response = await axios.get(backendURL + importOrderURL);
     context.commit('SET_LIST_IMPORT_ORDERS', response.data);
   },
   SET_SINGLE_IMPORT_ORDER: (context, item) => {
@@ -87,7 +88,9 @@ const actions = {
     const order = context.getters.GET_EMPTY_IMPORT_ORDER;
     const author = context.getters.GET_AUTHOR;
     order.import_user = author;
-    const newImportOrder = await axios.post(saveNewImportOrderURL, order);
+    const newImportOrder = await axios.post(
+      backendURL + saveNewImportOrderURL, order,
+    );
     await context.dispatch('GET_LIST_IMPORT_ORDERS');
     await context.commit('SET_SINGLE_IMPORT_ORDER', newImportOrder.data);
     await context.commit('ADD_IMPORT_ORDER_TO_LIST', newImportOrder.data);
@@ -100,7 +103,9 @@ const actions = {
       importOrder.TTN = null;
       importOrder.VAITEK_payment = null;
       importOrder.bill = null;
-      const importOrderResponse = await axios.put(importOrderURL + importOrder.id, importOrder);
+      const importOrderResponse = await axios.put(
+        backendURL + importOrderURL + importOrder.id, importOrder,
+      );
       context.commit('CHANGE_IMPORT_ORDER_IN_LIST', importOrderResponse.data);
     }
   },

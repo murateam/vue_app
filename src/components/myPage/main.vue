@@ -22,7 +22,7 @@
           <b-row align-h="center">
             <b-col cols="8">
               <b-embed type="video" controls>
-                <source src="http://127.0.0.1:5000/media/or_01.mp4" type="video/mp4">
+                <source :src="videoURL" type="video/mp4">
               </b-embed>
             </b-col>
           </b-row>
@@ -133,6 +133,15 @@ import navbar from './navbar.vue';
 export default {
   components: {
     navbar,
+  },
+  data() {
+    return {
+    };
+  },
+  computed: {
+    videoURL() {
+      return `${process.env.VUE_APP_BACKEND_URL}media/or_01.mp4`;
+    },
   },
 };
 </script>

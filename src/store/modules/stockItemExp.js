@@ -2,9 +2,10 @@
 import axios from 'axios';
 import _ from 'lodash';
 
-const stockItemExpURL = 'http://127.0.0.1:5000/api/stock_items/import/';
-const listStockItemsForImportOrder = 'http://127.0.0.1:5000/api/stock_items/import_order/';
-const factoryItem = 'http://127.0.0.1:5000/api/factories/';
+const backendURL = process.env.VUE_APP_BACKEND_URL;
+const stockItemExpURL = 'stock_items/import/';
+const listStockItemsForImportOrder = 'stock_items/import_order/';
+const factoryItem = 'factories/';
 
 const state = {
   emptyStockItemExp: {
@@ -121,15 +122,17 @@ const actions = {
     context.commit('SET_LIST_STOCK_ITEMS_EXP_FOR_IMPORT_ORDER', []);
   },
   GET_STOCK_ITEMS_EXP: async (context) => {
-    const listStockItemsExp = await axios.get(stockItemExpURL);
+    const listStockItemsExp = await axios.get(backendURL + stockItemExpURL);
     context.commit('SET_LIST_STOCK_ITEMS_EXP', listStockItemsExp.data);
   },
   GET_STOCK_ITEM_EXP_BY_ID: async (context, id) => {
-    const singleStockItemExp = await axios.get(stockItemExpURL + id);
+    const singleStockItemExp = await axios.get(backendURL + stockItemExpURL + id);
     await context.commit('SET_SINGLE_STOCK_ITEM', singleStockItemExp.data);
   },
   GET_LIST_STOCK_ITEMS_EXP_FOR_IMPORT_ORDER: async (context, importOrder) => {
-    const listStockItemsResponse = await axios.get(listStockItemsForImportOrder + importOrder.id);
+    const listStockItemsResponse = await axios.get(
+      backendURL + listStockItemsForImportOrder + importOrder.id,
+    );
     context.commit('SET_LIST_STOCK_ITEMS_EXP_FOR_IMPORT_ORDER', listStockItemsResponse.data);
   },
   SET_IS_LIST_EXPANDED: async (context, bool) => {
@@ -173,7 +176,7 @@ const actions = {
       (async (value) => {
         value.import_order = currentImportOrder.id;
         value.stock_choices = 'processed';
-        const response = await axios.put(stockItemExpURL + value.id, value);
+        const response = await axios.put(backendURL + stockItemExpURL + value.id, value);
         // context.commit('ADD_STOCK_ITEM_TO_LIST_IMPORT_ORDER', response.data);
         context.commit('MOVE_STOCK_ITEM_EXP_TO_IMPORT_ORDER_LIST', response.data);
       }),
@@ -185,19 +188,21 @@ const actions = {
     savingItem.client_order = savingItem.client_order.id;
     // const that = this;
     if (action === 'delete') {
-      const responseItem = await axios.put(stockItemExpURL + savingItem.id, savingItem);
+      const responseItem = await axios.put(
+        backendURL + stockItemExpURL + savingItem.id, savingItem,
+      );
       context.commit('MOVE_STOCK_ITEM_EXP_TO_WAITING_LIST', responseItem.data);
     } else if (action === 'save_correct') {
-      const responseItem = await axios.put(`${stockItemExpURL}save_factory/${savingItem.id}`, savingItem);
+      const responseItem = await axios.put(`${backendURL}${stockItemExpURL}save_factory/${savingItem.id}`, savingItem);
       const savedItem = responseItem.data;
       const responseFactoryItem = await axios.get(
-        `${factoryItem}items/${savedItem.factory_item}`,
+        `${backendURL}${factoryItem}items/${savedItem.factory_item}`,
       );
       const responseFactoryCollection = await axios.get(
-        `${factoryItem}collections/${responseFactoryItem.data.factory_collection}`,
+        `${backendURL}${factoryItem}collections/${responseFactoryItem.data.factory_collection}`,
       );
       const responseFactory = await axios.get(
-        factoryItem + responseFactoryCollection.data.factory,
+        backendURL + factoryItem + responseFactoryCollection.data.factory,
       );
       savedItem.client_order = clientOrderID;
       savedItem.factory_item = responseFactoryItem.data;

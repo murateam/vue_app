@@ -2,9 +2,10 @@
 import axios from 'axios';
 import _ from 'lodash';
 
-const PaymentsURL = 'http://127.0.0.1:5000/api/payments/';
-const PaymentsSaveURL = 'http://127.0.0.1:5000/api/payments/save/';
-const PaymentsForClientOrderURL = 'http://127.0.0.1:5000/api/payments_for_order/';
+const backendURL = process.env.VUE_APP_BACKEND_URL;
+const PaymentsURL = 'api/payments/';
+const PaymentsSaveURL = 'api/payments/save/';
+const PaymentsForClientOrderURL = 'api/payments_for_order/';
 
 const state = {
   emptyPayment: {
@@ -66,7 +67,7 @@ const actions = {
   SAVE_PAYMENT: async (context, date) => {
     const payment = await context.getters.GET_SINGLE_PAYMENT;
     payment.payment_date = date;
-    const savedPayment = await axios.post(PaymentsSaveURL, payment);
+    const savedPayment = await axios.post(backendURL + PaymentsSaveURL, payment);
     if (context.getters.GET_IS_NEW_PAYMENT === true) {
       await context.commit('ADD_PAYMENT_TO_LIST_PAYMENTS', savedPayment.data);
     } else {
@@ -75,7 +76,9 @@ const actions = {
     await context.dispatch('CALC_AND_SAVE_TOTAL_PAYMENTS');
   },
   GET_LIST_PAYMENTS_FOR_CLIENT_ORDER: async (context, clientOrder) => {
-    const listPayments = await axios.get(PaymentsForClientOrderURL + clientOrder[0].id);
+    const listPayments = await axios.get(
+      backendURL + PaymentsForClientOrderURL + clientOrder[0].id,
+    );
     context.commit('SET_LIST_PAYMENTS', listPayments.data);
   },
   CALC_AND_SAVE_TOTAL_PAYMENTS: (context) => {
@@ -103,7 +106,7 @@ const actions = {
   },
   DELETE_PAYMENT: async (context, index) => {
     const paymentToDelete = _.cloneDeep(context.state.listPayments[index]);
-    const response = await axios.delete(PaymentsURL + paymentToDelete.id);
+    const response = await axios.delete(backendURL + PaymentsURL + paymentToDelete.id);
     if (response.status === 204) {
       await context.commit('DELETE_PAYMENT_FROM_LIST', index);
       context.dispatch('CALC_AND_SAVE_TOTAL_PAYMENTS');

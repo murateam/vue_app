@@ -4,10 +4,10 @@ import _ from 'lodash';
 
 const backendURL = process.env.VUE_APP_BACKEND_URL;
 // const clientOrdersListURL = 'http://127.0.0.1:5000/api/client_orders/';
-const clientOrdersListURL = 'client_orders/';
-const clientOrderAddURL = 'client_order/add/';
-const singleClientOrderURL = 'client_orders/';
-const clientOrderToImportURL = 'client_order/to_import';
+const clientOrdersListURL = 'api/client_orders/';
+const clientOrderAddURL = 'api/client_order/add/';
+const singleClientOrderURL = 'api/client_orders/';
+const clientOrderToImportURL = 'api/client_order/to_import';
 
 
 const state = {
@@ -115,16 +115,6 @@ const actions = {
   SET_DESIGNER_WITH_CALC_PRICE: async (context) => {
     await context.dispatch('CHANGE_DESIGNER_IN_CLIENT_ORDER');
     await context.dispatch('CHANGE_STOCK_ITEMS_WITH_CALC_PRICE');
-  //   const clientOrder = context.getters.GET_SINGLE_CLIENT_ORDER;
-  //   const StockItems = context.getters.GET_LIST_STOCK_ITEMS;
-  //   const listPriceAndAmount = StockItems.map(
-  //     (item) => item.current_price_eur * item.items_amount);
-  //   const inValue = 0;
-  //   let sum = listPriceAndAmount.reduce(
-  //     (accum, item) => accum + item, inValue,
-  //   );
-  //   sum = sum * context.getters.GET_EUR_RATE.current_rate + clientOrder.d_percent;
-  //   await context.commit('SET_PRICE_FOR_CLIENT_ORDER', sum);
   },
   CHANGE_STOCK_ITEMS_WITH_CALC_PRICE: async (context) => {
     const clientOrder = context.getters.GET_SINGLE_CLIENT_ORDER;
@@ -169,7 +159,6 @@ const actions = {
     const { data } = await axios.post(backendURL + clientOrderToImportURL, item);
     axios.get(`${backendURL}client_orders/for_list/${data.id}`).then((response) => {
       context.commit('CHANGE_CLIENT_ORDER', response.data);
-      // context.dispatch('SAVE_STOCK_ITEM_FROM_CLIENT_ORDER', response.data);
     });
   },
 };

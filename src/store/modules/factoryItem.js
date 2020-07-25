@@ -3,12 +3,13 @@
 import axios from 'axios';
 import _ from 'lodash';
 
-const ListNameFactoriesURL = 'http://127.0.0.1:5000/api/factories/list_names/';
-const ListNameFactoryCollectionsURL = 'http://127.0.0.1:5000/api/factories/collections/list_names/';
-const ListNumberFactoryItemsURL = 'http://127.0.0.1:5000/api/factories/items/list_numbers/';
-const factoriesURL = 'http://127.0.0.1:5000/api/factories/';
-const collectionURL = 'http://127.0.0.1:5000/api/factories/collections/';
-const factoryItemsURL = 'http://127.0.0.1:5000/api/factories/items/';
+const backendURL = process.env.VUE_APP_BACKEND_URL;
+const ListNameFactoriesURL = 'api/factories/list_names/';
+const ListNameFactoryCollectionsURL = 'api/factories/collections/list_names/';
+const ListNumberFactoryItemsURL = 'api/factories/items/list_numbers/';
+const factoriesURL = 'api/factories/';
+const collectionURL = 'api/factories/collections/';
+const factoryItemsURL = 'api/factories/items/';
 
 const state = {
   emptyFactory: { id: null, name: '' },
@@ -105,19 +106,19 @@ const mutations = {
 };
 const actions = {
   GET_LIST_NAME_FACTORIES: async (context) => {
-    const listNamesFactory = await axios.get(ListNameFactoriesURL);
+    const listNamesFactory = await axios.get(backendURL + ListNameFactoriesURL);
     context.commit('SET_LIST_NAME_FACTORIES', listNamesFactory.data);
   },
   GET_LIST_COLLECTIONS_BY_FACTORY: async (context, factory) => {
     const requestData = [];
     requestData.push({ value: factory });
-    const collections = await axios.post(ListNameFactoryCollectionsURL, requestData);
+    const collections = await axios.post(backendURL + ListNameFactoryCollectionsURL, requestData);
     context.commit('SET_LIST_NAME_FACTORY_COLLECTIONS', collections.data);
   },
   GET_CATALOGUE_NUMBERS_BY_COLLECTION: async (context, collection) => {
     const requestData = [];
     requestData.push({ value: collection });
-    const catalogueNumbers = await axios.post(ListNumberFactoryItemsURL, requestData);
+    const catalogueNumbers = await axios.post(backendURL + ListNumberFactoryItemsURL, requestData);
     context.commit('SET_LIST_CATALOGUE_NUMBERS', catalogueNumbers.data);
   },
   SET_TYPE_FACTORY_ITEM: (context, type) => {
@@ -159,10 +160,12 @@ const actions = {
     if (currentTypeFactoryItem === 'factory') {
       let factoryResponse = {};
       if (currentFactory.id == null) {
-        factoryResponse = await axios.post(factoriesURL, currentFactory);
+        factoryResponse = await axios.post(backendURL + factoriesURL, currentFactory);
         await context.commit('ADD_FACTORY_ITEM_TO_LIST', factoryResponse.data);
       } else {
-        factoryResponse = await axios.put(factoriesURL + currentFactory.id, currentFactory);
+        factoryResponse = await axios.put(
+          backendURL + factoriesURL + currentFactory.id, currentFactory,
+        );
         const currentStockItemExp = context.getters.GET_CURRENT_STOCK_ITEM_EXP;
         currentStockItemExp.factory_item.factory_collection.factory = factoryResponse.data;
         await context.commit('CHANGE_FACTORY_ITEM_IN_LIST', factoryResponse.data);
@@ -172,11 +175,11 @@ const actions = {
       let collectionResponse = {};
       if (currentCollection.id == null) {
         currentCollection.factory = currentFactory.id;
-        collectionResponse = await axios.post(collectionURL, currentCollection);
+        collectionResponse = await axios.post(backendURL + collectionURL, currentCollection);
         await context.commit('ADD_FACTORY_ITEM_TO_LIST', collectionResponse.data);
       } else {
         collectionResponse = await axios.put(
-          collectionURL + currentCollection.id, currentCollection,
+          backendURL + collectionURL + currentCollection.id, currentCollection,
         );
         const stockItemExp = context.getters.GET_CURRENT_STOCK_ITEM_EXP;
         stockItemExp.factory_item.factory_collection.name = collectionResponse.data.name;
@@ -187,11 +190,11 @@ const actions = {
       let factoryItemResponse = {};
       if (currentFactoryItem.id == null) {
         currentFactoryItem.factory_collection = currentCollection.id;
-        factoryItemResponse = await axios.post(factoryItemsURL, currentFactoryItem);
+        factoryItemResponse = await axios.post(backendURL + factoryItemsURL, currentFactoryItem);
         await context.commit('ADD_FACTORY_ITEM_TO_LIST', factoryItemResponse.data);
       } else {
         factoryItemResponse = await axios.put(
-          factoryItemsURL + currentFactoryItem.id, currentFactoryItem,
+          backendURL + factoryItemsURL + currentFactoryItem.id, currentFactoryItem,
         );
         const stockItemExp = context.getters.GET_CURRENT_STOCK_ITEM_EXP;
         stockItemExp.factory_item.catalogue_number = factoryItemResponse.data.catalogue_number;
@@ -204,15 +207,17 @@ const actions = {
     const currentTypeFactoryItem = context.getters.GET_TYPE_FACTORY_ITEM;
     if (currentTypeFactoryItem === 'factory') {
       const currentFactory = context.getters.GET_CURRENT_FACTORY;
-      const factoryResponse = await axios.get(factoriesURL + currentFactory.id);
+      const factoryResponse = await axios.get(backendURL + factoriesURL + currentFactory.id);
       context.commit('SET_CURRENT_FACTORY', factoryResponse.data);
     } else if (currentTypeFactoryItem === 'collection') {
       const currentCollection = context.getters.GET_CURRENT_COLLECTION;
-      const collectionResponse = await axios.get(collectionURL + currentCollection.id);
+      const collectionResponse = await axios.get(backendURL + collectionURL + currentCollection.id);
       context.commit('SET_CURRENT_COLLECTION', collectionResponse.data);
     } else if (currentTypeFactoryItem === 'catalogue-number') {
       const currentFactoryItem = context.getters.GET_CURRENT_FACTORY_ITEM;
-      const factoryItemResponse = await axios.get(factoryItemsURL + currentFactoryItem.id);
+      const factoryItemResponse = await axios.get(
+        backendURL + factoryItemsURL + currentFactoryItem.id,
+      );
       context.commit('SET_CURRENT_FACTORY_ITEM', factoryItemResponse.data);
     }
   },

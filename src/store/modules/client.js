@@ -1,8 +1,10 @@
+/* eslint no-shadow: ["error", { "allow": ["state"] }] */
 import axios from 'axios';
 
-const singleClientURL = 'http://127.0.0.1:5000/api/clients/';
-const clientCheckURL = 'http://127.0.0.1:5000/api/clients/check/';
-const clientNewURL = 'http://127.0.0.1:5000/api/clients/new';
+const backendURL = process.env.VUE_APP_BACKEND_URL;
+const singleClientURL = 'api/clients/';
+const clientCheckURL = 'api/clients/check/';
+const clientNewURL = 'api/clients/new';
 
 const state = {
   singleClient: {
@@ -32,14 +34,8 @@ const getters = {
   GET_IF_CLIENT_EXIST: (state) => {
     const boolClient = state.singleClient;
     return boolClient.id != null;
-    // let boolClient;
-    // if (state.singleClient.id == null) {
-    //   boolClient = false;
-    // } else { boolClient = true; }
-    // return boolClient;
   },
   GET_SEPARATE_CLIENT_DETAILS: (state) => state.separateClientDetails,
-  /* eslint no-shadow: ["error", { "allow": ["state"] }] */
 };
 
 const mutations = {
@@ -53,7 +49,7 @@ const mutations = {
 
 const actions = {
   GET_SINGLE_CLIENT: async (context, id) => {
-    const { data } = await axios.get(singleClientURL + id);
+    const { data } = await axios.get(backendURL + singleClientURL + id);
     context.commit('SET_SINGLE_CLIENT', data);
     context.commit('SET_SEPARATE_CLIENT_DETAILS', {
       passportSeries: data.passport.split('&')[0],
@@ -67,7 +63,7 @@ const actions = {
   },
   CHECK_CLIENT(context, requestData) {
     if (requestData.name.length > 0) {
-      axios.post(clientCheckURL, requestData)
+      axios.post(backendURL + clientCheckURL, requestData)
         .then((response) => {
           context.commit('SET_SINGLE_CLIENT', response.data);
           context.commit('SET_SEPARATE_CLIENT_DETAILS', {
@@ -109,18 +105,11 @@ const actions = {
   },
   SAVE_CLIENT: async (context, requestData) => {
     if (requestData.id) {
-      await axios.put(singleClientURL + requestData.id, requestData);
-      // axios.get(`http://localhost:5000/api/clients/${data.id}`).then((response) => {
-      //   context.commit('CHANGE_CLIENT', response.data);
-      // });
+      await axios.put(backendURL + singleClientURL + requestData.id, requestData);
     } else {
-      axios.post(clientNewURL, requestData).then((response) => {
+      axios.post(backendURL + clientNewURL, requestData).then((response) => {
         context.commit('SET_SINGLE_CLIENT', response.data);
       });
-      // await axios.post(singleClientURL, requestData);
-      // axios.get(singleClientURL + data.id).then((response) => {
-      //   context.commit('ADD_CLIENT', response.data);
-      // });
     }
   },
 };

@@ -2,9 +2,10 @@ import axios from 'axios';
 import _ from 'lodash';
 /* eslint no-shadow: ["error", { "allow": ["state"] }] */
 
-const ListAllItemsURL = 'http://127.0.0.1:5000/api/stock_items/';
-const ListItemsByClientOrderURL = 'http://127.0.0.1:5000/api/stock_items/client_order/';
-const SaveStockItemsFromClientOrderURL = 'http://127.0.0.1:5000/api/stock_items/save_from_client_order/';
+const backendURL = process.env.VUE_APP_BACKEND_URL;
+const ListAllItemsURL = 'stock_items/';
+const ListItemsByClientOrderURL = 'stock_items/client_order/';
+const SaveStockItemsFromClientOrderURL = 'stock_items/save_from_client_order/';
 
 const state = {
   emptyStockItem: {
@@ -128,12 +129,12 @@ const actions = {
     context.commit('SET_LIST_STOCK_ITEMS', []);
   },
   GET_ALL_STOCK_ITEMS: async (context) => {
-    const { data } = await axios.get(ListAllItemsURL);
+    const { data } = await axios.get(backendURL + ListAllItemsURL);
     context.commit('SET_LIST_STOCK_ITEMS', data);
   },
   GET_LIST_STOCK_ITEMS_CLIENT_ORDER: async (context, id) => {
     const requestData = { client_order: id };
-    const { data } = await axios.post(ListItemsByClientOrderURL, requestData);
+    const { data } = await axios.post(backendURL + ListItemsByClientOrderURL, requestData);
     context.commit('SET_LIST_STOCK_ITEMS', data);
     // context.dispatch('CALCULATE_PRICE_OF_CLIENT_ORDER');
   },
@@ -154,7 +155,7 @@ const actions = {
     // itemList.forEach((element) => {
     //   console.log(element);
     // });
-    const response = await axios.post(SaveStockItemsFromClientOrderURL, requestData);
+    const response = await axios.post(backendURL + SaveStockItemsFromClientOrderURL, requestData);
     if (response.status === 200) {
       await context.commit('SET_COUNT_FOR_SUCCESS_OF_CLIENT_ORDER', 3);
     } else {
