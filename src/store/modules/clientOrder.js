@@ -2,10 +2,12 @@
 import axios from 'axios';
 import _ from 'lodash';
 
-const clientOrdersListURL = 'http://127.0.0.1:5000/api/client_orders/';
-const clientOrderAddURL = 'http://127.0.0.1:5000/api/client_order/add/';
-const singleClientOrderURL = 'http://127.0.0.1:5000/api/client_orders/';
-const clientOrderToImportURL = 'http://127.0.0.1:5000/api/client_order/to_import';
+const backendURL = process.env.VUE_APP_BACKEND_URL;
+// const clientOrdersListURL = 'http://127.0.0.1:5000/api/client_orders/';
+const clientOrdersListURL = 'client_orders/';
+const clientOrderAddURL = 'client_order/add/';
+const singleClientOrderURL = 'client_orders/';
+const clientOrderToImportURL = 'client_order/to_import';
 
 
 const state = {
@@ -93,11 +95,11 @@ const actions = {
     await context.commit('SET_PRICE_FOR_CLIENT_ORDER', sum);
   },
   GET_LIST_CLIENT_ORDERS: async (context) => {
-    const { data } = await axios.get(clientOrdersListURL);
+    const { data } = await axios.get(backendURL + clientOrdersListURL);
     context.commit('SET_LIST_CLIENT_ORDERS', data);
   },
   GET_SINGLE_CLIENT_ORDER: async (context, id) => {
-    const { data } = await axios.get(singleClientOrderURL + id);
+    const { data } = await axios.get(backendURL + singleClientOrderURL + id);
     if (data.state === 'published') {
       await context.dispatch('GET_SAVED_RATE', data.eur_rate);
     } else {
@@ -141,13 +143,15 @@ const actions = {
   },
   SAVE_CLIENT_ORDER: async (context, requestData) => {
     if (requestData.id) {
-      const { data } = await axios.put(singleClientOrderURL + requestData.id, requestData);
-      const response = await axios.get(`http://localhost:5000/api/client_orders/for_list/${data.id}`);
+      const { data } = await axios.put(
+        backendURL + singleClientOrderURL + requestData.id, requestData,
+      );
+      const response = await axios.get(`${backendURL}client_orders/for_list/${data.id}`);
       await context.commit('CHANGE_CLIENT_ORDER', response.data);
       await context.dispatch('SAVE_STOCK_ITEM_FROM_CLIENT_ORDER', response.data);
     } else {
-      const { data } = await axios.post(clientOrderAddURL, requestData);
-      const response = await axios.get(`http://localhost:5000/api/client_orders/for_list/${data.id}`);
+      const { data } = await axios.post(backendURL + clientOrderAddURL, requestData);
+      const response = await axios.get(`${backendURL}client_orders/for_list/${data.id}`);
       await context.commit('ADD_CLIENT_ORDER', response.data);
       await context.dispatch('SAVE_STOCK_ITEM_FROM_CLIENT_ORDER', response.data);
     }
@@ -162,8 +166,8 @@ const actions = {
   TO_IMPORT: async (context, item) => {
     const idEurRate = await context.getters.GET_EUR_RATE;
     item.eur_rate = idEurRate.id;
-    const { data } = await axios.post(clientOrderToImportURL, item);
-    axios.get(`http://localhost:5000/api/client_orders/for_list/${data.id}`).then((response) => {
+    const { data } = await axios.post(backendURL + clientOrderToImportURL, item);
+    axios.get(`${backendURL}client_orders/for_list/${data.id}`).then((response) => {
       context.commit('CHANGE_CLIENT_ORDER', response.data);
       // context.dispatch('SAVE_STOCK_ITEM_FROM_CLIENT_ORDER', response.data);
     });
