@@ -10,11 +10,11 @@
           <b-row align-h="center">
             <b-form-group
             label-size="lg"
-            label="Платеж"></b-form-group>
+            label="Payment"></b-form-group>
           </b-row>
           <b-row align-h="center">
               <b-col cols="4">
-                  <h6>По договору: {{ singleClientOrder.public_num }}</h6>
+                  <h6>For order: {{ singleClientOrder.public_num }}</h6>
               </b-col>
           </b-row>
           <b-row align-h="end" v-if="singlePayment.id != null">
@@ -25,33 +25,33 @@
           <b-row class="mt-3" align-h="end">
             <b-col></b-col>
             <b-col cols="3">
-              <label for="input-payment-date">Дата платежа</label>
+              <label for="input-payment-date">Payment date</label>
               <b-input id="input-payment-date"
               required
               type="date"
               v-model="paymentDate"
-              placeholder="Дата палтежа"></b-input>
+              placeholder="Payment date"></b-input>
             </b-col>
           </b-row>
           <b-row>
             <b-col>
-              <label for="input-payment-comment">Коментарий</label>
+              <label for="input-payment-comment">Comment</label>
               <b-input id="input-payment-comment"
               type="text"
               v-model="singlePayment.comment"
-              placeholder="Коментарий"></b-input>
+              placeholder="Comment"></b-input>
             </b-col>
           </b-row>
           <b-row align-h="end" class="mt-3">
             <b-col cols="4">
                 <b-form-group
                     id="form-value-group"
-                    label="Платеж (RUB)"
+                    label="Payment (RUB)"
                     label-for="form-value-input"
                 >
                     <b-row align-h="end">
                         <b-col cols="12">
-                            <b-input placeholder="Платеж"
+                            <b-input placeholder="Payment"
                             required
                             type="number"
                             v-model.number="singlePayment.payment_value"></b-input>
@@ -62,15 +62,15 @@
           </b-row>
           <b-row class="mt-3" align-h="end">
             <b-col cols="2">
-              <b-button variant="danger">Отменить</b-button>
+              <b-button variant="danger">Cancel</b-button>
             </b-col>
             <b-col cols="2">
               <b-button
               v-if="singlePayment.id === null"
-              variant="primary" @click="savePayment">Добавить</b-button>
+              variant="primary" @click="savePayment">Add</b-button>
               <b-button
               v-else
-              variant="primary" @click="savePayment">Сохранить</b-button>
+              variant="primary" @click="savePayment">Save</b-button>
             </b-col>
           </b-row>
         </b-container>

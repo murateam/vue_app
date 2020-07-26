@@ -133,15 +133,15 @@ const actions = {
   },
   SAVE_CLIENT_ORDER: async (context, requestData) => {
     if (requestData.id) {
-      const { data } = await axios.put(
+      const response = await axios.put(
         backendURL + singleClientOrderURL + requestData.id, requestData,
       );
-      const response = await axios.get(`${backendURL}client_orders/for_list/${data.id}`);
-      await context.commit('CHANGE_CLIENT_ORDER', response.data);
-      await context.dispatch('SAVE_STOCK_ITEM_FROM_CLIENT_ORDER', response.data);
+      const responseClientOrder = await axios.get(`${backendURL}api/client_orders/for_list/${response.data.id}`);
+      await context.commit('CHANGE_CLIENT_ORDER', responseClientOrder.data);
+      await context.dispatch('SAVE_STOCK_ITEM_FROM_CLIENT_ORDER', responseClientOrder.data);
     } else {
       const { data } = await axios.post(backendURL + clientOrderAddURL, requestData);
-      const response = await axios.get(`${backendURL}client_orders/for_list/${data.id}`);
+      const response = await axios.get(`${backendURL}api/client_orders/for_list/${data.id}`);
       await context.commit('ADD_CLIENT_ORDER', response.data);
       await context.dispatch('SAVE_STOCK_ITEM_FROM_CLIENT_ORDER', response.data);
     }
@@ -157,7 +157,7 @@ const actions = {
     const idEurRate = await context.getters.GET_EUR_RATE;
     item.eur_rate = idEurRate.id;
     const { data } = await axios.post(backendURL + clientOrderToImportURL, item);
-    axios.get(`${backendURL}client_orders/for_list/${data.id}`).then((response) => {
+    axios.get(`${backendURL}api/client_orders/for_list/${data.id}`).then((response) => {
       context.commit('CHANGE_CLIENT_ORDER', response.data);
     });
   },

@@ -86,9 +86,9 @@
                           <b-row class="mb-1">
                             <b-col sm="3" class ="text-sm-right"><b>Client:</b></b-col>
                             <b-col>
-                              {{ singleClient.last_name }}
                               {{ singleClient.first_name }}
                               {{ singleClient.middle_name }}
+                              {{ singleClient.last_name }}
                             </b-col>
                           </b-row>
                           <b-row class="mb-1">
@@ -193,6 +193,18 @@
                           </b-col>
                     </b-row>
                   </b-card>
+                  <b-row align-h="center" class="mt-5">
+                    <b-col md="auto">
+                      <b-button
+                      @click="cancelSaveClientOrder"
+                      variant="danger">Cancel</b-button>
+                    </b-col>
+                    <b-col md="auto">
+                      <b-button
+                      @click="saveClientOrder"
+                      variant="primary">Save</b-button>
+                    </b-col>
+                  </b-row>
                 </b-col>
               </b-row>
                 <b-form-group
@@ -211,16 +223,7 @@
                     <div v-else class="mb-3"><h5>{{ singleClientOrder.comment }}</h5></div>
                 </b-form-group>
                 <b-row align-h="end" class="mt-3" v-if="author == 2">
-                  <b-col cols="2">
-                    <b-button
-                    @click="cancelSaveClientOrder"
-                    variant="danger">Cencel</b-button>
-                  </b-col>
-                  <b-col cols="2">
-                    <b-button
-                    @click="saveClientOrder"
-                    variant="primary">Save</b-button>
-                  </b-col>
+                  <!-- PRIOR PLACE OF BUTTONS -->
                 </b-row>
                 <div v-if="author == 2">
                   <b-row align-h="center" class="mt-3">
@@ -302,6 +305,7 @@ export default {
       this.$store.dispatch('CHECK_CLIENT', requestData);
     },
     saveClientOrder() {
+      console.log(this.singleClientOrder);
       if (this.singleClientOrder.id === null) {
         const requestData = {
           author: this.author,
@@ -322,16 +326,17 @@ export default {
           designer: this.singleClientOrder.designer,
           d_percent: this.singleClientOrder.d_percent,
           comment: this.singleClientOrder.comment,
+          payment_status: 'waiting for payment',
         };
         this.$store.dispatch('SAVE_CLIENT_ORDER', requestData);
       }
-      this.$router.push('./manageTab');
-      this.$store.dispatch('SET_CURRENT_STEP', '/manageTab');
+      this.$router.push('/tabOfClientOrder');
+      this.$store.dispatch('SET_CURRENT_STEP', '/tabOfClientOrder');
     },
     cancelSaveClientOrder() {
       this.resetAllState();
-      this.$router.push('/manageTab');
-      this.$store.dispatch('SET_CURRENT_STEP', '/manageTab');
+      this.$router.push('/tabOfClientOrder');
+      this.$store.dispatch('SET_CURRENT_STEP', '/tabOfClientOrder');
     },
     resetAllState() {
       this.$store.dispatch('RESET_CURRENT_CLIENT');

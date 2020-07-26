@@ -26,8 +26,15 @@
             >Project</b-nav-item>
 
             <b-nav-item-dropdown text="Git project" right>
-              <b-dropdown-item href="https://github.com/murateam/vue_app">Vuejs (Frontend)</b-dropdown-item>
-              <b-dropdown-item href="https://github.com/murateam/python_api_app_01">Django (Backend)</b-dropdown-item>
+              <b-dropdown-item
+                href="https://github.com/murateam/vue_app"
+                target="_blank"
+              >Vuejs (Frontend)
+              </b-dropdown-item>
+              <b-dropdown-item
+                href="https://github.com/murateam/python_api_app_01"
+                target="_blank"
+              >Django (Backend)</b-dropdown-item>
             </b-nav-item-dropdown>
 
             <b-nav-item

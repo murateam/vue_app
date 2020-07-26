@@ -68,7 +68,8 @@
                 >
                     <b-row align-h="around">
                         <b-col>
-                            <b-input placeholder="Amount"
+                            <b-input
+                            placeholder="Amount"
                             type="number"
                             v-model.number="currentStockItem.items_amount"></b-input>
                         </b-col>
@@ -102,7 +103,7 @@
           </b-row>
           <b-row class="mt-3" align-h="end">
             <b-col cols="2">
-              <b-button variant="danger" @click="cencel">Cencel</b-button>
+              <b-button variant="danger" @click="cencel">Cancel</b-button>
             </b-col>
             <b-col cols="2" v-if="isNewStockItem">
               <b-button variant="primary" @click="addItem">Add</b-button>

@@ -80,6 +80,14 @@ const mutations = {
   },
   CHANGE_STOCK_ITEM_IN_LIST: async (state) => {
     const changedStockItem = await _.cloneDeep(state.currentStockItem);
+    if (changedStockItem.items_amount < 0) {
+      const newAmount = changedStockItem.items_amount * -1;
+      changedStockItem.items_amount = newAmount;
+    }
+    if (changedStockItem.current_price_eur < 0) {
+      const newPrice = changedStockItem.current_price_eur * -1;
+      changedStockItem.current_price_eur = newPrice;
+    }
     const arrBefore = state.listStockItems;
     const arrTmp = [];
     arrTmp.push(changedStockItem);
@@ -119,6 +127,15 @@ const actions = {
   },
   ADD_ITEM_TO_LIST_STOCK_ITEMS: async (context) => {
     const data = _.cloneDeep(context.getters.GET_CURRENT_STOCK_ITEM);
+    console.log(data);
+    if (data.items_amount < 0) {
+      const newAmount = data.items_amount * -1;
+      data.items_amount = newAmount;
+    }
+    if (data.current_price_eur < 0) {
+      const newPrice = data.current_price_eur * -1;
+      data.current_price_eur = newPrice;
+    }
     await context.commit('ADD_ITEM_TO_LIST_STOCK_ITEMS', data);
     await context.dispatch('CHANGE_STOCK_ITEMS_WITH_CALC_PRICE');
   },

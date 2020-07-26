@@ -168,7 +168,7 @@
         <b-col cols="2" align-self="center">
           <b-button
           @click="cencel"
-          variant="danger">Cencel</b-button>
+          variant="danger">Cancel</b-button>
         </b-col>
         <b-col cols="2" align-self="center">
           <b-button

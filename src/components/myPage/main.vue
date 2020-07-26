@@ -54,8 +54,11 @@
                 But the simple learning of language doesn't make sense. I need a practiacal
                 application for training in programming.
                 I found by chance a course of
-                <a href="https://skillfactory.ru/python-for-web-developers?utm_campaign=direct">
-                "full stack web developer"</a> in python.
+                <a
+                  href="https://skillfactory.ru/python-for-web-developers?utm_campaign=direct"
+                  target="_blank"
+                >
+                "full stack web developer"(RUS)</a> in python.
                 This course fundamentally changed my attitude to programming.
                 I've fallen in love with programming.
                 Before this moment I was should to learn tools created someone else.
@@ -72,7 +75,7 @@
             <b-col cols="8">
               <h5>
                 <p class="">
-                  At this course i learned following tools:
+                  At this course I learned following tools:
                 </p>
               </h5>
             </b-col>
