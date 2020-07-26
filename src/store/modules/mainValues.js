@@ -2,7 +2,7 @@
 import axios from 'axios';
 
 const backendURL = process.env.VUE_APP_BACKEND_URL;
-const bankEurRateURL = 'api/latest';
+const bankEurRateURL = 'https://api.ratesapi.io/api/latest';
 const currentRateURL = 'api/current_rate/';
 const savedRateURL = 'api/saved_rate/';
 
@@ -37,7 +37,7 @@ const actions = {
     });
   },
   GET_BANK_EUR_RATE: async (context) => {
-    const response = await axios.get(backendURL + bankEurRateURL);
+    const response = await axios.get(bankEurRateURL);
     context.commit('SET_BANK_EUR_RATE', response.data);
   },
 };
