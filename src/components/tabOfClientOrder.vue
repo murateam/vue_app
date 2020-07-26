@@ -186,7 +186,8 @@ export default {
     async editPayments() {
       await this.$store.dispatch('GET_LIST_PAYMENTS_FOR_CLIENT_ORDER', this.selected);
       if (this.selected.length > 0) {
-        this.$store.dispatch('CALCULATE_PRICE_FOR_CLIENT_ORDER', this.selected);
+        await this.$store.dispatch('CALCULATE_PRICE_FOR_CLIENT_ORDER', this.selected);
+        this.$store.dispatch('CALC_AND_SAVE_TOTAL_PAYMENTS');
         this.$router.push('./singleClientOrder');
         this.$store.dispatch('SET_CURRENT_STEP', '/singleClientOrder');
       }

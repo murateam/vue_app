@@ -197,9 +197,10 @@
                     <b-col md="auto">
                       <b-button
                       @click="cancelSaveClientOrder"
+                      v-if="author == 2"
                       variant="danger">Cancel</b-button>
                     </b-col>
-                    <b-col md="auto">
+                    <b-col md="auto" v-if="author == 2">
                       <b-button
                       @click="saveClientOrder"
                       variant="primary">Save</b-button>
@@ -304,8 +305,7 @@ export default {
       const requestData = this.checkClientName;
       this.$store.dispatch('CHECK_CLIENT', requestData);
     },
-    saveClientOrder() {
-      console.log(this.singleClientOrder);
+    async saveClientOrder() {
       if (this.singleClientOrder.id === null) {
         const requestData = {
           author: this.author,
@@ -317,6 +317,7 @@ export default {
         };
         this.$store.dispatch('SAVE_CLIENT_ORDER', requestData);
       } else {
+        console.log(this.singleClientOrder);
         const requestData = {
           id: this.singleClientOrder.id,
           public_num: this.singleClientOrder.public_num,
