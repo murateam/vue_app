@@ -3,9 +3,9 @@ import axios from 'axios';
 import _ from 'lodash';
 
 const backendURL = process.env.VUE_APP_BACKEND_URL;
-const stockItemExpURL = 'stock_items/import/';
-const listStockItemsForImportOrder = 'stock_items/import_order/';
-const factoryItem = 'factories/';
+const stockItemExpURL = 'api/stock_items/import/';
+const listStockItemsForImportOrder = 'api/stock_items/import_order/';
+const factoryItem = 'api/factories/';
 
 const state = {
   emptyStockItemExp: {

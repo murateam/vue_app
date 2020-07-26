@@ -3,9 +3,9 @@ import _ from 'lodash';
 /* eslint no-shadow: ["error", { "allow": ["state"] }] */
 
 const backendURL = process.env.VUE_APP_BACKEND_URL;
-const ListAllItemsURL = 'stock_items/';
-const ListItemsByClientOrderURL = 'stock_items/client_order/';
-const SaveStockItemsFromClientOrderURL = 'stock_items/save_from_client_order/';
+const ListAllItemsURL = 'api/stock_items/';
+const ListItemsByClientOrderURL = 'api/stock_items/client_order/';
+const SaveStockItemsFromClientOrderURL = 'api/stock_items/save_from_client_order/';
 
 const state = {
   emptyStockItem: {
