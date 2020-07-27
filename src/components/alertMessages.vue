@@ -2,6 +2,7 @@
     <b-container>
         <b-row>
             <b-col>
+              <!-- SUCCESS MESSAGE! -->
                 <b-alert
                     class="position-fixed fixed-top m-0 rounded-0"
                     :show="successMessCountDown"
@@ -12,6 +13,7 @@
                 >
                     Order saved successful!
                 </b-alert>
+              <!-- UNSUCCESS MESSAGE! -->
                 <b-alert
                     class="position-fixed fixed-top m-0 rounded-0"
                     :show="unSuccessMessCountDown"

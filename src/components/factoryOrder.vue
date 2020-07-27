@@ -27,7 +27,7 @@
     </b-row>
     <b-row align-h="end">
       <b-col cols="4" v-if="singleImportOrder.id != null">
-        <p>Created: {{singleImportOrder.created}}</p>
+        <p>Created: {{dateFilter(singleImportOrder.created)}}</p>
       </b-col>
     </b-row>
     <b-row>
@@ -59,7 +59,7 @@
           <label for="input-VAITEK">VAITEK</label>
           <b-row>
             <b-col cols="4" align-self="center">
-              Заказ:
+              Order:
             </b-col>
             <b-col>
               <b-input id="input-VAITEK-order"
@@ -193,7 +193,6 @@
         <h5 class="bg-success text-light">{{ averageFactor }}</h5>
       </b-col>
     </b-row>
-    <!-- {{ allowStatus }} -->
     <b-row class="mt-4" align-h="start">
       <b-col cols="3" v-if="singleImportOrder.status == 'processing'">
         <b-button
@@ -222,6 +221,7 @@
 
 <script>
 import _ from 'lodash';
+import moment from 'moment';
 import importModal from './importModalForItemsOrOrders.vue';
 import stockTableExpanded from './stockTableExpanded.vue';
 import factoryRequest from './factoryRequestModel.vue';
@@ -236,6 +236,9 @@ export default {
     navbar,
   },
   methods: {
+    dateFilter(value) {
+      return moment(String(value)).format('YY-MM-DD');
+    },
     async addStockItems() {
       await this.$store.dispatch('SET_BOOL_CHOOSING_IMPORT_ORDERS', false);
       await this.$store.dispatch('SET_BOOL_CHOOSING_STOCK_ITEMS', true);
@@ -249,17 +252,11 @@ export default {
       this.$router.push(this.backStep);
       this.$store.dispatch('SET_CURRENT_STEP', this.backStep);
       this.$store.dispatch('SET_IS_LIST_USED_IN_IMPORT_ORDER', false);
-      // if (this.backStep === '/stockList' && this.getIsListItemsExpUseInImportOrder === true) {
-      //   this.$store.dispatch('SET_IS_LIST_USED_IN_IMPORT_ORDER', false);
-      // }
     },
     cencel() {
       this.$router.push(this.backStep);
       this.$store.dispatch('SET_CURRENT_STEP', this.backStep);
       this.$store.dispatch('SET_IS_LIST_USED_IN_IMPORT_ORDER', false);
-      // if (this.backStep === '/stockList' && this.getIsListItemsExpUseInImportOrder === true) {
-      //   this.$store.dispatch('SET_IS_LIST_USED_IN_IMPORT_ORDER', false);
-      // }
     },
     checkStatus() {
       this.$store.dispatch('CHECK_STATUS_IMPORT_ORDER');

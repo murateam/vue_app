@@ -9,13 +9,6 @@
                   </navbar>
                 </b-col>
               </b-row>
-              <!-- <b-row class="mt-3" align-h="start">
-                <b-col cols="2">
-                  <router-link
-                  class="btn btn-dark"
-                  to="/manageTab">Back</router-link>
-                </b-col>
-              </b-row> -->
               <b-row align-h="center" class="mt-4">
                 <b-col cols="5">
                   <h3 v-if="singleClientOrder.public_num">
@@ -64,17 +57,13 @@
                           <b-col md="auto">
                               <label class="sr-only"
                               for="inline-form-input-name"
-                              >Full Name</label>
+                              >'First name' 'Last name'</label>
                               <b-input
                               id="inline-form-input-name"
                               class="md-2 mr-sm-2 mb-sm-0"
-                              placeholder="Full name"
+                              placeholder="'First name' 'Last name'"
                               v-model="checkClientName.name"></b-input>
                           </b-col>
-                          <!-- <b-col cols="3">
-                            <b-button
-                            variant="primary">New Client</b-button>
-                          </b-col> -->
                         </b-row>
                       </b-collapse>
                       <b-collapse
@@ -317,7 +306,6 @@ export default {
         };
         this.$store.dispatch('SAVE_CLIENT_ORDER', requestData);
       } else {
-        console.log(this.singleClientOrder);
         const requestData = {
           id: this.singleClientOrder.id,
           public_num: this.singleClientOrder.public_num,

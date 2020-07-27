@@ -57,8 +57,9 @@ const actions = {
   },
   SET_NEW_PAYMENT_FOR_CLIENT_ORDER: async (context) => {
     const emptyPayment = await _.cloneDeep(context.getters.GET_EMPTY_PAYMENT);
-    const currentClientOrder = await context.getters.GET_SINGLE_CLIENT_ORDER;
+    const currentClientOrder = await _.cloneDeep(context.getters.GET_SINGLE_CLIENT_ORDER);
     emptyPayment.client_order = currentClientOrder.id;
+    console.log(emptyPayment);
     await context.commit('SET_SINGLE_PAYMENT', emptyPayment);
   },
   SET_IS_NEW_PAYMENT: (context, bool) => {
@@ -66,11 +67,13 @@ const actions = {
   },
   SAVE_PAYMENT: async (context, date) => {
     const payment = await context.getters.GET_SINGLE_PAYMENT;
-    payment.payment_date = date;
-    const savedPayment = await axios.post(backendURL + PaymentsSaveURL, payment);
+    console.log(payment);
     if (context.getters.GET_IS_NEW_PAYMENT === true) {
+      payment.payment_date = date;
+      const savedPayment = await axios.post(backendURL + PaymentsSaveURL, payment);
       await context.commit('ADD_PAYMENT_TO_LIST_PAYMENTS', savedPayment.data);
     } else {
+      const savedPayment = await axios.put(backendURL + PaymentsURL + payment.id, payment);
       await context.commit('CHANGE_PAYMENT_IN_LIST', savedPayment.data);
     }
     await context.dispatch('CALC_AND_SAVE_TOTAL_PAYMENTS');

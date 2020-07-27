@@ -83,7 +83,8 @@ const mutations = {
 const actions = {
   CALCULATE_PRICE_FOR_CLIENT_ORDER: async (context, ClientOrder) => {
     await context.dispatch('GET_SINGLE_CLIENT_ORDER', ClientOrder[0].id);
-    const clientOrder = context.getters.GET_SINGLE_CLIENT_ORDER;
+    const clientOrderForState = await _.cloneDeep(context.getters.GET_SINGLE_CLIENT_ORDER);
+    await context.dispatch('CALC_AND_SAVE_TOTAL_PAYMENTS');
     await context.dispatch('GET_LIST_STOCK_ITEMS_CLIENT_ORDER', ClientOrder[0].id);
     const StockItems = context.getters.GET_LIST_STOCK_ITEMS;
     const listPriceAndAmount = StockItems.map((item) => item.current_price_eur * item.items_amount);
@@ -91,7 +92,7 @@ const actions = {
     let sum = listPriceAndAmount.reduce(
       (accum, item) => accum + item, inValue,
     );
-    sum = sum * context.getters.GET_EUR_RATE.current_rate + clientOrder.d_percent;
+    sum = sum * context.getters.GET_EUR_RATE.current_rate + clientOrderForState.d_percent;
     await context.commit('SET_PRICE_FOR_CLIENT_ORDER', sum);
   },
   GET_LIST_CLIENT_ORDERS: async (context) => {
@@ -100,6 +101,7 @@ const actions = {
   },
   GET_SINGLE_CLIENT_ORDER: async (context, id) => {
     const { data } = await axios.get(backendURL + singleClientOrderURL + id);
+    console.log(data);
     if (data.state === 'published') {
       await context.dispatch('GET_SAVED_RATE', data.eur_rate);
     } else {
@@ -140,6 +142,7 @@ const actions = {
       await context.commit('CHANGE_CLIENT_ORDER', responseClientOrder.data);
       await context.dispatch('SAVE_STOCK_ITEM_FROM_CLIENT_ORDER', responseClientOrder.data);
     } else {
+      console.log('No id client order');
       const { data } = await axios.post(backendURL + clientOrderAddURL, requestData);
       const response = await axios.get(`${backendURL}api/client_orders/for_list/${data.id}`);
       await context.commit('ADD_CLIENT_ORDER', response.data);

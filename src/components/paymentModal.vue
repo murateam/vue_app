@@ -23,8 +23,7 @@
               </b-col>
           </b-row>
           <b-row class="mt-3" align-h="end">
-            <b-col></b-col>
-            <b-col cols="3">
+            <b-col cols="6" v-if="isNewPayment">
               <label for="input-payment-date">Payment date</label>
               <b-input id="input-payment-date"
               required
@@ -32,6 +31,7 @@
               v-model="paymentDate"
               placeholder="Payment date"></b-input>
             </b-col>
+            <b-col cols="6" v-else>Payment date: {{singlePayment.payment_date}}</b-col>
           </b-row>
           <b-row>
             <b-col>
@@ -106,6 +106,9 @@ export default {
     this.$store.dispatch('RESET_SINGLE_PAYMENT');
   },
   computed: {
+    isNewPayment() {
+      return this.$store.getters.GET_IS_NEW_PAYMENT;
+    },
     singlePayment() {
       return this.$store.getters.GET_SINGLE_PAYMENT;
     },

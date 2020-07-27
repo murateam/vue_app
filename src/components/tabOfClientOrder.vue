@@ -7,13 +7,6 @@
       </b-col>
     </b-row>
     <client-modal ref="client-modal"></client-modal>
-    <!-- <b-row align-h="start" class="mt-3">
-      <b-col cols="2">
-        <router-link
-        class="btn btn-dark"
-        to="/mainDemoProject">Home</router-link>
-      </b-col>
-    </b-row> -->
       <div class="mt-3">
         <div v-if="role == 2">
           <b-button-group class="">
@@ -73,6 +66,7 @@
 </template>
 
 <script>
+import _ from 'lodash';
 import moment from 'moment';
 import alertMessages from './alertMessages.vue';
 import clientModal from './clientModal.vue';
@@ -154,10 +148,11 @@ export default {
       this.$store.dispatch('TO_IMPORT', item);
     },
     nameClientShort(value) {
-      return `${value.last_name} ${value.first_name.charAt(0)}.`;
+      return `${value.first_name} ${value.last_name}.`; // ${value.first_name.charAt(0)}
     },
     onRowSelected(items) {
-      this.selected = items;
+      // this.selected = items;
+      this.selected = _.cloneDeep(items);
       if (this.role === 2) {
         this.editClientOrder();
       } else if (this.role === 3) {
@@ -173,6 +168,7 @@ export default {
       this.$store.dispatch('RESET_CURRENT_CLIENT');
       this.$store.dispatch('RESET_LIST_ITEMS');
       this.$router.push('./singleClientOrder');
+      this.$store.dispatch('SET_CURRENT_STEP', '/singleClientOrder');
     },
     editClientOrder() {
       this.$store.dispatch('SET_CAN_CHANGE_CLIENT', false);
@@ -184,13 +180,15 @@ export default {
       this.$refs.manageTable.clearSelected();
     },
     async editPayments() {
+      // console.log(this.selected[0]);
       await this.$store.dispatch('GET_LIST_PAYMENTS_FOR_CLIENT_ORDER', this.selected);
       if (this.selected.length > 0) {
-        await this.$store.dispatch('CALCULATE_PRICE_FOR_CLIENT_ORDER', this.selected);
-        this.$store.dispatch('CALC_AND_SAVE_TOTAL_PAYMENTS');
+        this.$store.dispatch('CALCULATE_PRICE_FOR_CLIENT_ORDER', this.selected);
+        // await this.$store.dispatch('CALC_AND_SAVE_TOTAL_PAYMENTS');// call from clientOrder.js
         this.$router.push('./singleClientOrder');
         this.$store.dispatch('SET_CURRENT_STEP', '/singleClientOrder');
       }
+      this.$refs.manageTable.clearSelected();
     },
   },
   mounted() {

@@ -97,6 +97,9 @@
         <template v-slot:cell(price)="data">
           {{ data.item.current_price_eur }}
         </template>
+        <template v-slot:cell(total_price)="data">
+          {{ data.item.current_price_eur * data.item.items_amount}}
+        </template>
         <template v-slot:cell(state)="data">
           {{ data.item.stock_choices }}
         </template>
@@ -170,7 +173,8 @@ export default {
           label: 'Price',
         },
         {
-          key: 'Total price',
+          key: 'total_price',
+          label: 'Total price',
         },
         {
           key: 'factor',
