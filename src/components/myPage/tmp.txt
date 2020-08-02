@@ -123,8 +123,8 @@
                 // My name is Andrei. And I want to develop in programming.
                 // Here I tried to demonstrate my skills in web development
                 // Thank you for your time.
-                // It will be great if you give me feedback and list my weak
-                // points which I can improve in the future.
+                // It will be great if you give me a feedback and
+                // list my weak points which I can improve in the future.
                 // //////////////////////////////////
     // //////////////////////////////////
     // 

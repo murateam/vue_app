@@ -19,13 +19,13 @@
               </h5>
             </b-col>
           </b-row>
-          <b-row align-h="center">
+          <!-- <b-row align-h="center">
             <b-col cols="8">
               <b-embed type="video" controls>
                 <source :src="videoURL" type="video/mp4">
               </b-embed>
             </b-col>
-          </b-row>
+          </b-row> -->
           <b-row class="mt-3" align-h="center">
             <b-col cols="8">
               <p>
