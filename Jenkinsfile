@@ -2,7 +2,7 @@
 
 node {
 	docker {
-		image 'node'
+		image 'node:lts-buster-slim'
 	}
 	stage('checkout project') {
 		echo 'Checkout project'
