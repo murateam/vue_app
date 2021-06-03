@@ -1,7 +1,9 @@
 #!/usr/bin/env groovy
 
 node {
-	def node = docker.image('node')
+	docker {
+		image 'node'
+	}
 	stage('checkout project') {
 		echo 'Checkout project'
 	}
