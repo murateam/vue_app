@@ -6,7 +6,7 @@ node {
 		echo 'Checkout project'
 	}
 	stage('run lint (npm run lint:test') {
-		docker.image('node').withRun('-p 3000:3000') { c ->
+		docker.image('node').withRun() { c ->
 			sh "npm install --save-dev cross-env"
 		}
 	}
