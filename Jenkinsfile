@@ -7,7 +7,7 @@ node {
 	}
 	stage('run lint (npm run lint:test') {
 		node.inside {
-			sh 'npm install'
+			sh chown -R 111:115 "/.npm"
 		}
 	}
 	stage('build project') {
