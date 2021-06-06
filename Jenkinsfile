@@ -7,7 +7,7 @@ node {
 	}
 	stage('run lint (npm run lint:test') {
 		node.inside {
-			sh "sudo npm install"
+			sh "npm install"
 		}
 	}
 	stage('build project') {
