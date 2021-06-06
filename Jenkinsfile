@@ -8,8 +8,9 @@ node {
 	stage('run lint (npm run lint:test') {
 		node.inside {
 			sh 'npm --version'
+			sh 'npm install'
+			sh 'npm run lint'
 		}
-		echo 'run lint'
 	}
 	stage('build project') {
 		echo 'build'
