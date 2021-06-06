@@ -7,7 +7,7 @@ node {
 	}
 	stage('run lint (npm run lint:test') {
 		node.inside {
-			ls
+			sh "ls"
 		}
 	}
 	stage('build project') {
