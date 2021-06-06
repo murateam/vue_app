@@ -6,7 +6,7 @@ node {
 		echo 'Checkout project'
 	}
 	stage('run lint (npm run lint:test') {
-		docker.image('node'){
+		docker.image('node'){ c ->
 			sh "npm install"
 		}
 	}
