@@ -1,7 +1,7 @@
 #!/usr/bin/env groovy
 
 node {
-	def node = docker.image 'node:lts-buster-slim'
+	def node = docker.image 'node'
 	stage('checkout project') {
 		echo 'Checkout project'
 	}
