@@ -1,12 +1,14 @@
 #!/usr/bin/env groovy
 
 node {
-	docker.image 'node:lts-buster-slim'
+	def node = docker.image 'node:lts-buster-slim'
 	stage('checkout project') {
 		echo 'Checkout project'
 	}
 	stage('run lint (npm run lint:test') {
-		sh 'npm --version'
+		node.inside {
+			sh 'npm --version'
+		}
 		echo 'run lint'
 	}
 	stage('build project') {
