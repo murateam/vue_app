@@ -8,6 +8,7 @@ node {
 	stage('run lint (npm run lint:test') {
 		docker.image('node:lts-buster-slim').withRun() { c ->
 			sh "npm install"
+			sh "npm run lint"
 		}
 	}
 	stage('build project') {
