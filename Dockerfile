@@ -6,8 +6,6 @@
 # COPY . .
 # RUN npm run build
 
-COPY . .
-
 #production-stage
 FROM nginx:stable-alpine as prod-stage
 # COPY --from=build-stage /app/dist /usr/share/nginx/html
