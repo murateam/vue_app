@@ -12,6 +12,7 @@ node {
 		// }
 		node.inside {
 			sh 'npm install'
+			sh 'npm run lint'
 		}
 	}
 	stage('build project') {
