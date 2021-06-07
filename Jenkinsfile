@@ -2,7 +2,7 @@
 
 node {
 	def node = docker.image('node:16.3.0-alpine3.12')
-	stage('checkout project') {
+	stage('Checkout project') {
 		checkout scm
 	}
 	stage('Lint test') {
@@ -16,7 +16,7 @@ node {
 		node.inside {
 			sh 'npm run build'
 		}
-		sh 'docker build -t ui:latest .'
+		sh 'docker build -t dev.andrei/agl-ui:latest .'
 	}
 	stage('test image') {
 		sef customImage = docker.build("ui:latest:${env.BUILD_ID}")
