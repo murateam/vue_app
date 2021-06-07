@@ -16,10 +16,10 @@ node {
 		node.inside {
 			sh 'npm run build'
 		}
-		sh 'docker build -t dev.andrei/agl-ui:latest .'
+		sh 'docker build -t dev/agl-ui:latest .'
 	}
 	stage('test image') {
-		sef customImage = docker.build("ui:latest:${env.BUILD_ID}")
+		sef customImage = docker.build("dev.andrei/agl-ui:latest:${env.BUILD_ID}")
 
 		customImage.inside {
 			sh 'ls'
