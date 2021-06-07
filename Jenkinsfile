@@ -22,6 +22,13 @@ node {
 		}
 		sh 'docker build -t ui:latest .'
 	}
+	stage('test image') {
+		sef customImage = docker.build("ui:latest:${env.BUILD_ID}")
+
+		customImage.inside {
+			sh 'ls'
+		}
+	}
 	stage('deploy') {
 		echo 'deploy'
 	}
