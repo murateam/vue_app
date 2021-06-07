@@ -19,7 +19,7 @@ node {
 		sh 'docker build -t dev/agl-ui:latest .'
 	}
 	stage('test image') {
-		sef customImage = docker.build("dev/agl-ui:${env.BUILD_ID}")
+		def customImage = docker.build("dev/agl-ui:${env.BUILD_ID}")
 
 		customImage.inside {
 			sh 'ls'
