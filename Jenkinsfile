@@ -3,19 +3,15 @@
 node {
 	def node = docker.image('node:16.3.0-alpine3.12')
 	stage('checkout project') {
-		echo 'Checkout project'
+		checkout scm
 	}
-	stage('npm run lint:test') {
-		// docker.image('node:lts-buster-slim').withRun() { c ->
-		// 	sh "npm install"
-		// 	sh "npm run lint"
-		// }
+	stage('Lint test') {
 		node.inside {
 			sh 'npm install'
 			sh 'npm run lint'
 		}
 	}
-	stage('build project') {
+	stage('Build project') {
 		echo 'build'
 		node.inside {
 			sh 'npm run build'
