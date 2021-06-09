@@ -5,25 +5,23 @@ node {
 	stage('Checkout project') {
 		checkout scm
 	}
-	stage('Lint test') {
+	stage('Install npm') {
 		node.inside {
 			sh 'npm install'
+		}
+	}
+	stage('Lint test') {
+		node.inside {
 			sh 'npm run lint'
 		}
 	}
-	stage('Build project') {
-		echo 'build'
+	stage('Build npm') {
 		node.inside {
 			sh 'npm run build'
 		}
-		sh 'docker build -t dev/agl-ui:latest .'
 	}
-	stage('test image') {
-		def customImage = docker.build("dev/agl-ui:${env.BUILD_ID}")
-
-		customImage.inside {
-			sh 'ls'
-		}
+	stage('Build docker') {
+		sh 'docker build -t agl-ui:withoutApi .'
 	}
 	stage('deploy') {
 		echo 'deploy'
